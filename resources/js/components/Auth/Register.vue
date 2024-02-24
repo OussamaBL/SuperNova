@@ -123,7 +123,8 @@
               text: "Welcome to supernova "+ response.data.user.data.name,
             });
             router.push('/');
-          }else{
+          }
+          else{
             Swal.fire({
               icon: 'error',
               title: 'Oops...',

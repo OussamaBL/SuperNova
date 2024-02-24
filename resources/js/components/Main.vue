@@ -5,8 +5,8 @@
 </template>
 
 <script setup>
-    import Header from './Header.vue';
-    import Footer from './Footer.vue';
+    import Header from './Layouts/Header.vue';
+    import Footer from './Layouts/Footer.vue';
     import { onMounted } from "vue";
     import { useAuthStore } from '@/stores/useAuthStore.js';
 
@@ -15,6 +15,7 @@
     onMounted(() => {
         store.setUser();
     });
+
 </script>
 
 <style>

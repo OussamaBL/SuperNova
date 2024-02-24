@@ -85,25 +85,22 @@
           data.invalid_email="";
           if(!validateEmail()) return;
           try {
-            // const response = await axios.post('/api/login', data.user);
-            // if(response.data.success){
-            //   let user_auth=response.data.user;
-            //   store.storeUser(user_auth);
-            //   Swal.fire({
-            //     icon: 'success',
-            //     title: 'Login success',
-            //     text: "Welcome to supernova "+ response.data.user.data.name,
-            //   });
-            //   if(response.data.user.role=='admin') router.push('/dashboard');
-            //   else router.push('/');
-    
-            // }else{
-            //   Swal.fire({
-            //     icon: 'error',
-            //     title: 'Oops...',
-            //     text: response.data.message,
-            //   });
-            // }
+            const response = await axios.post('/api/forget_password', data.user);
+            if(response.data.success){
+              Swal.fire({
+                icon: 'success',
+                title: 'Forget password',
+                text: response.data.message,
+              });
+              router.push('/login');
+            }
+            else {
+              Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: response.data.message,
+              });
+            }
           } catch (error) {
             store.setErrors(error.response.data.errors);
           }

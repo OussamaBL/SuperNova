@@ -1,9 +1,10 @@
 import { createRouter, createWebHashHistory } from "vue-router";
 import Home from "@/components/Home.vue";
-import Login from "@/components/Login.vue";
-import Register from "@/components/Register.vue";
-import Dashboard from "@/components/Dashboard.vue";
-import Forget_password from "@/components/Forget_password.vue";
+import Login from "@/components/Auth/Login.vue";
+import Register from "@/components/Auth/Register.vue";
+import Dashboard from "@/components/Dashboard/Dashboard.vue";
+import Forget_password from "@/components/Auth/Forget_password.vue";
+import New_password from "@/components/Auth/New_password.vue";
 import { useAuthStore } from '@/stores/useAuthStore.js';
 
 
@@ -46,6 +47,11 @@ const router = createRouter({
             path: "/forget_password",
             name: "forget_password",
             component: Forget_password,
+        },
+        {
+            path: "/New_password/:token",
+            name: "New_password",
+            component: New_password,
         },
     ],
 });
