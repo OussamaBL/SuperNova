@@ -19,7 +19,7 @@
 					<div class="main-menu-wrap">
 						<!-- logo -->
 						<div class="site-logo">
-							<router-link to="\">
+							<router-link to="/">
 								<h3><strong style="color: #F28123;">Super<span style="color: white;">Nova</span> </strong></h3>
 							</router-link>
 						</div>
@@ -29,7 +29,7 @@
 						<nav class="main-menu">
 							<ul>
 								<li class="current-list-item">
-									<router-link to="\">Home</router-link>
+									<router-link to="/">Home</router-link>
 								</li>
 								<li><a href="about.html">About</a></li>
 								<li><a href="#">Pages</a>
@@ -60,12 +60,13 @@
 								</li>
 								<li>
 									<div v-if="!store.getUser" class="header-icons" > 
-										<router-link class="btn btn-primary btn_header" to="\login">Sign in</router-link>
-										<router-link class="btn btn-primary btn_header" to="\register">Sign up</router-link>
+										<router-link class="btn btn-primary btn_header" to="login">Sign in</router-link>
+										<router-link class="btn btn-primary btn_header" to="register">Sign up</router-link>
 									</div>
 									<div v-else class="header-icons">
 										<a class="shopping-cart" href="cart.html"><i class="fas fa-shopping-cart"></i></a>
 										<a class="mobile-hide search-bar-icon" href="#"><i class="fas fa-search"></i></a>
+										<button @click="userLogout" class="btn btn-primary btn_header">Log out</button>
 									</div>
 								</li>
 							</ul>
@@ -115,14 +116,27 @@
         
         try {
             const response = await axios.get('/api/logout', store.getHeaderConfig);
+			if(response.data.success){
+				store.clearStoredData();
+				Swal.fire({
+					icon: 'success',
+					text: response.data.message,
+				});
+				router.push('/login');
+			}
+			else{
+				Swal.fire({
+					icon: 'error',
+					title: 'Oops...',
+					text: 'Error in log out',
+				});
+			}
+    	} catch (error) {
             Swal.fire({
-                icon: 'success',
-                text: response.data.message,
+                icon: 'error',
+				title: 'Oops...',
+				text: 'Error in log out',
             });
-            store.clearStoredData();
-            router.push('/login');
-        } catch (error) {
-            console.log(error);
         }
     }
 </script>

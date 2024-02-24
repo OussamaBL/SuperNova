@@ -20,9 +20,9 @@ class UserFactory extends Factory
     {
         return [
             'name' => 'admin',
-            'email' => 'user@email.com',
+            'email' => 'oussamaazrour@email.com',
             'email_verified_at' => now(),
-            'password' => Hash::make('12345678'), // password
+            'password' => Hash::make('OussamaBL@123'), // password
             'remember_token' => Str::random(10),
         ];
     }

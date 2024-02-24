@@ -46,6 +46,9 @@
                 <span style="color: red;" v-text="data.invalid_password"></span>
             </div>
             <div class="form-group mb-3">
+              <router-link to="/forget_password">Forget password ?</router-link>
+            </div>
+            <div class="form-group mb-3 text-center">
               <button @click="userAuth" class="btn btn-primary btn-xl">
                 Login
               </button>
@@ -92,18 +95,25 @@
       } 
       return etat;
     };
- 
 
     const userAuth = async () => {
       store.clearErrors();
+      data.invalid_email="";
+      data.invalid_password="";
       if(!validateLogin()) return;
       try {
         const response = await axios.post('/api/login', data.user);
         if(response.data.success){
-          user_auth=response.data.user;
+          let user_auth=response.data.user;
           store.storeUser(user_auth);
-          if(response.data.role=='admin') router.push('/dashboard');
+          Swal.fire({
+            icon: 'success',
+            title: 'Login success',
+            text: "Welcome to supernova "+ response.data.user.data.name,
+          });
+          if(response.data.user.role=='admin') router.push('/dashboard');
           else router.push('/');
+
         }else{
           Swal.fire({
             icon: 'error',
