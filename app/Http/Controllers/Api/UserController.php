@@ -8,10 +8,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use Illuminate\Support\Facades\Hash;
+use Laravel\Socialite\Facades\Socialite;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
-
 class UserController extends Controller
 {
 
@@ -201,6 +201,85 @@ class UserController extends Controller
             'success' => false,
             'message' => 'Token expired !!'
         ]);
+    }
+
+    protected $providers = [ "google", "github", "facebook" ];
+
+    # redirection vers le provider
+    public function redirect (Request $request) {
+
+        $provider = $request->provider;
+        if (in_array($provider, $this->providers)) 
+            // on envoye vers le provider
+            return response()->json([
+                'success'=>true,
+                'message'=>'access to authenticate is valid',
+                'redirect_url' => Socialite::driver($provider)->redirect()->getTargetUrl(),
+            ]);
+            // return Socialite::driver($provider)->redirect();
+        else 
+            // le provider n'est pas autorise
+            return response()->json([
+                'success'=>false,
+                'message'=>'Network invalid',
+            ]); 
+    }
+
+    // Callback du provider
+    public function authsocial_call (Request $request) {
+        echo 'heeeloo';
+        // try{
+        //     $provider = $request->provider;
+        //     if (in_array($provider, $this->providers)) {
+        //         // informations d'utilisateur auth
+        //         $data = Socialite::driver($request->provider)->user();
+    
+        //         $id = $data->getId();
+        //         $name = $data->getNickname();
+        //         $nickname = $data->getName();
+        //         $email = $data->getEmail();
+        //         $avatar = $data->getAvatar();
+    
+        //         $user = User::where("email", $email)->first();
+        //         if($user){
+        //             $user->name = $name;
+        //             $user->nickname = $nickname;
+        //             $user->avatar = $avatar;
+        //             $user->save();
+        //         }
+        //         else{
+        //             $user = User::create([
+        //                 'name' => $name,
+        //                 'nickname' => $nickname,
+        //                 'email' => $email,
+        //                 'avatar' => $avatar,
+        //                 'password' => bcrypt("emilie") // On attribue un mot de passe
+        //             ]);
+        //             $token = $user->createToken('simple_user')->plainTextToken;
+        //         }
+    
+        //         return response()->json([
+        //                 'success' => true,
+        //                 'user' => [
+        //                     'currentToken' => $token,
+        //                     'data' => $user,
+        //                     'role'=> $user->role->name,
+        //                 ]
+        //             ]); 
+        //     }
+        //     else{
+        //         return response()->json([
+        //             'success'=>false,
+        //             'message'=>'Network invalid',
+        //         ]); 
+        //     }
+        // }
+        // catch (\Exception $e) {
+        //     return response()->json([
+        //         'success' => false,
+        //         'message' => 'Registration failed: ' . $e->getMessage()
+        //     ]);
+        // }
     }
 }
 

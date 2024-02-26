@@ -1,8 +1,7 @@
 <?php
 
+use App\Http\Controllers\Api\UserController;
 use Illuminate\Support\Facades\Route;
-
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,3 +15,4 @@ use Illuminate\Support\Facades\Route;
 Route::get('{any}', function () {
     return view('home');
 })->where('any','.*');
+

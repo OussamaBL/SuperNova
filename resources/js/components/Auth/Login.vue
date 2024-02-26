@@ -29,6 +29,11 @@
             <h4 class="text-center">
               Login
             </h4>
+            <div style="display: grid;">
+                <button @click="authSocial('linkdin')" class="button button--social-login button--linkedin mb-3"><i class="icon fa fa-linkedin"></i>Login With Linkedin</button>
+                <button @click="authSocial('google')" class="button button--social-login button--google mb-3"><i class="icon fa fa-google"></i>Login With Google</button>
+                <button @click="authSocial('github')" class="button button--social-login button--github mb-3"><i class="icon fa fa-github"></i>Login With Github</button>
+            </div>
           </div>
           <div class="card-body">
             <div class="form-group mb-3">
@@ -47,6 +52,7 @@
             </div>
             <div class="form-group mb-3">
               <router-link to="/forget_password">Forget password ?</router-link>
+              
             </div>
             <div class="form-group mb-3 text-center">
               <button @click="userAuth" class="btn btn-primary btn-xl">
@@ -81,6 +87,27 @@
       emailPattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
       passwordPattern: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/,
     });
+
+    const authSocial = async (social) => {
+      const response = await axios.get('/api/auth/redirect/'+social);
+      if(response.data.success){
+        Swal.fire({
+            icon: 'success',
+            title: 'Authenticate',
+            text: response.data.message,
+          });
+          
+        window.location.href = response.data.redirect_url;
+        // console.log(response.data.redirect_url);
+        // useAuthStore.storeUser(response.data.user);
+        // router.push('/home');
+      }
+      else Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: response.data.message,
+          });
+    };
 
 
     const validateLogin = () => {
@@ -129,4 +156,108 @@
 </script>
 
 <style>
+@import url("https://fonts.googleapis.com/css?family=Roboto+Slab:400,700");
+.breadcrumb-bg {
+    background-image: url('../images/back_auth.webp');
+}
+
+.button {
+  width: auto;
+  display: inline-block;
+  padding: 0 18px 0 6px;
+  border: 0 none;
+  border-radius: 5px;
+  text-decoration: none;
+  transition: all 250ms linear;
+}
+.button:hover {
+  text-decoration: none;
+}
+
+.button--social-login {
+  width: 50%;
+  margin: 0 auto;
+  margin-bottom: 12px;
+  /* margin-right: 12px; */
+  color: white;
+  height: 50px;
+  line-height: 46px;
+  position: relative;
+  text-align: left;
+}
+.button--social-login .icon {
+  margin-right: 12px;
+  font-size: 24px;
+  line-height: 24px;
+  width: 42px;
+  height: 24px;
+  text-align: center;
+  display: inline-block;
+  position: relative;
+  top: 4px;
+}
+.button--social-login .icon:before {
+  display: inline-block;
+  width: 40px;
+}
+.button--social-login .icon:after {
+  content: "";
+}
+
+.button--facebook {
+  background-color: #4b70ab;
+  border: 1px solid #3b5988;
+}
+.button--facebook .icon {
+  border-right: 1px solid #3b5988;
+}
+.button--facebook .icon:after {
+  border-right: 1px solid #6b8bbe;
+}
+.button--facebook:hover {
+  background-color: #436499;
+}
+
+.button--linkedin {
+ 
+  background-color: #0087be;
+  border: 1px solid #00638b;
+}
+.button--linkedin .icon {
+  border-right: 1px solid #00638b;
+}
+.button--linkedin .icon:after {
+  border-right: 1px solid #00abf1;
+}
+.button--linkedin:hover {
+  background-color: #0075a5;
+}
+
+.button--google {
+   background-color: #e34133;
+    border: 1px solid #e34133;
+}
+.button--google .icon {
+  border-right: 1px solid #0f66f1;
+}
+.button--google .icon:after {
+  border-right: 1px solid #6fa4f7;
+}
+.button--google:hover {
+  background-color: #e34133;
+}
+
+.button--github {
+  background-color: #333;
+  border: 1px solid #1a1a1a;
+}
+.button--github .icon {
+  border-right: 1px solid #1a1a1a;
+}
+.button--github .icon:after {
+  border-right: 1px solid #4d4d4d;
+}
+.button--github:hover {
+  background-color: #262626;
+}
 </style>
