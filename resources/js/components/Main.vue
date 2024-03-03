@@ -5,8 +5,8 @@
 </template>
 
 <script setup>
-    import Header from './Layouts/Header.vue';
-    import Footer from './Layouts/Footer.vue';
+    import Header from './Layouts/Front_office/Header.vue';
+    import Footer from './Layouts/Front_office/Footer.vue';
     import { onMounted } from "vue";
     import { useAuthStore } from '@/stores/useAuthStore.js';
 

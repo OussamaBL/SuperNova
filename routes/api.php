@@ -32,7 +32,11 @@ Route::post('verify_token', [UserController::class, 'verify_token'])->name('veri
 
 Route::get('auth/redirect/{provider}', [UserController::class, 'redirect'])->name('redirect')->middleware('web');
 Route::get('auth/authsocial_call/{provider}', [UserController::class, 'authsocial_call'])->name('authsocial_call')->middleware('web');
-
+// Route::get('/auth/authsocial_call/{provider}', function () {
+    
+ 
+//     return redirect('/dashboard');
+// });
 
 
            

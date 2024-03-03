@@ -5,6 +5,7 @@ use App\Models\User;
 use App\Models\Pwdreset;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Repositories\UserRepositorieInterface;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use Illuminate\Support\Facades\Hash;
@@ -14,6 +15,14 @@ use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 class UserController extends Controller
 {
+
+    protected $UserRepositorieInterface;
+
+
+    public function __construct(UserRepositorieInterface $UserRepositorieInterface){
+        $this->UserRepositorieInterface = $UserRepositorieInterface;
+    }
+    
 
     public function auth(LoginRequest $request){
         try{
@@ -25,7 +34,8 @@ class UserController extends Controller
                 'password'=>$request->password,
             ])){
             // login success
-                $user = User::where('email', $request->email)->first();
+                $user =$this->UserRepositorieInterface->getByEmail($request->email);
+                // $user = User::where('email', $request->email)->first();
                 $token = $user->createToken('simple_user')->plainTextToken;
                 return response()->json([
                     'success' => true,
@@ -57,9 +67,11 @@ class UserController extends Controller
             $form = $request->validated();
 
             $form['password'] = Hash::make($form['password']);
-            $user = User::create($form);
+            $user=$this->UserRepositorieInterface->create($form);
+            // $user = User::create($form);
             $token = $user->createToken('simple_user')->plainTextToken;
-            $user = User::where('email', $request->email)->first();
+            $user= $this->UserRepositorieInterface->getByEmail($request->email);
+            // $user = User::where('email', $request->email)->first();
             return response()->json([
                 'success' => true,
                 'user' => [
@@ -105,7 +117,8 @@ class UserController extends Controller
             $form = $request->validate([
                 'email' => 'required|max:255',
             ]);
-            $user = User::where('email', $request->email)->first();
+            $user= $this->UserRepositorieInterface->getByEmail($request->email);
+            // $user = User::where('email', $request->email)->first();
             if($user){
                 try{
                     $mail=$this->mailer();
@@ -170,10 +183,13 @@ class UserController extends Controller
         $token = Pwdreset::where('token', $request->token)->where('expires', '>=', date('U'))->first();
         if($token){
             if($request->password==$request->confirm_password){
-                $user=User::where('email',$token->email)->first();
+                // $user=User::where('email',$token->email)->first();
+                $user= $this->UserRepositorieInterface->getByEmail($token->email);
                 $token->delete();
-                $user->password= Hash::make($request->password);
-                $user->save();
+
+                $user=$this->UserRepositorieInterface->update($user->id,['password'=>Hash::make($request->password)]);
+                // $user->password= Hash::make($request->password);
+                // $user->save();
                 return response()->json([
                     'success' => true,
                     'message' => 'Password updated successfully !!'
@@ -226,7 +242,7 @@ class UserController extends Controller
     }
 
     // Callback du provider
-    public function authsocial_call (Request $request) {
+    public function authsocial_call(Request $request) {
         echo 'heeeloo';
         // try{
         //     $provider = $request->provider;

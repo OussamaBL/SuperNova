@@ -73,7 +73,6 @@
     import Swal from 'sweetalert2';
     import router from '@/router';
     import { useAuthStore } from '@/stores/useAuthStore.js';
-    
 
     const store = useAuthStore();
     
@@ -109,7 +108,6 @@
           });
     };
 
-
     const validateLogin = () => {
       let etat=true;
       if (!data.emailPattern.test(data.user.email)) {
@@ -138,7 +136,7 @@
             title: 'Login success',
             text: "Welcome to supernova "+ response.data.user.data.name,
           });
-          if(response.data.user.role=='admin') router.push('/dashboard');
+          if(response.data.user.role=='admin') window.location.href = '/dashboard/#/dashboard';
           else router.push('/');
 
         }else{

@@ -45,7 +45,7 @@
     <!--PreLoader Ends-->
     
     <div id="app">
-        @yield('content')
+        <app-component></app-component>
     </div>
 
 
