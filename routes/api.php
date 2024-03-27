@@ -43,7 +43,7 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::post('sub_category/update/{sub_category}', [SubCategoryController::class, 'update']);
 
 
-
+    Route::get('category/sub_categories/{category}', [SubCategoryController::class, 'getCategories']);
 
 
     

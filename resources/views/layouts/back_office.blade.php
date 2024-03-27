@@ -46,11 +46,16 @@ data-template="vertical-menu-template-no-customizer">
     <link rel="stylesheet" href="{{asset('assets_dashboard/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css')}} " />
     <link rel="stylesheet" href="{{asset('assets_dashboard/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css')}} " />
 
-    <link rel="stylesheet" href="{{asset('assets_dashboard/vendor/libs/select2/select2.css')}}" />
-    <link rel="stylesheet" href="{{asset('assets_dashboard/vendor/libs/@form-validation/form-validation.css')}}" />
-    <link rel="stylesheet" href="{{asset('assets_dashboard/vendor/libs/quill/typography.css')}}" />
-    <link rel="stylesheet" href="{{asset('assets_dashboard/vendor/libs/quill/katex.css')}}" />
-    <link rel="stylesheet" href="{{asset('assets_dashboard/vendor/libs/quill/editor.css')}}" />
+
+
+    {{-- <link rel="stylesheet" href="{{asset('assets/vendor/libs/dropzone/dropzone.css')}} " /> --}}
+    {{-- <link rel="stylesheet" href="{{asset('assets/vendor/libs/flatpickr/flatpickr.css')}} " /> --}}
+    {{-- <link rel="stylesheet" href="{{asset('assets/vendor/libs/tagify/tagify.css')}} " /> --}}
+     <link rel="stylesheet" href="{{asset('assets_dashboard/vendor/libs/select2/select2.css')}}" /> 
+    {{-- <link rel="stylesheet" href="{{asset('assets_dashboard/vendor/libs/@form-validation/form-validation.css')}}" />
+    <link rel="stylesheet" href="{{asset('assets_dashboard/vendor/libs/quill/typography.css')}}" /> --}} --}}
+    {{-- <link rel="stylesheet" href="{{asset('assets_dashboard/vendor/libs/quill/katex.css')}}" />
+    <link rel="stylesheet" href="{{asset('assets_dashboard/vendor/libs/quill/editor.css')}}" />  --}}
 
     <!-- Page CSS -->
 
@@ -86,23 +91,20 @@ data-template="vertical-menu-template-no-customizer">
     {{-- dashboard --}}
     <script src="{{asset('assets_dashboard/vendor/libs/apex-charts/apexcharts.js')}} "></script>
     <script src="{{asset('assets_dashboard/vendor/libs/datatables-bs5/datatables-bootstrap5.js')}} "></script>
-    
+     
     {{-- categories --}}
-    <script src="{{asset('assets_dashboard/vendor/libs/moment/moment.js')}}"></script>
+    {{-- <script src="{{asset('assets_dashboard/vendor/libs/moment/moment.js')}}"></script>
     <script src="{{asset('assets_dashboard/vendor/libs/select2/select2.js')}}"></script>
     <script src="{{asset('assets_dashboard/vendor/libs/@form-validation/popular.js')}}"></script>
     <script src="{{asset('assets_dashboard/vendor/libs/@form-validation/bootstrap5.js')}}"></script>
-    <script src="{{asset('assets_dashboard/vendor/libs/@form-validation/auto-focus.js')}}"></script>
-    <script src="{{asset('assets_dashboard/vendor/libs/quill/katex.js')}}"></script>
-    <script src="{{asset('assets_dashboard/vendor/libs/quill/quill.js')}}"></script>
-    {{-- <script src="../../assets/vendor/libs/dropzone/dropzone.js"></script>
-    <script src="../../assets/vendor/libs/jquery-repeater/jquery-repeater.js"></script>
-    <script src="../../assets/vendor/libs/flatpickr/flatpickr.js"></script> --}}
+    <script src="{{asset('assets_dashboard/vendor/libs/@form-validation/auto-focus.js')}}"></script> --}}
+
+    
+
     <!-- Main JS -->
     <script src="{{asset('assets_dashboard/js/main.js')}} "></script>
 
     <!-- Page JS -->
     <script src="{{asset('assets_dashboard/js/app-ecommerce-dashboard.js')}} "></script>
-    {{-- <script src="{{asset('assets_dashboard/js/app-ecommerce-category-list.js')}} "></script> --}}
   </body>
 </html>

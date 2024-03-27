@@ -14,10 +14,10 @@
                   </div>
                   <div class="d-flex align-content-center flex-wrap gap-3">
                     <div class="d-flex gap-3">
-                      <button class="btn btn-label-secondary">Discard</button>
-                      <button class="btn btn-label-primary">Save draft</button>
+                      <button @click="discard()" class="btn btn-label-secondary">Discard</button>
                     </div>
-                    <button type="submit" class="btn btn-primary">Publish product</button>
+                    <!-- <button v-if="data.action=='store'" @click="store()" type="submit" class="btn btn-primary">Publish product</button>
+                    <button v-if="data.action=='update'" @click="update()" type="submit" class="btn btn-primary">Update product</button> -->
                   </div>
                 </div>
 
@@ -31,35 +31,34 @@
                       </div>
                       <div class="card-body">
                         <div class="mb-3">
-                          <label class="form-label" for="ecommerce-product-name">Name</label>
+                          <label class="form-label" for="ecommerce-product-name">Title</label>
                           <input
                             type="text"
                             class="form-control"
                             id="ecommerce-product-name"
                             placeholder="Product title"
-                            name="productTitle"
-                            aria-label="Product title" />
+                            aria-label="Product title" v-model="data.product.title" />
                         </div>
                         <div class="row mb-3">
                           <div class="col">
-                            <label class="form-label" for="ecommerce-product-sku">SKU</label>
+                            <label class="form-label" for="ecommerce-product-sku">Qte Stock</label>
                             <input
                               type="number"
                               class="form-control"
                               id="ecommerce-product-sku"
                               placeholder="SKU"
                               name="productSku"
-                              aria-label="Product SKU" />
+                              aria-label="Product SKU" v-model="data.product.qte" />
                           </div>
                           <div class="col">
-                            <label class="form-label" for="ecommerce-product-barcode">Barcode</label>
+                            <label class="form-label" for="ecommerce-product-barcode">Reference</label>
                             <input
                               type="text"
                               class="form-control"
                               id="ecommerce-product-barcode"
                               placeholder="0123-4567"
                               name="productBarcode"
-                              aria-label="Product barcode" />
+                              aria-label="Product barcode" v-model="data.product.reference" />
                           </div>
                         </div>
                         <!-- Description -->
@@ -107,45 +106,7 @@
                       </div>
                     </div>
                     <!-- /Media -->
-                    <!-- Variants -->
-                    <div class="card mb-4">
-                      <div class="card-header">
-                        <h5 class="card-title mb-0">Variants</h5>
-                      </div>
-                      <div class="card-body">
-                        <form class="form-repeater">
-                          <div data-repeater-list="group-a">
-                            <div data-repeater-item>
-                              <div class="row">
-                                <div class="mb-3 col-4">
-                                  <label class="form-label" for="form-repeater-1-1">Options</label>
-                                  <select id="form-repeater-1-1" class="select2 form-select" data-placeholder="Size">
-                                    <option value="">Size</option>
-                                    <option value="size">Size</option>
-                                    <option value="color">Color</option>
-                                    <option value="weight">Weight</option>
-                                    <option value="smell">Smell</option>
-                                  </select>
-                                </div>
-
-                                <div class="mb-3 col-8">
-                                  <label class="form-label invisible" for="form-repeater-1-2">Not visible</label>
-                                  <input
-                                    type="number"
-                                    id="form-repeater-1-2"
-                                    class="form-control"
-                                    placeholder="Enter size" />
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          <div>
-                            <button class="btn btn-primary" data-repeater-create>Add another option</button>
-                          </div>
-                        </form>
-                      </div>
-                    </div>
-                    <!-- /Variants -->
+                    
                     <!-- Inventory -->
                     <div class="card mb-4">
                       <div class="card-header">
@@ -410,7 +371,7 @@
                             id="ecommerce-product-price"
                             placeholder="Price"
                             name="productPrice"
-                            aria-label="Product price" />
+                            aria-label="Product price" v-model="data.product.price" />
                         </div>
                         <!-- Discounted Price -->
                         <div class="mb-3">
@@ -421,19 +382,15 @@
                             id="ecommerce-product-discount-price"
                             placeholder="Discounted Price"
                             name="productDiscountedPrice"
-                            aria-label="Product discounted price" />
+                            aria-label="Product discounted price" v-model="data.product.discounted_price" />
                         </div>
-                        <!-- Charge tax check box -->
-                        <div class="form-check mb-2">
-                          <input class="form-check-input" type="checkbox" value="" id="price-charge-tax" checked />
-                          <label class="form-label" for="price-charge-tax"> Charge tax on this product </label>
-                        </div>
+                      
                         <!-- Instock switch -->
                         <div class="d-flex justify-content-between align-items-center border-top pt-3">
                           <h6 class="mb-0">In stock</h6>
                           <div class="w-25 d-flex justify-content-end">
                             <label class="switch switch-primary switch-sm me-4 pe-2">
-                              <input type="checkbox" class="switch-input" checked="" />
+                              <input type="checkbox" class="switch-input" checked="" v-model="data.product.status" />
                               <span class="switch-toggle-slider">
                                 <span class="switch-on">
                                   <span class="switch-off"></span>
@@ -451,61 +408,21 @@
                         <h5 class="card-title mb-0">Organize</h5>
                       </div>
                       <div class="card-body">
-                        <!-- Vendor -->
+                        <!-- Category -->
                         <div class="mb-3 col ecommerce-select2-dropdown">
-                          <label class="form-label mb-1" for="vendor"> Vendor </label>
-                          <select id="vendor" class="select2 form-select" data-placeholder="Select Vendor">
-                            <option value="">Select Vendor</option>
-                            <option value="men-clothing">Men's Clothing</option>
-                            <option value="women-clothing">Women's-clothing</option>
-                            <option value="kid-clothing">Kid's-clothing</option>
+                          <label class="form-label mb-1" for="vendor"> Categories </label>
+                          <select id="vendor" class="select2 form-select" @change="selectCategory()" data-placeholder="Select Vendor">
+                              <option value="">Select</option>
+                              <option v-for="category in data.data_categories" :value="category.id">{{ category.name }}</option>
                           </select>
                         </div>
                         <!-- Category -->
                         <div class="mb-3 col ecommerce-select2-dropdown">
-                          <label
-                            class="form-label mb-1 d-flex justify-content-between align-items-center"
-                            for="category-org">
-                            <span>Category</span><a href="javascript:void(0);" class="fw-medium">Add new category</a>
-                          </label>
-                          <select id="category-org" class="select2 form-select" data-placeholder="Select Category">
-                            <option value="">Select Category</option>
-                            <option value="Household">Household</option>
-                            <option value="Management">Management</option>
-                            <option value="Electronics">Electronics</option>
-                            <option value="Office">Office</option>
-                            <option value="Automotive">Automotive</option>
+                          <label class="form-label mb-1" for="vendor">Sub Categories </label>
+                          <select id="vendor" class="select2 form-select" v-model="data.product.id_sub_catg" data-placeholder="Select Vendor">
+                              <option value="">Select</option>
+                              <option v-for="sub_category in data.data_sub_categories" :value="sub_category.id">{{ sub_category.name }}</option>
                           </select>
-                        </div>
-                        <!-- Collection -->
-                        <div class="mb-3 col ecommerce-select2-dropdown">
-                          <label class="form-label mb-1" for="collection">Collection </label>
-                          <select id="collection" class="select2 form-select" data-placeholder="Collection">
-                            <option value="">Collection</option>
-                            <option value="men-clothing">Men's Clothing</option>
-                            <option value="women-clothing">Women's-clothing</option>
-                            <option value="kid-clothing">Kid's-clothing</option>
-                          </select>
-                        </div>
-                        <!-- Status -->
-                        <div class="mb-3 col ecommerce-select2-dropdown">
-                          <label class="form-label mb-1" for="status-org">Status </label>
-                          <select id="status-org" class="select2 form-select" data-placeholder="Published">
-                            <option value="">Published</option>
-                            <option value="Published">Published</option>
-                            <option value="Scheduled">Scheduled</option>
-                            <option value="Inactive">Inactive</option>
-                          </select>
-                        </div>
-                        <!-- Tags -->
-                        <div class="mb-3">
-                          <label for="ecommerce-product-tags" class="form-label mb-1">Tags</label>
-                          <input
-                            id="ecommerce-product-tags"
-                            class="form-control"
-                            name="ecommerce-product-tags"
-                            value="Normal,Standard,Premium"
-                            aria-label="Product Tags" />
                         </div>
                       </div>
                     </div>
@@ -518,6 +435,92 @@
 </template>
 
 <script setup>
+    import { reactive,onMounted } from "vue";
+    import Swal from 'sweetalert2';
+    import router from '@/router';
+    import { useAuthStore } from '@/stores/useAuthStore.js';
+
+    const store = useAuthStore();
+    
+    const data = reactive({
+      data_categories: [],
+      data_sub_categories: [],
+      product: {
+        id: '',
+        title: '',
+        description: '',
+        price: '',
+        discounted_price: '',
+        reference: '',
+        image: '',
+        qte: '',
+        qte_dispo: '',
+        id_sub_catg: '',
+        status: '',
+      },
+      action:'',
+    });
+
+    const fetch_data = async () => {
+      data.data_categories=[];
+      try {
+        const response = await axios.get('/api/category/index');
+        if(response.data.exist){
+          data.data_categories=response.data.categories;
+        } 
+        else {
+          Swal.fire({
+              icon: 'error',
+              title: 'Categories...',
+              text: response.data.message,
+            });
+        }
+      } catch (error) {
+          Swal.fire({
+                icon: 'error',
+                title: 'Categories...',
+                text: error,
+              });
+      }
+    };
+
+    const selectCategory = async (category_id) => {
+      alert(category_id);
+      // data.data_sub_categories= [];
+      // try {
+      //   const response = await axios.get('/api/category/sub_categories/'+category_id);
+      //   if(response.data.success){
+      //     data.data_sub_categories=response.data.sub_categories;
+      //   } 
+      //   else {
+      //     Swal.fire({
+      //         icon: 'error',
+      //         title: 'Sub Categories...',
+      //         text: response.data.message,
+      //       });
+      //   }
+      // } catch (error) {
+      //     Swal.fire({
+      //           icon: 'error',
+      //           title: 'Sub Categories...',
+      //           text: error,
+      //         });
+      // }
+    };
+
+    const discard = async () =>{
+      data.product.id="";
+      data.product.title="";
+      data.product.description="";
+      data.product.price="";
+      data.product.discounted_price="";
+      data.product.reference="";
+      data.product.image="";
+      data.product.qte="";
+      data.product.qte_dispo="";
+      data.product.id_sub_catg="";
+    }
+    onMounted(fetch_data);
 </script>
 
 <style>

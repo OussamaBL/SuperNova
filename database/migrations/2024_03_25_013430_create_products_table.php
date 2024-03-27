@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('title');
             $table->text('description');
             $table->double('price');
+            $table->double('discounted_price');
             $table->string('reference');
             $table->text('image');
             $table->integer('qte');

@@ -13,6 +13,7 @@ class Product extends Model
         'title',
         'description',
         'price',
+        'discounted_price',
         'reference',
         'image',
         'qte',
