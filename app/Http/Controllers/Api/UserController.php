@@ -241,62 +241,62 @@ class UserController extends Controller
             ]); 
     }
 
-    // Callback du provider
-    public function authsocial_call(Request $request) {
-        echo 'heeeloo';
-        // try{
-        //     $provider = $request->provider;
-        //     if (in_array($provider, $this->providers)) {
-        //         // informations d'utilisateur auth
-        //         $data = Socialite::driver($request->provider)->user();
+    // // Callback du provider
+    // public function authsocial_call(Request $request) {
+    //     // echo 'heeeloo';
+    //     // try{
+    //         $provider = $request->provider;
+    //         if (in_array($provider, $this->providers)) {
+    //             // informations d'utilisateur auth
+    //             $data = Socialite::driver($request->provider)->user();
+    //             // echo $provider;
+    //             // $id = $data->getId();
+    //             // $name = $data->getNickname();
+    //             // $nickname = $data->getName();
+    //             // $email = $data->getEmail();
+    //             // $avatar = $data->getAvatar();
     
-        //         $id = $data->getId();
-        //         $name = $data->getNickname();
-        //         $nickname = $data->getName();
-        //         $email = $data->getEmail();
-        //         $avatar = $data->getAvatar();
+    //             // $user = User::where("email", $email)->first();
+    //             // if($user){
+    //             //     $user->name = $name;
+    //             //     $user->nickname = $nickname;
+    //             //     $user->avatar = $avatar;
+    //             //     $user->save();
+    //             // }
+    //             // else{
+    //             //     $user = User::create([
+    //             //         'name' => $name,
+    //             //         'nickname' => $nickname,
+    //             //         'email' => $email,
+    //             //         'avatar' => $avatar,
+    //             //         'password' => bcrypt("emilie") // On attribue un mot de passe
+    //             //     ]);
+    //             //     $token = $user->createToken('simple_user')->plainTextToken;
+    //             // }
     
-        //         $user = User::where("email", $email)->first();
-        //         if($user){
-        //             $user->name = $name;
-        //             $user->nickname = $nickname;
-        //             $user->avatar = $avatar;
-        //             $user->save();
-        //         }
-        //         else{
-        //             $user = User::create([
-        //                 'name' => $name,
-        //                 'nickname' => $nickname,
-        //                 'email' => $email,
-        //                 'avatar' => $avatar,
-        //                 'password' => bcrypt("emilie") // On attribue un mot de passe
-        //             ]);
-        //             $token = $user->createToken('simple_user')->plainTextToken;
-        //         }
-    
-        //         return response()->json([
-        //                 'success' => true,
-        //                 'user' => [
-        //                     'currentToken' => $token,
-        //                     'data' => $user,
-        //                     'role'=> $user->role->name,
-        //                 ]
-        //             ]); 
-        //     }
-        //     else{
-        //         return response()->json([
-        //             'success'=>false,
-        //             'message'=>'Network invalid',
-        //         ]); 
-        //     }
-        // }
-        // catch (\Exception $e) {
-        //     return response()->json([
-        //         'success' => false,
-        //         'message' => 'Registration failed: ' . $e->getMessage()
-        //     ]);
-        // }
-    }
+    //             // return response()->json([
+    //             //         'success' => true,
+    //             //         'user' => [
+    //             //             'currentToken' => $token,
+    //             //             'data' => $user,
+    //             //             'role'=> $user->role->name,
+    //             //         ]
+    //             //     ]); 
+    //         }
+    //         else{
+    //             return response()->json([
+    //                 'success'=>false,
+    //                 'message'=>'Network invalid',
+    //             ]); 
+    //         }
+    //     // }
+    //     // catch (\Exception $e) {
+    //     //     return response()->json([
+    //     //         'success' => false,
+    //     //         'message' => 'Registration failed: ' . $e->getMessage()
+    //     //     ]);
+    //     // }
+    // }
 }
 
                                                             

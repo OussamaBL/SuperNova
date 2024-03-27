@@ -5,6 +5,9 @@ import Register from "@/components/Auth/Register.vue";
 import Forget_password from "@/components/Auth/Forget_password.vue";
 import New_password from "@/components/Auth/New_password.vue";
 import Dashboard from "@/components/Dashboard/Dashboard.vue";
+import Categories from "@/components/Dashboard/List_categories.vue";
+import Sub_categories from "@/components/Dashboard/List_sub_categories.vue";
+import Add_product from "@/components/Dashboard/Add_product.vue";
 
 import { useAuthStore } from '@/stores/useAuthStore.js';
 
@@ -60,15 +63,29 @@ const router = createRouter({
         {
             path: "/categories",
             name: "categories",
-            component: Dashboard,
-            beforeEnter: [checkIfLogged],
+            component: Categories,
+            // beforeEnter: [checkIfLogged],
            
         },
         {
-            path: "/products",
-            name: "products",
-            component: Dashboard,
-            beforeEnter: [checkIfLogged],
+            path: "/sub_categories",
+            name: "sub_categories",
+            component: Sub_categories,
+            // beforeEnter: [checkIfLogged],
+           
+        },
+        // {
+        //     path: "/products",
+        //     name: "products",
+        //     component: Dashboard,
+        //     beforeEnter: [checkIfLogged],
+           
+        // },
+        {
+            path: "/add_product",
+            name: "add_product",
+            component: Add_product,
+            // beforeEnter: [checkIfLogged],
            
         },
     ],

@@ -1,550 +1,835 @@
 <template>
-    <!-- MAIN CONTENT-->
-        <div class="main-content">
-                    <div class="section__content section__content--p30">
-                        <div class="container-fluid">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="overview-wrap">
-                                        <h2 class="title-1">overview</h2>
-                                        <button class="au-btn au-btn-icon au-btn--blue">
-                                            <i class="zmdi zmdi-plus"></i>add item</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row m-t-25">
-                                <div class="col-sm-6 col-lg-3">
-                                    <div class="overview-item overview-item--c1">
-                                        <div class="overview__inner">
-                                            <div class="overview-box clearfix">
-                                                <div class="icon">
-                                                    <i class="zmdi zmdi-account-o"></i>
-                                                </div>
-                                                <div class="text">
-                                                    <h2>10368</h2>
-                                                    <span>members online</span>
-                                                </div>
-                                            </div>
-                                            <div class="overview-chart">
-                                                <canvas id="widgetChart1"></canvas>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6 col-lg-3">
-                                    <div class="overview-item overview-item--c2">
-                                        <div class="overview__inner">
-                                            <div class="overview-box clearfix">
-                                                <div class="icon">
-                                                    <i class="zmdi zmdi-shopping-cart"></i>
-                                                </div>
-                                                <div class="text">
-                                                    <h2>388,688</h2>
-                                                    <span>items solid</span>
-                                                </div>
-                                            </div>
-                                            <div class="overview-chart">
-                                                <canvas id="widgetChart2"></canvas>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6 col-lg-3">
-                                    <div class="overview-item overview-item--c3">
-                                        <div class="overview__inner">
-                                            <div class="overview-box clearfix">
-                                                <div class="icon">
-                                                    <i class="zmdi zmdi-calendar-note"></i>
-                                                </div>
-                                                <div class="text">
-                                                    <h2>1,086</h2>
-                                                    <span>this week</span>
-                                                </div>
-                                            </div>
-                                            <div class="overview-chart">
-                                                <canvas id="widgetChart3"></canvas>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6 col-lg-3">
-                                    <div class="overview-item overview-item--c4">
-                                        <div class="overview__inner">
-                                            <div class="overview-box clearfix">
-                                                <div class="icon">
-                                                    <i class="zmdi zmdi-money"></i>
-                                                </div>
-                                                <div class="text">
-                                                    <h2>$1,060,386</h2>
-                                                    <span>total earnings</span>
-                                                </div>
-                                            </div>
-                                            <div class="overview-chart">
-                                                <canvas id="widgetChart4"></canvas>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="au-card recent-report">
-                                        <div class="au-card-inner">
-                                            <h3 class="title-2">recent reports</h3>
-                                            <div class="chart-info">
-                                                <div class="chart-info__left">
-                                                    <div class="chart-note">
-                                                        <span class="dot dot--blue"></span>
-                                                        <span>products</span>
-                                                    </div>
-                                                    <div class="chart-note mr-0">
-                                                        <span class="dot dot--green"></span>
-                                                        <span>services</span>
-                                                    </div>
-                                                </div>
-                                                <div class="chart-info__right">
-                                                    <div class="chart-statis">
-                                                        <span class="index incre">
-                                                            <i class="zmdi zmdi-long-arrow-up"></i>25%</span>
-                                                        <span class="label">products</span>
-                                                    </div>
-                                                    <div class="chart-statis mr-0">
-                                                        <span class="index decre">
-                                                            <i class="zmdi zmdi-long-arrow-down"></i>10%</span>
-                                                        <span class="label">services</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="recent-report__chart">
-                                                <canvas id="recent-rep-chart"></canvas>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="au-card chart-percent-card">
-                                        <div class="au-card-inner">
-                                            <h3 class="title-2 tm-b-5">char by %</h3>
-                                            <div class="row no-gutters">
-                                                <div class="col-xl-6">
-                                                    <div class="chart-note-wrap">
-                                                        <div class="chart-note mr-0 d-block">
-                                                            <span class="dot dot--blue"></span>
-                                                            <span>products</span>
-                                                        </div>
-                                                        <div class="chart-note mr-0 d-block">
-                                                            <span class="dot dot--red"></span>
-                                                            <span>services</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-xl-6">
-                                                    <div class="percent-chart">
-                                                        <canvas id="percent-chart"></canvas>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-9">
-                                    <h2 class="title-1 m-b-25">Earnings By Items</h2>
-                                    <div class="table-responsive table--no-card m-b-40">
-                                        <table class="table table-borderless table-striped table-earning">
-                                            <thead>
-                                                <tr>
-                                                    <th>date</th>
-                                                    <th>order ID</th>
-                                                    <th>name</th>
-                                                    <th class="text-right">price</th>
-                                                    <th class="text-right">quantity</th>
-                                                    <th class="text-right">total</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>2018-09-29 05:57</td>
-                                                    <td>100398</td>
-                                                    <td>iPhone X 64Gb Grey</td>
-                                                    <td class="text-right">$999.00</td>
-                                                    <td class="text-right">1</td>
-                                                    <td class="text-right">$999.00</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>2018-09-28 01:22</td>
-                                                    <td>100397</td>
-                                                    <td>Samsung S8 Black</td>
-                                                    <td class="text-right">$756.00</td>
-                                                    <td class="text-right">1</td>
-                                                    <td class="text-right">$756.00</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>2018-09-27 02:12</td>
-                                                    <td>100396</td>
-                                                    <td>Game Console Controller</td>
-                                                    <td class="text-right">$22.00</td>
-                                                    <td class="text-right">2</td>
-                                                    <td class="text-right">$44.00</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>2018-09-26 23:06</td>
-                                                    <td>100395</td>
-                                                    <td>iPhone X 256Gb Black</td>
-                                                    <td class="text-right">$1199.00</td>
-                                                    <td class="text-right">1</td>
-                                                    <td class="text-right">$1199.00</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>2018-09-25 19:03</td>
-                                                    <td>100393</td>
-                                                    <td>USB 3.0 Cable</td>
-                                                    <td class="text-right">$10.00</td>
-                                                    <td class="text-right">3</td>
-                                                    <td class="text-right">$30.00</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>2018-09-29 05:57</td>
-                                                    <td>100392</td>
-                                                    <td>Smartwatch 4.0 LTE Wifi</td>
-                                                    <td class="text-right">$199.00</td>
-                                                    <td class="text-right">6</td>
-                                                    <td class="text-right">$1494.00</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>2018-09-24 19:10</td>
-                                                    <td>100391</td>
-                                                    <td>Camera C430W 4k</td>
-                                                    <td class="text-right">$699.00</td>
-                                                    <td class="text-right">1</td>
-                                                    <td class="text-right">$699.00</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>2018-09-22 00:43</td>
-                                                    <td>100393</td>
-                                                    <td>USB 3.0 Cable</td>
-                                                    <td class="text-right">$10.00</td>
-                                                    <td class="text-right">3</td>
-                                                    <td class="text-right">$30.00</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3">
-                                    <h2 class="title-1 m-b-25">Top countries</h2>
-                                    <div class="au-card au-card--bg-blue au-card-top-countries m-b-40">
-                                        <div class="au-card-inner">
-                                            <div class="table-responsive">
-                                                <table class="table table-top-countries">
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>United States</td>
-                                                            <td class="text-right">$119,366.96</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Australia</td>
-                                                            <td class="text-right">$70,261.65</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>United Kingdom</td>
-                                                            <td class="text-right">$46,399.22</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Turkey</td>
-                                                            <td class="text-right">$35,364.90</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Germany</td>
-                                                            <td class="text-right">$20,366.96</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>France</td>
-                                                            <td class="text-right">$10,366.96</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Australia</td>
-                                                            <td class="text-right">$5,366.96</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Italy</td>
-                                                            <td class="text-right">$1639.32</td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="au-card au-card--no-shadow au-card--no-pad m-b-40">
-                                        <div class="au-card-title" style="background-image:url('./dashboard_img/bg-title-01.jpg');">
-                                            <div class="bg-overlay bg-overlay--blue"></div>
-                                            <h3>
-                                                <i class="zmdi zmdi-account-calendar"></i>26 April, 2018</h3>
-                                            <button class="au-btn-plus">
-                                                <i class="zmdi zmdi-plus"></i>
-                                            </button>
-                                        </div>
-                                        <div class="au-task js-list-load">
-                                            <div class="au-task__title">
-                                                <p>Tasks for John Doe</p>
-                                            </div>
-                                            <div class="au-task-list js-scrollbar3">
-                                                <div class="au-task__item au-task__item--danger">
-                                                    <div class="au-task__item-inner">
-                                                        <h5 class="task">
-                                                            <a href="#">Meeting about plan for Admin Template 2018</a>
-                                                        </h5>
-                                                        <span class="time">10:00 AM</span>
-                                                    </div>
-                                                </div>
-                                                <div class="au-task__item au-task__item--warning">
-                                                    <div class="au-task__item-inner">
-                                                        <h5 class="task">
-                                                            <a href="#">Create new task for Dashboard</a>
-                                                        </h5>
-                                                        <span class="time">11:00 AM</span>
-                                                    </div>
-                                                </div>
-                                                <div class="au-task__item au-task__item--primary">
-                                                    <div class="au-task__item-inner">
-                                                        <h5 class="task">
-                                                            <a href="#">Meeting about plan for Admin Template 2018</a>
-                                                        </h5>
-                                                        <span class="time">02:00 PM</span>
-                                                    </div>
-                                                </div>
-                                                <div class="au-task__item au-task__item--success">
-                                                    <div class="au-task__item-inner">
-                                                        <h5 class="task">
-                                                            <a href="#">Create new task for Dashboard</a>
-                                                        </h5>
-                                                        <span class="time">03:30 PM</span>
-                                                    </div>
-                                                </div>
-                                                <div class="au-task__item au-task__item--danger js-load-item">
-                                                    <div class="au-task__item-inner">
-                                                        <h5 class="task">
-                                                            <a href="#">Meeting about plan for Admin Template 2018</a>
-                                                        </h5>
-                                                        <span class="time">10:00 AM</span>
-                                                    </div>
-                                                </div>
-                                                <div class="au-task__item au-task__item--warning js-load-item">
-                                                    <div class="au-task__item-inner">
-                                                        <h5 class="task">
-                                                            <a href="#">Create new task for Dashboard</a>
-                                                        </h5>
-                                                        <span class="time">11:00 AM</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="au-task__footer">
-                                                <button class="au-btn au-btn-load js-load-btn">load more</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="au-card au-card--no-shadow au-card--no-pad m-b-40">
-                                        <div class="au-card-title" style="background-image:url('./dashboard_img/bg-title-02.jpg');">
-                                            <div class="bg-overlay bg-overlay--blue"></div>
-                                            <h3>
-                                                <i class="zmdi zmdi-comment-text"></i>New Messages</h3>
-                                            <button class="au-btn-plus">
-                                                <i class="zmdi zmdi-plus"></i>
-                                            </button>
-                                        </div>
-                                        <div class="au-inbox-wrap js-inbox-wrap">
-                                            <div class="au-message js-list-load">
-                                                <div class="au-message__noti">
-                                                    <p>You Have
-                                                        <span>2</span>
-
-                                                        new messages
-                                                    </p>
-                                                </div>
-                                                <div class="au-message-list">
-                                                    <div class="au-message__item unread">
-                                                        <div class="au-message__item-inner">
-                                                            <div class="au-message__item-text">
-                                                                <div class="avatar-wrap">
-                                                                    <div class="avatar">
-                                                                        <img src="./dashboard_img/icon/avatar-02.jpg" alt="John Smith">
-                                                                    </div>
-                                                                </div>
-                                                                <div class="text">
-                                                                    <h5 class="name">John Smith</h5>
-                                                                    <p>Have sent a photo</p>
-                                                                </div>
-                                                            </div>
-                                                            <div class="au-message__item-time">
-                                                                <span>12 Min ago</span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="au-message__item unread">
-                                                        <div class="au-message__item-inner">
-                                                            <div class="au-message__item-text">
-                                                                <div class="avatar-wrap online">
-                                                                    <div class="avatar">
-                                                                        <img src="./dashboard_img/icon/avatar-03.jpg" alt="Nicholas Martinez">
-                                                                    </div>
-                                                                </div>
-                                                                <div class="text">
-                                                                    <h5 class="name">Nicholas Martinez</h5>
-                                                                    <p>You are now connected on message</p>
-                                                                </div>
-                                                            </div>
-                                                            <div class="au-message__item-time">
-                                                                <span>11:00 PM</span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="au-message__item">
-                                                        <div class="au-message__item-inner">
-                                                            <div class="au-message__item-text">
-                                                                <div class="avatar-wrap online">
-                                                                    <div class="avatar">
-                                                                        <img src="./dashboard_img/icon/avatar-04.jpg" alt="Michelle Sims">
-                                                                    </div>
-                                                                </div>
-                                                                <div class="text">
-                                                                    <h5 class="name">Michelle Sims</h5>
-                                                                    <p>Lorem ipsum dolor sit amet</p>
-                                                                </div>
-                                                            </div>
-                                                            <div class="au-message__item-time">
-                                                                <span>Yesterday</span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="au-message__item">
-                                                        <div class="au-message__item-inner">
-                                                            <div class="au-message__item-text">
-                                                                <div class="avatar-wrap">
-                                                                    <div class="avatar">
-                                                                        <img src="./dashboard_img/icon/avatar-05.jpg" alt="Michelle Sims">
-                                                                    </div>
-                                                                </div>
-                                                                <div class="text">
-                                                                    <h5 class="name">Michelle Sims</h5>
-                                                                    <p>Purus feugiat finibus</p>
-                                                                </div>
-                                                            </div>
-                                                            <div class="au-message__item-time">
-                                                                <span>Sunday</span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="au-message__item js-load-item">
-                                                        <div class="au-message__item-inner">
-                                                            <div class="au-message__item-text">
-                                                                <div class="avatar-wrap online">
-                                                                    <div class="avatar">
-                                                                        <img src="./dashboard_img/icon/avatar-04.jpg" alt="Michelle Sims">
-                                                                    </div>
-                                                                </div>
-                                                                <div class="text">
-                                                                    <h5 class="name">Michelle Sims</h5>
-                                                                    <p>Lorem ipsum dolor sit amet</p>
-                                                                </div>
-                                                            </div>
-                                                            <div class="au-message__item-time">
-                                                                <span>Yesterday</span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="au-message__item js-load-item">
-                                                        <div class="au-message__item-inner">
-                                                            <div class="au-message__item-text">
-                                                                <div class="avatar-wrap">
-                                                                    <div class="avatar">
-                                                                        <img src="./dashboard_img/icon/avatar-05.jpg" alt="Michelle Sims">
-                                                                    </div>
-                                                                </div>
-                                                                <div class="text">
-                                                                    <h5 class="name">Michelle Sims</h5>
-                                                                    <p>Purus feugiat finibus</p>
-                                                                </div>
-                                                            </div>
-                                                            <div class="au-message__item-time">
-                                                                <span>Sunday</span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="au-message__footer">
-                                                    <button class="au-btn au-btn-load js-load-btn">load more</button>
-                                                </div>
-                                            </div>
-                                            <div class="au-chat">
-                                                <div class="au-chat__title">
-                                                    <div class="au-chat-info">
-                                                        <div class="avatar-wrap online">
-                                                            <div class="avatar avatar--small">
-                                                                <img src="./dashboard_img/icon/avatar-02.jpg" alt="John Smith">
-                                                            </div>
-                                                        </div>
-                                                        <span class="nick">
-                                                            <a href="#">John Smith</a>
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                                <div class="au-chat__content">
-                                                    <div class="recei-mess-wrap">
-                                                        <span class="mess-time">12 Min ago</span>
-                                                        <div class="recei-mess__inner">
-                                                            <div class="avatar avatar--tiny">
-                                                                <img src="./dashboard_img/icon/avatar-02.jpg" alt="John Smith">
-                                                            </div>
-                                                            <div class="recei-mess-list">
-                                                                <div class="recei-mess">Lorem ipsum dolor sit amet, consectetur adipiscing elit non iaculis</div>
-                                                                <div class="recei-mess">Donec tempor, sapien ac viverra</div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="send-mess-wrap">
-                                                        <span class="mess-time">30 Sec ago</span>
-                                                        <div class="send-mess__inner">
-                                                            <div class="send-mess-list">
-                                                                <div class="send-mess">Lorem ipsum dolor sit amet, consectetur adipiscing elit non iaculis</div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="au-chat-textfield">
-                                                    <form class="au-form-icon">
-                                                        <input class="au-input au-input--full au-input--h65" type="text" placeholder="Type a message">
-                                                        <button class="au-input-icon">
-                                                            <i class="zmdi zmdi-camera"></i>
-                                                        </button>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="copyright">
-                                        <p>Copyright © 2018 Colorlib. All rights reserved. Template by <a href="https://colorlib.com">Colorlib</a>.</p>
-                                    </div>
-                                </div>
-                            </div>
+    <div class="container-xxl flex-grow-1 container-p-y">
+              <div class="row">
+                <!-- View sales -->
+                <div class="col-xl-4 mb-4 col-lg-5 col-12">
+                  <div class="card">
+                    <div class="d-flex align-items-end row">
+                      <div class="col-7">
+                        <div class="card-body text-nowrap">
+                          <h5 class="card-title mb-0">Congratulations John! 🎉</h5>
+                          <p class="mb-2">Best seller of the month</p>
+                          <h4 class="text-primary mb-1">$48.9k</h4>
+                          <a href="javascript:;" class="btn btn-primary">View Sales</a>
                         </div>
+                      </div>
+                      <div class="col-5 text-center text-sm-left">
+                        <div class="card-body pb-0 px-0 px-md-4">
+                          <!-- <img
+                            src="assets_dashboard/img/illustrations/card-advance-sale.png"
+                            height="140"
+                            alt="view sales" /> -->
+                        </div>
+                      </div>
                     </div>
-        </div>
-    <!-- END MAIN CONTENT-->   
+                  </div>
+                </div>
+                <!-- View sales -->
+
+                <!-- Statistics -->
+                <div class="col-xl-8 mb-4 col-lg-7 col-12">
+                  <div class="card h-100">
+                    <div class="card-header">
+                      <div class="d-flex justify-content-between mb-3">
+                        <h5 class="card-title mb-0">Statistics</h5>
+                        <small class="text-muted">Updated 1 month ago</small>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <div class="row gy-3">
+                        <div class="col-md-3 col-6">
+                          <div class="d-flex align-items-center">
+                            <div class="badge rounded-pill bg-label-primary me-3 p-2">
+                              <i class="ti ti-chart-pie-2 ti-sm"></i>
+                            </div>
+                            <div class="card-info">
+                              <h5 class="mb-0">230k</h5>
+                              <small>Sales</small>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-3 col-6">
+                          <div class="d-flex align-items-center">
+                            <div class="badge rounded-pill bg-label-info me-3 p-2">
+                              <i class="ti ti-users ti-sm"></i>
+                            </div>
+                            <div class="card-info">
+                              <h5 class="mb-0">8.549k</h5>
+                              <small>Customers</small>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-3 col-6">
+                          <div class="d-flex align-items-center">
+                            <div class="badge rounded-pill bg-label-danger me-3 p-2">
+                              <i class="ti ti-shopping-cart ti-sm"></i>
+                            </div>
+                            <div class="card-info">
+                              <h5 class="mb-0">1.423k</h5>
+                              <small>Products</small>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-3 col-6">
+                          <div class="d-flex align-items-center">
+                            <div class="badge rounded-pill bg-label-success me-3 p-2">
+                              <i class="ti ti-currency-dollar ti-sm"></i>
+                            </div>
+                            <div class="card-info">
+                              <h5 class="mb-0">$9745</h5>
+                              <small>Revenue</small>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!--/ Statistics -->
+
+                <div class="col-xl-4 col-12">
+                  <div class="row">
+                    <!-- Expenses -->
+                    <div class="col-xl-6 mb-4 col-md-3 col-6">
+                      <div class="card">
+                        <div class="card-header pb-0">
+                          <h5 class="card-title mb-0">82.5k</h5>
+                          <small class="text-muted">Expenses</small>
+                        </div>
+                        <div class="card-body">
+                          <div id="expensesChart"></div>
+                          <div class="mt-md-2 text-center mt-lg-3 mt-3">
+                            <small class="text-muted mt-3">$21k Expenses more than last month</small>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!--/ Expenses -->
+
+                    <!-- Profit last month -->
+                    <div class="col-xl-6 mb-4 col-md-3 col-6">
+                      <div class="card">
+                        <div class="card-header pb-0">
+                          <h5 class="card-title mb-0">Profit</h5>
+                          <small class="text-muted">Last Month</small>
+                        </div>
+                        <div class="card-body">
+                          <div id="profitLastMonth"></div>
+                          <div class="d-flex justify-content-between align-items-center mt-3 gap-3">
+                            <h4 class="mb-0">624k</h4>
+                            <small class="text-success">+8.24%</small>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!--/ Profit last month -->
+
+                    <!-- Generated Leads -->
+                    <div class="col-xl-12 mb-4 col-md-6">
+                      <div class="card">
+                        <div class="card-body">
+                          <div class="d-flex justify-content-between">
+                            <div class="d-flex flex-column">
+                              <div class="card-title mb-auto">
+                                <h5 class="mb-1 text-nowrap">Generated Leads</h5>
+                                <small>Monthly Report</small>
+                              </div>
+                              <div class="chart-statistics">
+                                <h3 class="card-title mb-1">4,350</h3>
+                                <small class="text-success text-nowrap fw-medium"
+                                  ><i class="ti ti-chevron-up me-1"></i> 15.8%</small
+                                >
+                              </div>
+                            </div>
+                            <div id="generatedLeadsChart"></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!--/ Generated Leads -->
+                  </div>
+                </div>
+
+                <!-- Revenue Report -->
+                <div class="col-12 col-xl-8 mb-4">
+                  <div class="card">
+                    <div class="card-body p-0">
+                      <div class="row row-bordered g-0">
+                        <div class="col-md-8 position-relative p-4">
+                          <div class="card-header d-inline-block p-0 text-wrap position-absolute">
+                            <h5 class="m-0 card-title">Revenue Report</h5>
+                          </div>
+                          <div id="totalRevenueChart" class="mt-n1"></div>
+                        </div>
+                        <!-- <div class="col-md-4 p-4">
+                          <div class="text-center mt-4">
+                            <div class="dropdown">
+                              <button
+                                class="btn btn-sm btn-outline-primary dropdown-toggle"
+                                type="button"
+                                id="budgetId"
+                                data-bs-toggle="dropdown"
+                                aria-haspopup="true"
+                                aria-expanded="false">
+                                <script> document.write(new Date().getFullYear());
+                                </script>
+                              </button>
+                              <div class="dropdown-menu dropdown-menu-end" aria-labelledby="budgetId">
+                                <a class="dropdown-item prev-year1" href="javascript:void(0);">
+                                  <script>
+                                    document.write(new Date().getFullYear() - 1);
+                                  </script>
+                                </a>
+                                <a class="dropdown-item prev-year2" href="javascript:void(0);">
+                                  <script>
+                                    document.write(new Date().getFullYear() - 2);
+                                  </script>
+                                </a>
+                                <a class="dropdown-item prev-year3" href="javascript:void(0);">
+                                  <script>
+                                    document.write(new Date().getFullYear() - 3);
+                                  </script>
+                                </a>
+                              </div>
+                            </div>
+                          </div>
+                          <h3 class="text-center pt-4 mb-0">$25,825</h3>
+                          <p class="mb-4 text-center"><span class="fw-medium">Budget: </span>56,800</p>
+                          <div class="px-3">
+                            <div id="budgetChart"></div>
+                          </div>
+                          <div class="text-center mt-4">
+                            <button type="button" class="btn btn-primary">Increase Budget</button>
+                          </div>
+                        </div> -->
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!--/ Revenue Report -->
+
+                <!-- Earning Reports -->
+                <div class="col-xl-4 col-md-6 mb-4">
+                  <div class="card h-100">
+                    <div class="card-header d-flex justify-content-between">
+                      <div class="card-title mb-0">
+                        <h5 class="m-0 me-2">Earning Reports</h5>
+                        <small class="text-muted">Weekly Earnings Overview</small>
+                      </div>
+                      <div class="dropdown">
+                        <button
+                          class="btn p-0"
+                          type="button"
+                          id="earningReports"
+                          data-bs-toggle="dropdown"
+                          aria-haspopup="true"
+                          aria-expanded="false">
+                          <i class="ti ti-dots-vertical ti-sm text-muted"></i>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="earningReports">
+                          <a class="dropdown-item" href="javascript:void(0);">Download</a>
+                          <a class="dropdown-item" href="javascript:void(0);">Refresh</a>
+                          <a class="dropdown-item" href="javascript:void(0);">Share</a>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card-body pb-0">
+                      <ul class="p-0 m-0">
+                        <li class="d-flex mb-3">
+                          <div class="avatar flex-shrink-0 me-3">
+                            <span class="avatar-initial rounded bg-label-primary"
+                              ><i class="ti ti-chart-pie-2 ti-sm"></i
+                            ></span>
+                          </div>
+                          <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                            <div class="me-2">
+                              <h6 class="mb-0">Net Profit</h6>
+                              <small class="text-muted">12.4k Sales</small>
+                            </div>
+                            <div class="user-progress d-flex align-items-center gap-3">
+                              <small>$1,619</small>
+                              <div class="d-flex align-items-center gap-1">
+                                <i class="ti ti-chevron-up text-success"></i>
+                                <small class="text-muted">18.6%</small>
+                              </div>
+                            </div>
+                          </div>
+                        </li>
+                        <li class="d-flex mb-3">
+                          <div class="avatar flex-shrink-0 me-3">
+                            <span class="avatar-initial rounded bg-label-success"
+                              ><i class="ti ti-currency-dollar ti-sm"></i
+                            ></span>
+                          </div>
+                          <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                            <div class="me-2">
+                              <h6 class="mb-0">Total Income</h6>
+                              <small class="text-muted">Sales, Affiliation</small>
+                            </div>
+                            <div class="user-progress d-flex align-items-center gap-3">
+                              <small>$3,571</small>
+                              <div class="d-flex align-items-center gap-1">
+                                <i class="ti ti-chevron-up text-success"></i>
+                                <small class="text-muted">39.6%</small>
+                              </div>
+                            </div>
+                          </div>
+                        </li>
+                        <li class="d-flex mb-3">
+                          <div class="avatar flex-shrink-0 me-3">
+                            <span class="avatar-initial rounded bg-label-secondary"
+                              ><i class="ti ti-credit-card ti-sm"></i
+                            ></span>
+                          </div>
+                          <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                            <div class="me-2">
+                              <h6 class="mb-0">Total Expenses</h6>
+                              <small class="text-muted">ADVT, Marketing</small>
+                            </div>
+                            <div class="user-progress d-flex align-items-center gap-3">
+                              <small>$430</small>
+                              <div class="d-flex align-items-center gap-1">
+                                <i class="ti ti-chevron-up text-success"></i>
+                                <small class="text-muted">52.8%</small>
+                              </div>
+                            </div>
+                          </div>
+                        </li>
+                      </ul>
+                      <div id="reportBarChart"></div>
+                    </div>
+                  </div>
+                </div>
+                <!--/ Earning Reports -->
+
+                <!-- Popular Product -->
+                <div class="col-md-6 col-xl-4 mb-4">
+                  <div class="card h-100">
+                    <div class="card-header d-flex justify-content-between">
+                      <div class="card-title m-0 me-2">
+                        <h5 class="m-0 me-2">Popular Products</h5>
+                        <small class="text-muted">Total 10.4k Visitors</small>
+                      </div>
+                      <div class="dropdown">
+                        <button
+                          class="btn p-0"
+                          type="button"
+                          id="popularProduct"
+                          data-bs-toggle="dropdown"
+                          aria-haspopup="true"
+                          aria-expanded="false">
+                          <i class="ti ti-dots-vertical ti-sm text-muted"></i>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="popularProduct">
+                          <a class="dropdown-item" href="javascript:void(0);">Last 28 Days</a>
+                          <a class="dropdown-item" href="javascript:void(0);">Last Month</a>
+                          <a class="dropdown-item" href="javascript:void(0);">Last Year</a>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <ul class="p-0 m-0">
+                        <li class="d-flex mb-4 pb-1">
+                          <div class="me-3">
+                            <!-- <img src="assets_dashboard/img/products/iphone.png" alt="User" class="rounded" width="46" /> -->
+                          </div>
+                          <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                            <div class="me-2">
+                              <h6 class="mb-0">Apple iPhone 13</h6>
+                              <small class="text-muted d-block">Item: #FXZ-4567</small>
+                            </div>
+                            <div class="user-progress d-flex align-items-center gap-1">
+                              <p class="mb-0 fw-medium">$999.29</p>
+                            </div>
+                          </div>
+                        </li>
+                        <li class="d-flex mb-4 pb-1">
+                          <div class="me-3">
+                            <!-- <img
+                              src="assets_dashboard/img/products/nike-air-jordan.png"
+                              alt="User"
+                              class="rounded"
+                              width="46" /> -->
+                          </div>
+                          <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                            <div class="me-2">
+                              <h6 class="mb-0">Nike Air Jordan</h6>
+                              <small class="text-muted d-block">Item: #FXZ-3456</small>
+                            </div>
+                            <div class="user-progress d-flex align-items-center gap-1">
+                              <p class="mb-0 fw-medium">$72.40</p>
+                            </div>
+                          </div>
+                        </li>
+                        <li class="d-flex mb-4 pb-1">
+                          <div class="me-3">
+                            <!-- <img src="assets_dashboard/img/products/headphones.png" alt="User" class="rounded" width="46" /> -->
+                          </div>
+                          <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                            <div class="me-2">
+                              <h6 class="mb-0">Beats Studio 2</h6>
+                              <small class="text-muted d-block">Item: #FXZ-9485</small>
+                            </div>
+                            <div class="user-progress d-flex align-items-center gap-1">
+                              <p class="mb-0 fw-medium">$99</p>
+                            </div>
+                          </div>
+                        </li>
+                        <li class="d-flex mb-4 pb-1">
+                          <div class="me-3">
+                            <!-- <img
+                              src="assets_dashboard/img/products/apple-watch.png"
+                              alt="User"
+                              class="rounded"
+                              width="46" /> -->
+                          </div>
+                          <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                            <div class="me-2">
+                              <h6 class="mb-0">Apple Watch Series 7</h6>
+                              <small class="text-muted d-block">Item: #FXZ-2345</small>
+                            </div>
+                            <div class="user-progress d-flex align-items-center gap-1">
+                              <p class="mb-0 fw-medium">$249.99</p>
+                            </div>
+                          </div>
+                        </li>
+                        <li class="d-flex mb-4 pb-1">
+                          <div class="me-3">
+                            <!-- <img
+                              src="assets_dashboard/img/products/amazon-echo.png"
+                              alt="User"
+                              class="rounded"
+                              width="46" /> -->
+                          </div>
+                          <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                            <div class="me-2">
+                              <h6 class="mb-0">Amazon Echo Dot</h6>
+                              <small class="text-muted d-block">Item: #FXZ-8959</small>
+                            </div>
+                            <div class="user-progress d-flex align-items-center gap-1">
+                              <p class="mb-0 fw-medium">$79.40</p>
+                            </div>
+                          </div>
+                        </li>
+                        <li class="d-flex">
+                          <div class="me-3">
+                            <!-- <img
+                              src="assets_dashboard/img/products/play-station.png"
+                              alt="User"
+                              class="rounded"
+                              width="46" /> -->
+                          </div>
+                          <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                            <div class="me-2">
+                              <h6 class="mb-0">Play Station Console</h6>
+                              <small class="text-muted d-block">Item: #FXZ-7892</small>
+                            </div>
+                            <div class="user-progress d-flex align-items-center gap-1">
+                              <p class="mb-0 fw-medium">$129.48</p>
+                            </div>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <!--/ Popular Product -->
+
+                <!-- Sales by Countries tabs-->
+                <div class="col-md-6 col-xl-4 col-xl-4 mb-4">
+                  <div class="card h-100">
+                    <div class="card-header d-flex justify-content-between pb-2 mb-1">
+                      <div class="card-title mb-1">
+                        <h5 class="m-0 me-2">Sales by Countries</h5>
+                        <small class="text-muted">62 Deliveries in Progress</small>
+                      </div>
+                      <div class="dropdown">
+                        <button
+                          class="btn p-0"
+                          type="button"
+                          id="salesByCountryTabs"
+                          data-bs-toggle="dropdown"
+                          aria-haspopup="true"
+                          aria-expanded="false">
+                          <i class="ti ti-dots-vertical ti-sm text-muted"></i>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="salesByCountryTabs">
+                          <a class="dropdown-item" href="javascript:void(0);">Download</a>
+                          <a class="dropdown-item" href="javascript:void(0);">Refresh</a>
+                          <a class="dropdown-item" href="javascript:void(0);">Share</a>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <div class="nav-align-top">
+                        <ul class="nav nav-tabs nav-fill" role="tablist">
+                          <li class="nav-item">
+                            <button
+                              type="button"
+                              class="nav-link active"
+                              role="tab"
+                              data-bs-toggle="tab"
+                              data-bs-target="#navs-justified-new"
+                              aria-controls="navs-justified-new"
+                              aria-selected="true">
+                              New
+                            </button>
+                          </li>
+                          <li class="nav-item">
+                            <button
+                              type="button"
+                              class="nav-link"
+                              role="tab"
+                              data-bs-toggle="tab"
+                              data-bs-target="#navs-justified-link-preparing"
+                              aria-controls="navs-justified-link-preparing"
+                              aria-selected="false">
+                              Preparing
+                            </button>
+                          </li>
+                          <li class="nav-item">
+                            <button
+                              type="button"
+                              class="nav-link"
+                              role="tab"
+                              data-bs-toggle="tab"
+                              data-bs-target="#navs-justified-link-shipping"
+                              aria-controls="navs-justified-link-shipping"
+                              aria-selected="false">
+                              Shipping
+                            </button>
+                          </li>
+                        </ul>
+                        <div class="tab-content pb-0">
+                          <div class="tab-pane fade show active" id="navs-justified-new" role="tabpanel">
+                            <ul class="timeline timeline-advance timeline-advance mb-2 pb-1">
+                              <li class="timeline-item ps-4 border-left-dashed">
+                                <span class="timeline-indicator timeline-indicator-success">
+                                  <i class="ti ti-circle-check"></i>
+                                </span>
+                                <div class="timeline-event ps-0 pb-0">
+                                  <div class="timeline-header">
+                                    <small class="text-success text-uppercase fw-medium">sender</small>
+                                  </div>
+                                  <h6 class="mb-0">Myrtle Ullrich</h6>
+                                  <p class="text-muted mb-0 text-nowrap">101 Boulder, California(CA), 95959</p>
+                                </div>
+                              </li>
+                              <li class="timeline-item ps-4 border-transparent">
+                                <span class="timeline-indicator timeline-indicator-primary">
+                                  <i class="ti ti-map-pin"></i>
+                                </span>
+                                <div class="timeline-event ps-0 pb-0">
+                                  <div class="timeline-header">
+                                    <small class="text-primary text-uppercase fw-medium">Receiver</small>
+                                  </div>
+                                  <h6 class="mb-0">Barry Schowalter</h6>
+                                  <p class="text-muted mb-0 text-nowrap">939 Orange, California(CA),92118</p>
+                                </div>
+                              </li>
+                            </ul>
+                            <div class="border-bottom border-bottom-dashed mt-0 mb-4"></div>
+                            <ul class="timeline timeline-advance mb-0">
+                              <li class="timeline-item ps-4 border-left-dashed">
+                                <span class="timeline-indicator timeline-indicator-success">
+                                  <i class="ti ti-circle-check"></i>
+                                </span>
+                                <div class="timeline-event ps-0 pb-0">
+                                  <div class="timeline-header">
+                                    <small class="text-success text-uppercase fw-medium">sender</small>
+                                  </div>
+                                  <h6 class="mb-0">Veronica Herman</h6>
+                                  <p class="text-muted mb-0 text-nowrap">162 Windsor, California(CA), 95492</p>
+                                </div>
+                              </li>
+                              <li class="timeline-item ps-4 border-transparent">
+                                <span class="timeline-indicator timeline-indicator-primary">
+                                  <i class="ti ti-map-pin"></i>
+                                </span>
+                                <div class="timeline-event ps-0 pb-0">
+                                  <div class="timeline-header">
+                                    <small class="text-primary text-uppercase fw-medium">Receiver</small>
+                                  </div>
+                                  <h6 class="mb-0">Helen Jacobs</h6>
+                                  <p class="text-muted mb-0 text-nowrap">487 Sunset, California(CA), 94043</p>
+                                </div>
+                              </li>
+                            </ul>
+                          </div>
+
+                          <div class="tab-pane fade" id="navs-justified-link-preparing" role="tabpanel">
+                            <ul class="timeline timeline-advance mb-2 pb-1">
+                              <li class="timeline-item ps-4 border-left-dashed">
+                                <span class="timeline-indicator timeline-indicator-success">
+                                  <i class="ti ti-circle-check"></i>
+                                </span>
+                                <div class="timeline-event ps-0 pb-0">
+                                  <div class="timeline-header">
+                                    <small class="text-success text-uppercase fw-medium">sender</small>
+                                  </div>
+                                  <h6 class="mb-0">Barry Schowalter</h6>
+                                  <p class="text-muted mb-0 text-nowrap">939 Orange, California(CA),92118</p>
+                                </div>
+                              </li>
+                              <li class="timeline-item ps-4 border-transparent">
+                                <span class="timeline-indicator timeline-indicator-primary">
+                                  <i class="ti ti-map-pin"></i>
+                                </span>
+                                <div class="timeline-event ps-0 pb-0">
+                                  <div class="timeline-header">
+                                    <small class="text-primary text-uppercase fw-medium">Receiver</small>
+                                  </div>
+                                  <h6 class="mb-0">Myrtle Ullrich</h6>
+                                  <p class="text-muted mb-0 text-nowrap">101 Boulder, California(CA), 95959</p>
+                                </div>
+                              </li>
+                            </ul>
+                            <div class="border-bottom border-bottom-dashed mt-0 mb-4"></div>
+                            <ul class="timeline timeline-advance mb-0">
+                              <li class="timeline-item ps-4 border-left-dashed">
+                                <span class="timeline-indicator timeline-indicator-success">
+                                  <i class="ti ti-circle-check"></i>
+                                </span>
+                                <div class="timeline-event ps-0 pb-0">
+                                  <div class="timeline-header">
+                                    <small class="text-success text-uppercase fw-medium">sender</small>
+                                  </div>
+                                  <h6 class="mb-0">Veronica Herman</h6>
+                                  <p class="text-muted mb-0 text-nowrap">162 Windsor, California(CA), 95492</p>
+                                </div>
+                              </li>
+                              <li class="timeline-item ps-4 border-transparent">
+                                <span class="timeline-indicator timeline-indicator-primary">
+                                  <i class="ti ti-map-pin"></i>
+                                </span>
+                                <div class="timeline-event ps-0 pb-0">
+                                  <div class="timeline-header">
+                                    <small class="text-primary text-uppercase fw-medium">Receiver</small>
+                                  </div>
+                                  <h6 class="mb-0">Helen Jacobs</h6>
+                                  <p class="text-muted mb-0 text-nowrap">487 Sunset, California(CA), 94043</p>
+                                </div>
+                              </li>
+                            </ul>
+                          </div>
+                          <div class="tab-pane fade" id="navs-justified-link-shipping" role="tabpanel">
+                            <ul class="timeline timeline-advance mb-2 pb-1">
+                              <li class="timeline-item ps-4 border-left-dashed">
+                                <span class="timeline-indicator timeline-indicator-success">
+                                  <i class="ti ti-circle-check"></i>
+                                </span>
+                                <div class="timeline-event ps-0 pb-0">
+                                  <div class="timeline-header">
+                                    <small class="text-success text-uppercase fw-medium">sender</small>
+                                  </div>
+                                  <h6 class="mb-0">Veronica Herman</h6>
+                                  <p class="text-muted mb-0 text-nowrap">101 Boulder, California(CA), 95959</p>
+                                </div>
+                              </li>
+                              <li class="timeline-item ps-4 border-transparent">
+                                <span class="timeline-indicator timeline-indicator-primary">
+                                  <i class="ti ti-map-pin"></i>
+                                </span>
+                                <div class="timeline-event ps-0 pb-0">
+                                  <div class="timeline-header">
+                                    <small class="text-primary text-uppercase fw-medium">Receiver</small>
+                                  </div>
+                                  <h6 class="mb-0">Barry Schowalter</h6>
+                                  <p class="text-muted mb-0 text-nowrap">939 Orange, California(CA),92118</p>
+                                </div>
+                              </li>
+                            </ul>
+                            <div class="border-bottom border-bottom-dashed mt-0 mb-4"></div>
+                            <ul class="timeline timeline-advance mb-0">
+                              <li class="timeline-item ps-4 border-left-dashed">
+                                <span class="timeline-indicator timeline-indicator-success">
+                                  <i class="ti ti-circle-check"></i>
+                                </span>
+                                <div class="timeline-event ps-0 pb-0">
+                                  <div class="timeline-header">
+                                    <small class="text-success text-uppercase fw-medium">sender</small>
+                                  </div>
+                                  <h6 class="mb-0">Myrtle Ullrich</h6>
+                                  <p class="text-muted mb-0 text-nowrap">162 Windsor, California(CA), 95492</p>
+                                </div>
+                              </li>
+                              <li class="timeline-item ps-4 border-transparent">
+                                <span class="timeline-indicator timeline-indicator-primary">
+                                  <i class="ti ti-map-pin"></i>
+                                </span>
+                                <div class="timeline-event ps-0 pb-0">
+                                  <div class="timeline-header">
+                                    <small class="text-primary text-uppercase fw-medium">Receiver</small>
+                                  </div>
+                                  <h6 class="mb-0">Helen Jacobs</h6>
+                                  <p class="text-muted mb-0 text-nowrap">487 Sunset, California(CA), 94043</p>
+                                </div>
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!--/ Sales by Countries tabs -->
+
+                <!-- Transactions -->
+                <div class="col-md-6 col-xl-4 mb-4">
+                  <div class="card h-100">
+                    <div class="card-header d-flex justify-content-between">
+                      <div class="card-title m-0 me-2">
+                        <h5 class="m-0 me-2">Transactions</h5>
+                        <small class="text-muted">Total 58 Transactions done in this Month</small>
+                      </div>
+                      <div class="dropdown">
+                        <button
+                          class="btn p-0"
+                          type="button"
+                          id="transactionID"
+                          data-bs-toggle="dropdown"
+                          aria-haspopup="true"
+                          aria-expanded="false">
+                          <i class="ti ti-dots-vertical ti-sm text-muted"></i>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="transactionID">
+                          <a class="dropdown-item" href="javascript:void(0);">Last 28 Days</a>
+                          <a class="dropdown-item" href="javascript:void(0);">Last Month</a>
+                          <a class="dropdown-item" href="javascript:void(0);">Last Year</a>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <ul class="p-0 m-0">
+                        <li class="d-flex mb-3 pb-1 align-items-center">
+                          <div class="badge bg-label-primary me-3 rounded p-2">
+                            <i class="ti ti-wallet ti-sm"></i>
+                          </div>
+                          <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                            <div class="me-2">
+                              <h6 class="mb-0">Wallet</h6>
+                              <small class="text-muted d-block">Starbucks</small>
+                            </div>
+                            <div class="user-progress d-flex align-items-center gap-1">
+                              <h6 class="mb-0 text-danger">-$75</h6>
+                            </div>
+                          </div>
+                        </li>
+                        <li class="d-flex mb-3 pb-1 align-items-center">
+                          <div class="badge bg-label-success rounded me-3 p-2">
+                            <i class="ti ti-browser-check ti-sm"></i>
+                          </div>
+                          <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                            <div class="me-2">
+                              <h6 class="mb-0">Bank Transfer</h6>
+                              <small class="text-muted d-block">Add Money</small>
+                            </div>
+                            <div class="user-progress d-flex align-items-center gap-1">
+                              <h6 class="mb-0 text-success">+$480</h6>
+                            </div>
+                          </div>
+                        </li>
+                        <li class="d-flex mb-3 pb-1 align-items-center">
+                          <div class="badge bg-label-danger rounded me-3 p-2">
+                            <i class="ti ti-brand-paypal ti-sm"></i>
+                          </div>
+                          <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                            <div class="me-2">
+                              <h6 class="mb-0">Paypal</h6>
+                              <small class="text-muted d-block mb-1">Client Payment</small>
+                            </div>
+                            <div class="user-progress d-flex align-items-center gap-1">
+                              <h6 class="mb-0 text-success">+$268</h6>
+                            </div>
+                          </div>
+                        </li>
+                        <li class="d-flex mb-3 pb-1 align-items-center">
+                          <div class="badge bg-label-secondary me-3 rounded p-2">
+                            <i class="ti ti-credit-card ti-sm"></i>
+                          </div>
+                          <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                            <div class="me-2">
+                              <h6 class="mb-0">Master Card</h6>
+                              <small class="text-muted d-block mb-1">Ordered iPhone 13</small>
+                            </div>
+                            <div class="user-progress d-flex align-items-center gap-1">
+                              <h6 class="mb-0 text-danger">-$699</h6>
+                            </div>
+                          </div>
+                        </li>
+                        <li class="d-flex mb-3 pb-1 align-items-center">
+                          <div class="badge bg-label-info me-3 rounded p-2">
+                            <i class="ti ti-currency-dollar ti-sm"></i>
+                          </div>
+                          <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                            <div class="me-2">
+                              <h6 class="mb-0">Bank Transactions</h6>
+                              <small class="text-muted d-block mb-1">Refund</small>
+                            </div>
+                            <div class="user-progress d-flex align-items-center gap-1">
+                              <h6 class="mb-0 text-success">+$98</h6>
+                            </div>
+                          </div>
+                        </li>
+                        <li class="d-flex mb-3 pb-1 align-items-center">
+                          <div class="badge bg-label-danger me-3 rounded p-2">
+                            <i class="ti ti-brand-paypal ti-sm"></i>
+                          </div>
+                          <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                            <div class="me-2">
+                              <h6 class="mb-0">Paypal</h6>
+                              <small class="text-muted d-block mb-1">Client Payment</small>
+                            </div>
+                            <div class="user-progress d-flex align-items-center gap-1">
+                              <h6 class="mb-0 text-success">+$126</h6>
+                            </div>
+                          </div>
+                        </li>
+                        <li class="d-flex align-items-center">
+                          <div class="badge bg-label-success me-3 rounded p-2">
+                            <i class="ti ti-browser-check ti-sm"></i>
+                          </div>
+                          <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                            <div class="me-2">
+                              <h6 class="mb-0">Bank Transfer</h6>
+                              <small class="text-muted d-block mb-1">Pay Office Rent</small>
+                            </div>
+                            <div class="user-progress d-flex align-items-center gap-1">
+                              <h6 class="mb-0 text-danger">-$1290</h6>
+                            </div>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <!--/ Transactions -->
+
+                <!-- Invoice table -->
+                <div class="col-xl-8">
+                  <div class="card">
+                    <div class="table-responsive card-datatable">
+                      <table class="table datatable-invoice border-top">
+                        <thead>
+                          <tr>
+                            <th></th>
+                            <th>ID</th>
+                            <th><i class="ti ti-trending-up text-secondary"></i></th>
+                            <th>Total</th>
+                            <th>Issued Date</th>
+                            <th>Invoice Status</th>
+                            <th>Actions</th>
+                          </tr>
+                        </thead>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+                <!-- /Invoice table -->
+              </div>
+    </div>
  </template>
  
  <script setup>
  </script>
  
- <style>
- </style>
