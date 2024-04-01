@@ -26,7 +26,6 @@ class User extends Authenticatable
         'city',
         'country',
         'tele',
-        'avatar',
         'password',
     ];
     public function role(){

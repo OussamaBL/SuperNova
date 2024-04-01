@@ -8,7 +8,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Repositories\UserRepositorieInterface;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\UserRequest;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 use Laravel\Socialite\Facades\Socialite;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
@@ -297,6 +299,57 @@ class UserController extends Controller
     //     //     ]);
     //     // }
     // }
+    public function update(Request $request,$id){
+        try{
+            $form=$request->validate([
+                'name'=>'required|string',
+                'email'=>'required|email|unique:users,email,'.$id.',id',
+                'nickname'=>'nullable|string|unique:users,nickname,'.$id.',id',
+                'sexe' => ['nullable', Rule::in(['male', 'female'])],
+                'adress'=>'nullable|string',
+                'city'=>'nullable|string',
+                'country'=>'nullable|string',
+                'tele'=>'nullable|string',
+                'password'=>'required|min:6|max:255',
+                'new_password'=>'nullable|min:6|max:255',
+                'confirmation_password'=>'nullable|min:6|max:255',
+            ]);
+            $user=$this->UserRepositorieInterface->getById($id);
+            if (Hash::check($form['password'], $user->password)) {
+                $user->name=$form['name'];
+                $user->email=$form['email'];
+                $user->nickname=$form['nickname'];
+                $user->sexe=$form['sexe'];
+                $user->adress=$form['adress'];
+                $user->city=$form['city'];
+                $user->country=$form['country'];
+                $user->tele=$form['tele'];
+                if(isset($form['new_password'])){
+                    if($form['new_password']==$form['confirmation_password']) 
+                        $user->password=Hash::make($form['new_password']);
+                }
+                $user->save();
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Profile updated successfully',
+                    'user'=> $user,
+                ]);
+            } 
+            else {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Password incorrect'
+                ]);
+            }
+        }
+        catch(Exception $e){
+            return response()->json([
+                'success' => false,
+                'message' => 'Profile updated failed: ' . $e->getMessage(),
+            ]);
+        }
+       
+    }
 }
 
                                                             

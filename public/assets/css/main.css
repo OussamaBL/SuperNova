@@ -1174,8 +1174,18 @@ input[type="submit"] {
   transition: 0.3s;
   border-radius: 50px !important;
 }
+.btn_valider{
+  -webkit-transition: 0.3s;
+  -o-transition: 0.3s;
+  transition: 0.3s;
+  border-radius: 50px !important;
+}
 
 input[type="submit"]:hover {
+  background-color: #051922;
+  color: #F28123;
+}
+.btn_valider:hover{
   background-color: #051922;
   color: #F28123;
 }
@@ -1457,6 +1467,17 @@ html, body {
 }
 
 input[type="submit"] {
+  background-color: #F28123;
+  color: #051922;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 15px;
+  border: none !important;
+  cursor: pointer;
+  padding: 15px 25px;
+  border-radius: 3px;
+}
+.btn_valider{
   background-color: #F28123;
   color: #051922;
   font-weight: 700;

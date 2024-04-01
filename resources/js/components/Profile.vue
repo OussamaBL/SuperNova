@@ -27,35 +27,29 @@
 						<form type="POST" id="fruitkha-contact" onSubmit="return valid_datas( this );">
 							<p>
                                 <label class="label_form" for="name">Full Name :</label>
-								<input type="text" class="ml-3" placeholder="Enter the Full Name">
+								<input type="text" class="ml-3" placeholder="Enter the Full Name" v-model="data.user.name">
 							</p>
                             <p>
                                 <label class="label_form" for="name">Sexe :</label>
-								<input type="radio" class="ml-5" value="male"> Male
-								<input type="radio" class="ml-5" value="female"> Female
+								<input type="radio" class="ml-5" value="male" v-model="data.user.sexe"> Male
+								<input type="radio" class="ml-5" value="female" v-model="data.user.sexe"> Female
 							</p>
                             <p>
                                 <label class="label_form" for="email">Email :</label>
-								<input type="text" class="ml-3" placeholder="Enter the Email">
+								<input type="text" class="ml-3" placeholder="Enter the Email" v-model="data.user.email">
 							</p>
                             <p>
                                 <label class="label_form" for="email">Current password :</label>
-								<input type="password" class="ml-3" placeholder="Enter the Current password">
+								<input type="password" class="ml-3" placeholder="Enter the Current password" v-model="data.user.password">
 							</p>
                             <p>
                                 <label class="label_form" for="email">New password :</label>
-								<input type="password" class="ml-3" placeholder="Enter the New password">
+								<input type="password" class="ml-3" placeholder="Enter the New password" v-model="data.user.new_password">
 							</p>
                             <p>
                                 <label class="label_form" for="email">Confirmation password :</label>
-								<input type="password" class="ml-3" placeholder="Enter the Confirmation of password">
+								<input type="password" class="ml-3" placeholder="Enter the Confirmation of password" v-model="data.user.confirmation_password">
 							</p>
-                            <!-- <p>
-                                <input type="submit" value="Submit">
-                            </p>
-							 -->
-							<!-- <input type="hidden" name="token" value="FsWga4&@f6aw" /> -->
-							
 						</form>
 					</div>
 				</div>
@@ -84,22 +78,22 @@
 						<form type="POST" id="fruitkha-contact" onSubmit="return valid_datas( this );">
 							<p>
                                 <label class="label_form" for="address">Address :</label>
-                                <textarea name="address" cols="30" rows="10" placeholder="Enter the Address"></textarea>
+                                <textarea name="address" cols="30" rows="10" placeholder="Enter the Address" v-model="data.user.adress"></textarea>
                             </p>
                             <p>
                                 <label class="label_form" for="city">City :</label>
-								<input type="text" class="ml-3" placeholder="Enter the City">
+								<input type="text" class="ml-3" placeholder="Enter the City" v-model="data.user.city">
 							</p>
                             <p>
                                 <label class="label_form" for="country">Country :</label>
-								<input type="text" class="ml-3" placeholder="Enter the Country" value="Morocco">
+								<input type="text" class="ml-3" placeholder="Enter the Country" value="Morocco" v-model="data.user.country">
 							</p>
                             <p>
                                 <label class="label_form" for="tele">Telephone :</label>
-								<input type="text" class="ml-3" placeholder="Enter the Number of Telephone (exp:+212 000000000)" value="+212">
+								<input type="text" class="ml-3" placeholder="Enter the Number of Telephone (exp:+212 000000000)" value="+212" v-model="data.user.tele">
 							</p>
                             <p>
-                                <input type="submit" value="Save">
+                                <input type="button" class="btn_valider" value="Save" @click="MiseAjour()">
                             </p>
 						</form>
 					</div>
@@ -115,12 +109,67 @@
 import { reactive,onMounted } from "vue";
 import Swal from 'sweetalert2';
 import { Bootstrap5Pagination } from 'laravel-vue-pagination';
+import { useAuthStore } from '@/stores/useAuthStore.js';
+
+const store = useAuthStore();
 
 const data = reactive({
-    //   data_orders: [],
-    //   loading:true,
-      action:'',
+      user:{
+		id:'',
+		name:'',
+		email:'',
+		nickname:'',
+		sexe:'',
+		adress:'',
+		city:'',
+		country:'',
+		tele:'',
+		password:'',
+		new_password:'',
+	  	confirmation_password:'',
+	  },
+	  
     });
+
+const MiseAjour = async () =>{
+	try {
+		if(data.user.new_password!=data.user.confirmation_password) {
+			Swal.fire({
+            icon: 'error',
+            title: 'New Password...',
+            text: 'Error in Confirmation of password',
+          });
+		  return;
+		}
+        const response = await axios.put("/api/profile/update/"+data.user.id,data.user);
+        if(response.data.success){
+			store.updateUser(response.data.user);
+			Swal.fire({
+				icon: 'success',
+				title: 'Profile...',
+				text: response.data.message,
+			});
+        }
+        else{
+          Swal.fire({
+            icon: 'error',
+            title: 'Profile...',
+            text: response.data.message,
+          });
+        }
+      } 
+      catch (error) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Profile...',
+            text: error,
+          });
+      }
+};
+
+onMounted(() => {
+	data.user=store.getUser.data;
+});
 
 </script>
 

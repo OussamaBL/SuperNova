@@ -31,16 +31,14 @@
 								<li class="current-list-item">
 									<router-link to="/">Home</router-link>
 								</li>
+								
 								<li><a href="about.html">About</a></li>
-								<li><a href="#">Pages</a>
+
+								<li><a href="#">Categories</a>
 									<ul class="sub-menu">
-										<li><a href="404.html">404 page</a></li>
-										<li><a href="about.html">About</a></li>
-										<li><a href="cart.html">Cart</a></li>
-										<li><a href="checkout.html">Check Out</a></li>
-										<li><a href="contact.html">Contact</a></li>
-										<li><a href="news.html">News</a></li>
-										<li><a href="shop.html">Shop</a></li>
+										<li v-for="category in data.data_categories" :key="category.id">
+											<router-link :to="{ path: '/List_products', query: { category: category.name } }">{{ category.name }}</router-link>
+										</li>
 									</ul>
 								</li>
 								<li><a href="news.html">News</a>
@@ -106,11 +104,40 @@
 
 
 <script setup>
+	import { reactive,onMounted } from "vue";
     import { useAuthStore } from '@/stores/useAuthStore.js';
     import Swal from 'sweetalert2';
     import router from '@/router';
 
     const store = useAuthStore();
+
+	const data = reactive({
+		data_categories:[],
+		
+    });
+
+	const fetch_data = async () => {
+      data.data_categories=[];
+      try {
+        const response = await axios.get('/api/category/index');
+        if(response.data.exist){
+          data.data_categories=response.data.categories;
+        } 
+        else {
+          Swal.fire({
+              icon: 'error',
+              title: 'Categories...',
+              text: response.data.message,
+            });
+        }
+      } catch (error) {
+          Swal.fire({
+                icon: 'error',
+                title: 'Categories...',
+                text: error,
+              });
+      }
+    };
 
     const userLogout = async () => {
         
@@ -139,7 +166,7 @@
             });
         }
     }
-
+	onMounted(fetch_data);
 </script>
 
 <style>

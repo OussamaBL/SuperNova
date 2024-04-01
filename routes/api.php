@@ -31,7 +31,10 @@ Route::middleware('auth:sanctum')->group(function() {
 });
 
 // popular product
-Route::get('product/popular', [ProductController::class, 'popular']);
+    Route::get('product/popular', [ProductController::class, 'popular']);
+
+// Update profile
+    Route::put('profile/update/{user}', [UserController::class, 'update']);
 
 // categories
     Route::get('category/index', [CategoryController::class, 'index']);
