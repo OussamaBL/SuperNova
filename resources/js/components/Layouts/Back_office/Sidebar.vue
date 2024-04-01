@@ -61,7 +61,7 @@
               </router-link>
             </li>
             <li class="menu-item">
-              <router-link to="/dashboard" class="menu-link">
+              <router-link to="/products" class="menu-link">
                 <i class="menu-icon tf-icons ti ti-smart-home"></i>
                 <div data-i18n="Products">Products</div>
               </router-link>

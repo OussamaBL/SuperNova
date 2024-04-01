@@ -16,8 +16,8 @@
                     <div class="d-flex gap-3">
                       <button @click="discard()" class="btn btn-label-secondary">Discard</button>
                     </div>
-                    <!-- <button v-if="data.action=='store'" @click="store()" type="submit" class="btn btn-primary">Publish product</button>
-                    <button v-if="data.action=='update'" @click="update()" type="submit" class="btn btn-primary">Update product</button> -->
+                    <button v-if="data.action=='create'" @click="store_product()" type="submit" class="btn btn-primary">Publish product</button>
+                    <button v-if="data.action=='edit'" @click="update_product()" type="submit" class="btn btn-primary">Update product</button>
                   </div>
                 </div>
 
@@ -61,49 +61,24 @@
                               aria-label="Product barcode" v-model="data.product.reference" />
                           </div>
                         </div>
+                        
                         <!-- Description -->
                         <div>
-                          <label class="form-label">Description (Optional)</label>
-                          <div class="form-control p-0 pt-1">
-                            <div class="comment-toolbar border-0 border-bottom">
-                              <div class="d-flex justify-content-start">
-                                <span class="ql-formats me-0">
-                                  <button class="ql-bold"></button>
-                                  <button class="ql-italic"></button>
-                                  <button class="ql-underline"></button>
-                                  <button class="ql-list" value="ordered"></button>
-                                  <button class="ql-list" value="bullet"></button>
-                                  <button class="ql-link"></button>
-                                  <button class="ql-image"></button>
-                                </span>
-                              </div>
-                            </div>
-                            <div class="comment-editor border-0 pb-4" id="ecommerce-category-description"></div>
+                          <label class="form-label" for="ecommerce-product-barcode">Description</label>
+                          <div>
+                            <textarea name="" v-model="data.product.description" id="" cols="30" rows="10"></textarea>
                           </div>
                         </div>
+                        
                       </div>
                     </div>
                     <!-- /Product Information -->
                     <!-- Media -->
-                    <div class="card mb-4">
-                      <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0 card-title">Media</h5>
-                        <a href="javascript:void(0);" class="fw-medium">Add media from URL</a>
-                      </div>
-                      <div class="card-body">
-                        <form action="/upload" class="dropzone needsclick" id="dropzone-basic">
-                          <div class="dz-message needsclick">
-                            <p class="fs-4 note needsclick pt-3 mb-1">Drag and drop your image here</p>
-                            <p class="text-muted d-block fw-normal mb-2">or</p>
-                            <span class="note needsclick btn bg-label-primary d-inline" id="btnBrowse"
-                              >Browse image</span
-                            >
-                          </div>
-                          <div class="fallback">
-                            <input name="file" type="file" />
-                          </div>
-                        </form>
-                      </div>
+                    <div class="mb-3">
+                      <label for="formFile" class="form-label">Image</label>
+                      <input class="form-control" type="file" @change="handleFileChange" id="formFile">
+                      <img v-if="data.image_action=='upload'" :src="`${data.pro_image}`" style="width: 400px;margin-top: 20px;" />
+                      <img v-if="data.image_action=='edit'" :src="`/images/products/${data.product.image}`" style="width: 400px;margin-top: 20px;" />
                     </div>
                     <!-- /Media -->
                     
@@ -370,6 +345,7 @@
                             class="form-control"
                             id="ecommerce-product-price"
                             placeholder="Price"
+                            min="0"
                             name="productPrice"
                             aria-label="Product price" v-model="data.product.price" />
                         </div>
@@ -381,8 +357,8 @@
                             class="form-control"
                             id="ecommerce-product-discount-price"
                             placeholder="Discounted Price"
-                            name="productDiscountedPrice"
-                            aria-label="Product discounted price" v-model="data.product.discounted_price" />
+                            name="productDiscountedPrice" min="0"
+                            aria-label="Product discounted price" v-model="data.product.discounted_price"  />
                         </div>
                       
                         <!-- Instock switch -->
@@ -390,7 +366,7 @@
                           <h6 class="mb-0">In stock</h6>
                           <div class="w-25 d-flex justify-content-end">
                             <label class="switch switch-primary switch-sm me-4 pe-2">
-                              <input type="checkbox" class="switch-input" checked="" v-model="data.product.status" />
+                              <input type="checkbox" class="switch-input" v-model="data.product.in_stock" />
                               <span class="switch-toggle-slider">
                                 <span class="switch-on">
                                   <span class="switch-off"></span>
@@ -411,7 +387,11 @@
                         <!-- Category -->
                         <div class="mb-3 col ecommerce-select2-dropdown">
                           <label class="form-label mb-1" for="vendor"> Categories </label>
-                          <select id="vendor" class="select2 form-select" @change="selectCategory()" data-placeholder="Select Vendor">
+                          <select v-if="data.action=='create'" id="vendor" class="select2 form-select"   @change="selectCategory($event.target.value)"  data-placeholder="Select Vendor">
+                              <option value="">Select</option>
+                              <option v-for="category in data.data_categories" :value="category.id">{{ category.name }}</option>
+                          </select>
+                          <select v-if="data.action=='edit'" v-model="data.id_catg" id="vendor" class="select2 form-select"  @change="selectCategory($event.target.value)"  data-placeholder="Select Vendor">
                               <option value="">Select</option>
                               <option v-for="category in data.data_categories" :value="category.id">{{ category.name }}</option>
                           </select>
@@ -435,29 +415,33 @@
 </template>
 
 <script setup>
+
     import { reactive,onMounted } from "vue";
     import Swal from 'sweetalert2';
+    import { useRoute } from 'vue-router';
     import router from '@/router';
     import { useAuthStore } from '@/stores/useAuthStore.js';
 
+    const route = useRoute(); 
     const store = useAuthStore();
-    
+
     const data = reactive({
       data_categories: [],
       data_sub_categories: [],
       product: {
-        id: '',
         title: '',
         description: '',
-        price: '',
-        discounted_price: '',
+        price: 0,
+        discounted_price: 0,
         reference: '',
         image: '',
-        qte: '',
-        qte_dispo: '',
+        qte: 0,
         id_sub_catg: '',
-        status: '',
+        in_stock: true,
       },
+      pro_image:'',
+      image_action:true,
+      id_catg:'',
       action:'',
     });
 
@@ -485,43 +469,167 @@
     };
 
     const selectCategory = async (category_id) => {
-      alert(category_id);
-      // data.data_sub_categories= [];
-      // try {
-      //   const response = await axios.get('/api/category/sub_categories/'+category_id);
-      //   if(response.data.success){
-      //     data.data_sub_categories=response.data.sub_categories;
-      //   } 
-      //   else {
-      //     Swal.fire({
-      //         icon: 'error',
-      //         title: 'Sub Categories...',
-      //         text: response.data.message,
-      //       });
-      //   }
-      // } catch (error) {
-      //     Swal.fire({
-      //           icon: 'error',
-      //           title: 'Sub Categories...',
-      //           text: error,
-      //         });
-      // }
+      data.data_sub_categories= [];
+      try {
+        const response = await axios.get('/api/category/sub_categories/'+category_id);
+        if(response.data.success){
+          data.data_sub_categories=response.data.sub_categories;
+        } 
+        else {
+          Swal.fire({
+              icon: 'error',
+              title: 'Sub Categories...',
+              text: response.data.message,
+            });
+        }
+      } catch (error) {
+          Swal.fire({
+                icon: 'error',
+                title: 'Sub Categories...',
+                text: error,
+              });
+      }
     };
 
+    // const handleFileChange = (event) => {
+    //   const file = event.target.files[0];
+    //   if (file) {
+    //     data.product.image = file;
+    //     // event.target.value = null;
+    //   }
+    // };
+
+    const handleFileChange = (event) => {
+      data.image_action="upload";
+  const file = event.target.files[0];
+  if (file) {
+    data.product.image = file;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      data.pro_image = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+};
+
+
     const discard = async () =>{
-      data.product.id="";
-      data.product.title="";
-      data.product.description="";
-      data.product.price="";
-      data.product.discounted_price="";
-      data.product.reference="";
-      data.product.image="";
-      data.product.qte="";
-      data.product.qte_dispo="";
-      data.product.id_sub_catg="";
+      if(data.action=='create'){
+        data.product.title="";
+        data.product.description="";
+        data.product.price=0;
+        data.product.discounted_price=0;
+        data.product.reference="";
+        data.product.image="";
+        data.product.qte=0;
+        data.product.id_sub_catg="";
+        data.product.in_stock=true;
+        data.id_catg='';
+        data.image_action='upload';
+      }
+      else {
+        if (route.query.product) {
+          data.image_action='edit';
+          const product = JSON.parse(route.query.product);
+          data.product=product;
+          data.id_catg = product.sub_category.id_catg;
+          selectCategory(data.id_catg);
+          if(data.product.in_stock=='1') data.product.in_stock=true;
+          else data.product.in_stock=false;
+        }
+      }
+     
+    };
+
+    const store_product = async () => {
+      try {
+        const formData = new FormData();
+        formData.append('title', data.product.title);
+        formData.append('price', data.product.price);
+        formData.append('discounted_price', data.product.discounted_price);
+        formData.append('reference', data.product.reference);
+        formData.append('description', data.product.description);
+        formData.append('image', data.product.image);
+        formData.append('qte', data.product.qte);
+        formData.append('id_sub_catg', data.product.id_sub_catg);
+        formData.append('in_stock', data.product.in_stock);
+        const response = await axios.post('/api/product/store', formData,{
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+        if(response.data.success){
+            Swal.fire({
+              icon: 'success',
+              title: 'Product added',
+              text: "Product '"+ response.data.product+"' added",
+            });
+            router.push('/products');
+        } 
+        else {
+          Swal.fire({
+              icon: 'error',
+              title: 'Product...',
+              text: response.data.message,
+            });
+        }
+      } catch (error) {
+          Swal.fire({
+                icon: 'error',
+                title: 'Product...',
+                text: error,
+              });
+      }
     }
+
+    const update_product = async () => {
+      try {
+        const formUpdate = new FormData();
+        formUpdate.append('title', data.product.title);
+        formUpdate.append('price', data.product.price);
+        formUpdate.append('discounted_price', data.product.discounted_price);
+        formUpdate.append('reference', data.product.reference);
+        formUpdate.append('description', data.product.description);
+        formUpdate.append('image', data.product.image);
+        formUpdate.append('qte', data.product.qte);
+        formUpdate.append('id_sub_catg', data.product.id_sub_catg);
+        formUpdate.append('in_stock', data.product.in_stock);
+        const response = await axios.post("/api/product/update/"+data.product.id,formUpdate,{
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+        if(response.data.success){
+          Swal.fire({
+            icon: 'success',
+            title: 'Product...',
+            text: response.data.message,
+          });
+          router.push('/products');
+        }
+        else{
+          Swal.fire({
+            icon: 'error',
+            title: 'Product...',
+            text: response.data.message,
+          });
+        }
+      } 
+      catch (error) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Product...',
+            text: error,
+          });
+      }
+    }
+
     onMounted(fetch_data);
+    onMounted(() => {
+      data.action = route.query.action;
+      discard();
+    });
 </script>
 
-<style>
+<style> 
 </style>

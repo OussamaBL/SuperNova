@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Api\UserController;
 use Illuminate\Support\Facades\Route;
 use Laravel\Socialite\Facades\Socialite;
 

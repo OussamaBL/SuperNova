@@ -46,23 +46,23 @@ data-template="vertical-menu-template-no-customizer">
     <link rel="stylesheet" href="{{asset('assets_dashboard/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css')}} " />
     <link rel="stylesheet" href="{{asset('assets_dashboard/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css')}} " />
 
+    
 
-
-    {{-- <link rel="stylesheet" href="{{asset('assets/vendor/libs/dropzone/dropzone.css')}} " /> --}}
     {{-- <link rel="stylesheet" href="{{asset('assets/vendor/libs/flatpickr/flatpickr.css')}} " /> --}}
     {{-- <link rel="stylesheet" href="{{asset('assets/vendor/libs/tagify/tagify.css')}} " /> --}}
-     <link rel="stylesheet" href="{{asset('assets_dashboard/vendor/libs/select2/select2.css')}}" /> 
-    {{-- <link rel="stylesheet" href="{{asset('assets_dashboard/vendor/libs/@form-validation/form-validation.css')}}" />
-    <link rel="stylesheet" href="{{asset('assets_dashboard/vendor/libs/quill/typography.css')}}" /> --}} --}}
-    {{-- <link rel="stylesheet" href="{{asset('assets_dashboard/vendor/libs/quill/katex.css')}}" />
-    <link rel="stylesheet" href="{{asset('assets_dashboard/vendor/libs/quill/editor.css')}}" />  --}}
+     {{-- <link rel="stylesheet" href="{{asset('assets_dashboard/vendor/libs/select2/select2.css')}}" />  --}}
+    {{-- {{-- <link rel="stylesheet" href="{{asset('assets_dashboard/vendor/libs/@form-validation/form-validation.css')}}" /> --}}
 
-    <!-- Page CSS -->
+    {{-- Media upload --}}
+    {{-- <link rel="stylesheet" href="{{asset('assets_dashboard/vendor/libs/dropzone/dropzone.css')}} " /> --}}
+
+    {{-- text editor --}}
+    {{-- <link rel="stylesheet" href="{{asset('assets_dashboard/vendor/libs/quill/typography.css')}}" />
+    <link rel="stylesheet" href="{{asset('assets_dashboard/vendor/libs/quill/katex.css')}}" />
+    <link rel="stylesheet" href="{{asset('assets_dashboard/vendor/libs/quill/editor.css')}}" />  --}}
 
     <!-- Helpers -->
     <script src="{{asset('assets_dashboard/vendor/js/helpers.js')}} "></script>
-    <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
-    <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="{{asset('assets_dashboard/js/config.js')}} "></script>
   </head>
 
@@ -85,7 +85,7 @@ data-template="vertical-menu-template-no-customizer">
     <script src="{{asset('assets_dashboard/vendor/js/menu.js')}} "></script>
 
     <!-- endbuild -->
-
+   
     <!-- Vendors JS -->
 
     {{-- dashboard --}}
@@ -99,12 +99,17 @@ data-template="vertical-menu-template-no-customizer">
     <script src="{{asset('assets_dashboard/vendor/libs/@form-validation/bootstrap5.js')}}"></script>
     <script src="{{asset('assets_dashboard/vendor/libs/@form-validation/auto-focus.js')}}"></script> --}}
 
-    
+    {{-- Editor
+    <script src="{{asset('assets_dashboard/vendor/libs/quill/katex.js')}} " ></script>
+    <script src="{{asset('assets_dashboard/vendor/libs/quill/quill.js')}} " ></script>
 
-    <!-- Main JS -->
+    {{-- Media upload --}}
+    {{-- <script src="{{asset('assets_dashboard/vendor/libs/dropzone/dropzone.js')}} "></script> --}} --}}
+
+    {{-- Main js --}}
     <script src="{{asset('assets_dashboard/js/main.js')}} "></script>
 
-    <!-- Page JS -->
-    <script src="{{asset('assets_dashboard/js/app-ecommerce-dashboard.js')}} "></script>
+    {{-- dashboard --}}
+    <script src="{{asset('assets_dashboard/js/app-ecommerce-dashboard.js')}}"></script>
   </body>
 </html>

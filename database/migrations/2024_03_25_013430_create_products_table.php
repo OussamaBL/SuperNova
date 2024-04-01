@@ -19,10 +19,10 @@ return new class extends Migration
             $table->text('description');
             $table->double('price');
             $table->double('discounted_price');
-            $table->string('reference');
+            $table->string('reference')->unique();
             $table->text('image');
             $table->integer('qte');
-            $table->integer('qte_dispo');
+            $table->integer('qte_order');
             $table->boolean('in_stock');
             $table->bigInteger('id_sub_catg')->unsigned();
             $table->foreign('id_sub_catg')->references('id')->on('sub_categories');

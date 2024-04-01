@@ -17,7 +17,8 @@ class Product extends Model
         'reference',
         'image',
         'qte',
-        'qte_dispo',
+        'qte_order',
+        'in_stock',
         'id_sub_catg',
     ];
     public function sub_category(){

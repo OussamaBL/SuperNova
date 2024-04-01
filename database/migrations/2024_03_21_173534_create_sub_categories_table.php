@@ -15,9 +15,9 @@ return new class extends Migration
     {
         Schema::create('sub_categories', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name')->unique();
             $table->text('image');
-            $table->bigInteger('id_catg');
+            $table->bigInteger('id_catg')->unsigned();
             $table->foreign('id_catg')->references('id')->on('categories');
             $table->timestamps();
         });

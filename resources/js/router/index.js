@@ -7,8 +7,10 @@ import New_password from "@/components/Auth/New_password.vue";
 import Dashboard from "@/components/Dashboard/Dashboard.vue";
 import Categories from "@/components/Dashboard/List_categories.vue";
 import Sub_categories from "@/components/Dashboard/List_sub_categories.vue";
-import Add_product from "@/components/Dashboard/Add_product.vue";
-
+import Products from "@/components/Dashboard/List_Products.vue";
+import Add_Edit_product from "@/components/Dashboard/Add_Edit_product.vue";
+import Product from "@/components/Product.vue";
+import Profile from "@/components/Profile.vue";
 import { useAuthStore } from '@/stores/useAuthStore.js';
 
 
@@ -74,17 +76,31 @@ const router = createRouter({
             // beforeEnter: [checkIfLogged],
            
         },
-        // {
-        //     path: "/products",
-        //     name: "products",
-        //     component: Dashboard,
-        //     beforeEnter: [checkIfLogged],
-           
-        // },
         {
-            path: "/add_product",
-            name: "add_product",
-            component: Add_product,
+            path: "/products",
+            name: "products",
+            component: Products,
+            // beforeEnter: [checkIfLogged],
+           
+        },
+        {
+            path: "/cu_product",
+            name: "cu_product",
+            component: Add_Edit_product,
+            // beforeEnter: [checkIfLogged],
+           
+        },
+        {
+            path: "/Product",
+            name: "Product",
+            component: Product,
+            // beforeEnter: [checkIfLogged],
+           
+        },
+        {
+            path: "/Profile",
+            name: "Profile",
+            component: Profile,
             // beforeEnter: [checkIfLogged],
            
         },
