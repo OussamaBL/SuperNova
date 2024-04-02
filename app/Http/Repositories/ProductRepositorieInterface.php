@@ -9,6 +9,7 @@ interface ProductRepositorieInterface
 
     public function getAll();
     public function popular();
+    public function getProducts_SubCategory($id);
     public function create(array $data);
 
     public function update($id, array $data);

@@ -55,8 +55,10 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::post('product/update/{product}', [ProductController::class, 'update']);
 
 // sub categories of category
-    Route::get('category/sub_categories/{category}', [SubCategoryController::class, 'getCategories']);
+    Route::get('category/sub_categories/{category}', [SubCategoryController::class, 'getSubCategories']);
 
+// get product of sub-cateogory
+Route::get('products/subCategory/{subCategory}', [ProductController::class, 'getProducts_SubCategory']);
 
 
 

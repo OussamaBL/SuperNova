@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 class SubCategoryController extends Controller
 {
 
-    public function getCategories($id_category){
+    public function getSubCategories($id_category){
         $sub_categories=Sub_Category::where('id_catg',$id_category)->get();
         if (count($sub_categories)>0) {
             return response()->json([

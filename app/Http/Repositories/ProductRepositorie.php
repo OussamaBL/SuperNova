@@ -38,4 +38,8 @@ class ProductRepositorie implements ProductRepositorieInterface
         $product = $this->getById($id);
         $product->delete();
     }
+    
+    public function getProducts_SubCategory($id){
+        return Product::where('id_sub_catg',$id)->with('sub_category.category')->paginate(10);
+    }
 }

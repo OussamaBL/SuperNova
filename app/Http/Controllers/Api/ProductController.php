@@ -159,4 +159,18 @@ class ProductController extends Controller
             ]);
         }
     }
+    public function getProducts_SubCategory($subCategory){
+        $products = $this->ProductRepositorieInterface->getProducts_SubCategory($subCategory);
+        if (count($products)>0) {
+            return response()->json([
+                'exist' => true,
+                'products' => $products
+            ]);
+        } else {
+            return response()->json([
+                'exist' => false,
+                'message' => 'Products not found',
+            ]);
+        }
+    }
 }

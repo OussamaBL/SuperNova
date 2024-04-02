@@ -37,7 +37,7 @@
 								<li><a href="#">Categories</a>
 									<ul class="sub-menu">
 										<li v-for="category in data.data_categories" :key="category.id">
-											<router-link :to="{ path: '/List_products', query: { category: category.name } }">{{ category.name }}</router-link>
+											<router-link :to="{ path: '/List_products', query: { category: category.id } }">{{ category.name }}</router-link>
 										</li>
 									</ul>
 								</li>
