@@ -82,15 +82,21 @@ class SubCategoryController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Sub_Category  $sub_Category
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Sub_Category $sub_Category)
+  
+    public function show($sub_Category)
     {
-        //
+        $subCategory=Sub_Category::where('id',$sub_Category)->with('category')->firstOrFail();
+        if ($subCategory) {
+            return response()->json([
+                'exist' => true,
+                'subCategory' => $subCategory
+            ]);
+        } else {
+            return response()->json([
+                'exist' => false,
+                'message' => 'Sub categories not found',
+            ]);
+        }
     }
 
     /**

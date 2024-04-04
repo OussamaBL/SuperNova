@@ -45,12 +45,14 @@ Route::middleware('auth:sanctum')->group(function() {
 // sub-categories
     Route::post('sub_category/store', [SubCategoryController::class, 'store']);
     Route::get('sub_category/index', [SubCategoryController::class, 'index']);
+    Route::get('sub_category/show/{subCategory}', [SubCategoryController::class, 'show']);
     Route::delete('sub_category/destroy/{sub_category}', [SubCategoryController::class, 'destroy']);
     Route::post('sub_category/update/{sub_category}', [SubCategoryController::class, 'update']);
 
 // product
     Route::post('product/store', [ProductController::class, 'store']);
     Route::get('product/index', [ProductController::class, 'index']);
+    Route::get('product/show/{product}', [ProductController::class, 'show']);
     Route::delete('product/destroy/{product}', [ProductController::class, 'destroy']);
     Route::post('product/update/{product}', [ProductController::class, 'update']);
 
@@ -60,9 +62,14 @@ Route::middleware('auth:sanctum')->group(function() {
 // get product of sub-cateogory
 Route::get('products/subCategory/{subCategory}', [ProductController::class, 'getProducts_SubCategory']);
 
+// get the categories with sub-categories
+Route::get('category/subcategories', [CategoryController::class, 'getCategory_Subcategories']);
 
+// get products filter by selected option
+Route::get('products/filter/{subCategory}/{option}', [ProductController::class, 'getProducts_filter']);
 
-
+// get related Products
+Route::get('products/related/{subCategory}/{product}', [ProductController::class, 'getRelated_Products']);
 
     
 Route::post('login', [UserController::class, 'auth'])->name('login');

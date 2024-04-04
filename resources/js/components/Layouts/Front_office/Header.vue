@@ -36,8 +36,13 @@
 
 								<li><a href="#">Categories</a>
 									<ul class="sub-menu">
-										<li v-for="category in data.data_categories" :key="category.id">
-											<router-link :to="{ path: '/List_products', query: { category: category.id } }">{{ category.name }}</router-link>
+										<li v-for="category in data.data_categories" :key="category.id" class="dropdown">
+											<a @click="changeCategory(category.id, category.name)" href="#" class="dropdown-toggle" role="button" aria-expanded="false">{{ category.name }}</a>
+											<ul class="dropdown-menu" role="menu">
+												<li v-for="subCategory in category.sub_categories" :key="subCategory.id">
+													<router-link :to="{ path: '/List_products', query: { subCategory: subCategory.id } }">{{ subCategory.name }}</router-link>
+												</li>
+											</ul>
 										</li>
 									</ul>
 								</li>
@@ -108,20 +113,31 @@
     import { useAuthStore } from '@/stores/useAuthStore.js';
     import Swal from 'sweetalert2';
     import router from '@/router';
+	import { useRouter } from 'vue-router';
 
+	const route = useRouter();
     const store = useAuthStore();
 
 	const data = reactive({
 		data_categories:[],
-		
-    });
+	});
+
+	const changeCategory = (categoryId, categoryName) => {
+        route.push({ 
+            path: '/List_products', 
+            query: { 
+                category: categoryId,
+                category_name: categoryName
+            } 
+        });
+    };
 
 	const fetch_data = async () => {
       data.data_categories=[];
       try {
-        const response = await axios.get('/api/category/index');
+        const response = await axios.get('/api/category/subcategories');
         if(response.data.exist){
-          data.data_categories=response.data.categories;
+			data.data_categories=response.data.categories;
         } 
         else {
           Swal.fire({
@@ -169,5 +185,35 @@
 	onMounted(fetch_data);
 </script>
 
-<style>
+<style scoped>
+.dropdown {
+    position: relative;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+    min-width: 160px;
+    background-color: #fff;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
+    list-style: none;
+    padding: 5px 0;
+}
+
+.dropdown-menu li {
+    padding: 8px 10px;
+}
+
+.dropdown-menu li a {
+    color: #333;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
 </style>

@@ -475,8 +475,9 @@ a.boxed-btn, a.bordered-btn, a.cart-btn {
 }
 
 .breadcrumb-bg {
-  background-image: url(../img/breadcrumb-bg.jpg);
+  background-image: url(../img/list_products.jpg) !important;
 }
+
 
 .breadcrumb-text p {
   color: #F28123;

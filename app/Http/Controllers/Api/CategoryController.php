@@ -19,6 +19,18 @@ class CategoryController extends Controller
             'message' => 'No categories',
         ]);
     }
+    public function getCategory_Subcategories(){
+        $categories=Category::with('sub_categories')->get();
+        if(count($categories)>0) return response()->json([
+            'exist' => true,
+            'categories'=>$categories
+        ]);
+        else return response()->json([
+            'exist' => false,
+            'message' => 'No categories',
+        ]);
+    }
+
     public function store(Request $request){
         try {
             

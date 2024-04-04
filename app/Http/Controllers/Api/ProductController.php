@@ -69,9 +69,34 @@ class ProductController extends Controller
         }
     }
 
-    public function show(Product $product)
+    public function show($id)
     {
-        //
+        $product = $this->ProductRepositorieInterface->getInfoProduct($id);
+        if ($product) {
+            return response()->json([
+                'exist' => true,
+                'product' => $product
+            ]);
+        } else {
+            return response()->json([
+                'exist' => false,
+                'message' => 'Products not found',
+            ]);
+        }
+    }
+    public function getRelated_Products($subCategory,$product){
+        $products = $this->ProductRepositorieInterface->getRelated_Products($subCategory,$product);
+        if (count($products)>0) {
+            return response()->json([
+                'exist' => true,
+                'products' => $products
+            ]);
+        } else {
+            return response()->json([
+                'exist' => false,
+                'message' => 'Products not found',
+            ]);
+        }
     }
 
 
@@ -161,6 +186,20 @@ class ProductController extends Controller
     }
     public function getProducts_SubCategory($subCategory){
         $products = $this->ProductRepositorieInterface->getProducts_SubCategory($subCategory);
+        if (count($products)>0) {
+            return response()->json([
+                'exist' => true,
+                'products' => $products
+            ]);
+        } else {
+            return response()->json([
+                'exist' => false,
+                'message' => 'Products not found',
+            ]);
+        }
+    }
+    public function getProducts_filter($subCategory,$option){
+        $products = $this->ProductRepositorieInterface->getProducts_filter($subCategory,$option);
         if (count($products)>0) {
             return response()->json([
                 'exist' => true,

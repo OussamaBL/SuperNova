@@ -12,7 +12,9 @@ class ProductRepositorie implements ProductRepositorieInterface
     {
         return Product::findOrFail($id);
     }
-
+    public function getInfoProduct($id){
+        return Product::where('id',$id)->with('sub_category.category')->firstOrFail();
+    }
     public function create(array $data)
     {
         return Product::create($data);
@@ -39,7 +41,17 @@ class ProductRepositorie implements ProductRepositorieInterface
         $product->delete();
     }
     
-    public function getProducts_SubCategory($id){
-        return Product::where('id_sub_catg',$id)->with('sub_category.category')->paginate(10);
+    public function getProducts_SubCategory($subCategory){
+        return Product::where('id_sub_catg',$subCategory)->with('sub_category.category')->paginate(10);
+    }
+    public function getRelated_Products($subCategory,$product){
+        return Product::where('id_sub_catg',$subCategory)->where('id','<>',$product)->with('sub_category.category')->take(6)->get();
+    }
+    public function getProducts_filter($subCategory,$option){
+        // if($option=='filterByVente')
+        if($option=='order_name_asc') return Product::where('id_sub_catg',$subCategory)->with('sub_category.category')->orderBy('title','asc')->paginate(10);
+        if($option=='order_name_desc') return Product::where('id_sub_catg',$subCategory)->with('sub_category.category')->orderBy('title','desc')->paginate(10);
+        if($option=='price_asc') return Product::where('id_sub_catg',$subCategory)->with('sub_category.category')->orderBy('price','asc')->paginate(10);
+        if($option=='price_desc') return Product::where('id_sub_catg',$subCategory)->with('sub_category.category')->orderBy('price','desc')->paginate(10);
     }
 }
