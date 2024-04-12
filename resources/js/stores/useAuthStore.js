@@ -4,11 +4,16 @@ import { defineStore } from 'pinia';
 export const useAuthStore = defineStore('auth', {
     state: () => ({ 
         user: '',
-        errors: ''
+        errors: '',
+        count_wishlist:null,
+        count_cart:null,
     }),
     getters: {
         getUser: (state) => state.user,
         getName: (state) => state.user.data.name,
+        getID: (state) => state.user.data.id,
+        getCount_wishlist: (state) => state.count_wishlist,
+        getCount_cart: (state) => state.count_cart,
         getErrors: (state) => state.errors,
         getHeaderConfig(state) {
             const config = {
@@ -41,12 +46,36 @@ export const useAuthStore = defineStore('auth', {
         clearStoredData() {
             localStorage.removeItem('user');
             this.user = '';
+            this.count_wishlist=null;
+            this.count_cart=null;
         },
         setErrors(errors) {
             this.errors = errors;
         },
         clearErrors() {
             this.errors = '';
+        },
+
+        // wishlist
+        store_count_wishlist(count){
+            this.count_wishlist=count;
+        },
+        add_wishlist(){
+            this.count_wishlist++;
+        },
+        remove_wishlist(){
+            this.count_wishlist--;
+        },
+
+        // cart
+        store_count_cart(count){
+            this.count_cart=count;
+        },
+        add_cart(){
+            this.count_cart++;
+        },
+        remove_cart(){
+            this.count_cart--;
         }
     },
 });

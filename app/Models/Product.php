@@ -24,6 +24,10 @@ class Product extends Model
     public function sub_category(){
         return $this->belongsTo(Sub_Category::class,'id_sub_catg','id');
     }
+    public function users_cart(){
+        return $this->BelongsToMany(User::class,'carts'); 
+    }
+   
     
 
 }

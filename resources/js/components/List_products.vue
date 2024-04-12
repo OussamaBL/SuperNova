@@ -1,5 +1,5 @@
 <template>
-
+<div :key="data.sub_category.id">
     <!-- breadcrumb-section -->
 	<div class="breadcrumb-section breadcrumb-bg" :style="{ backgroundImage: `url('/images/${data.sub_category.image}')` }">
 		<div class="container">
@@ -21,7 +21,7 @@
             <div class="row">
 				<div class="col-lg-8 offset-lg-2 text-center">
 					<div class="section-title">	
-						<h3>The sub-categories of<span class="orange-text">&nbsp; {{ route.query.category_name }}</span> </h3>
+						<h3>The sub-categories of<span class="orange-text">&nbsp; {{ data.sub_category.name }}</span> </h3>
 						<!-- <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid, fuga quas itaque eveniet beatae optio.</p> -->
 					</div>
 				</div>
@@ -52,11 +52,25 @@
                             <router-link :to="{ path: '/Product', query: { product_id: product.id } }">
                                 <img :src="`/images/products/${product.image}`">
                             </router-link>
-						</div>
+                        </div>
 						<h3>{{ product.title }}</h3>
 						<p class="product-price"><span>{{ product.sub_category.name}}</span> {{ product.price }}$ </p>
-						<a href="cart.html" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
-					</div>
+						
+                        <!-- cart -->
+						<a v-if="product.cart_id==null" @click="addCart(product.id,product.title)" href="javascript:void(0);" class="cart-btn">
+                            <i class="fas fa-shopping-cart"></i> Add to Cart
+                        </a>
+                        <a v-else href="javascript:void(0);" @click="removeCart(product.cart_id,product.title)" class="cart-btn">
+                            <i class="fas fa-shopping-cart"></i> Added
+                        </a>
+                        <!-- wishlist -->
+                        <a v-if="product.wishlist_id==null" @click="addWishlist(product.id,product.title)" href="javascript:void(0);" class="mt-2 mr-3" style="float: right;">
+                            <i class="fa fa-heart-o" style="color: orange;font-size: 26px;"></i>
+                        </a>
+                        <a v-else href="javascript:void(0);" @click="removeWishlist(product.wishlist_id,product.title)" class="mt-2 mr-3" style="float: right;">
+                            <i class="fas fa-heart" style="color: orange;font-size: 26px;"></i>
+                        </a>
+                    </div>
 				</div>
 			</div>
             <Bootstrap5Pagination :data="data.data_products"
@@ -67,46 +81,49 @@
 	<!-- end products -->
 
 	<!-- logo carousel -->
-	<!-- <div class="logo-carousel-section">
+	<div class="logo-carousel-section">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12">
 					<div class="logo-carousel-inner">
 						<div class="single-logo-item">
-							<img src="assets/img/company-logos/1.png" alt="">
+                            <img :src="`/images/company-logos/1.png`">
 						</div>
 						<div class="single-logo-item">
-							<img src="assets/img/company-logos/2.png" alt="">
+							<img :src="`/images/company-logos/2.png`">
 						</div>
 						<div class="single-logo-item">
-							<img src="assets/img/company-logos/3.png" alt="">
+							<img :src="`/images/company-logos/3.png`">
 						</div>
 						<div class="single-logo-item">
-							<img src="assets/img/company-logos/4.png" alt="">
+							<img :src="`/images/company-logos/4.png`">
 						</div>
 						<div class="single-logo-item">
-							<img src="assets/img/company-logos/5.png" alt="">
+							<img :src="`/images/company-logos/5.png`">
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div> -->
+	</div>
 	<!-- end logo carousel -->
+</div>  
 </template>
 
 <script setup>
-    import { reactive,onMounted } from "vue";
+    import { reactive,onMounted,watch } from "vue";
     import Swal from 'sweetalert2';
     import { useRoute } from 'vue-router';
-    import router from '@/router';
     import { Bootstrap5Pagination } from 'laravel-vue-pagination';
     import { useAuthStore } from '@/stores/useAuthStore.js';
+    import { addProduct_Wishlist, removeProduct_Wishlist } from '../files_script/wishlistFunctions.js';
+    import { addProduct_Cart, removeProduct_Cart } from '../files_script/cartFunctions.js';
 
     const route = useRoute(); 
     const store = useAuthStore();
     
     const data = reactive({
+    //   routeKey:route.query.subCategory,
       data_products: [],
       sub_category:{
         id:'',
@@ -121,12 +138,10 @@
     });
 
     const fetch_subCategory = async () =>{
-        alert(data.sub_category.id);
         try {
             const response = await axios.get('/api/sub_category/show/'+data.sub_category.id);
             if(response.data.exist){
                 data.sub_category=response.data.subCategory;
-                console.log(data.sub_category);
             }
                 
             else {
@@ -145,14 +160,15 @@
         }
     }
 
-
     const fetch_products = async (page=1) =>{
         data.data_products=[];
         data.loading = true;
         try {
-            const response = await axios.get('/api/products/subCategory/'+data.sub_category.id+'?page='+page);
-            if(response.data.exist)
+            const response = await axios.get('/api/products/subCategory/'+data.sub_category.id+'/'+store.getID+' ?page='+page);
+            if(response.data.exist){
                 data.data_products=response.data.products;
+            }
+                
             else {
                 Swal.fire({
                     icon: 'error',
@@ -200,11 +216,38 @@
         }
     };
 
+    const addWishlist = async (product_id,title) =>{
+        addProduct_Wishlist(product_id,title,store);
+    }
+    const removeWishlist = async (wishlist_id,title) =>{
+        removeProduct_Wishlist(wishlist_id,title,store);
+    }
+    
+    const addCart = async (product_id,title) =>{
+        addProduct_Cart(product_id,title,store);
+    }
+    const removeCart = async (cart_id,title) =>{
+        removeProduct_Cart(cart_id,title,store);
+    }
+
     onMounted(async() => {
-      data.sub_category.id = route.query.subCategory;
-      await fetch_subCategory();
-      fetch_products();
+        const subCategory = route.query.subCategory;
+        if (subCategory) {
+            data.sub_category.id = subCategory;
+            await fetch_subCategory();
+            fetch_products();
+        }
     });
+
+    // Watch for route parameter changes and call fetchData function
+    watch(() => route.query.subCategory, async (newValue, oldValue) => {
+        if (newValue !== oldValue) {
+            data.sub_category.id = newValue;
+            await fetch_subCategory();
+            fetch_products();
+        }
+    });
+
 </script>
 
 <style scoped>

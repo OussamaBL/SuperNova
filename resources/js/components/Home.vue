@@ -106,7 +106,20 @@
 						</div>
 						<h3>{{ product.title }}</h3>
 						<p class="product-price"><span>{{ product.sub_category.name}}</span> {{ product.price }}$ </p>
-						<a href="cart.html" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
+						<!-- cart -->
+						<a v-if="product.cart_id==null" @click="addCart(product.id,product.title)" href="javascript:void(0);" class="cart-btn">
+                            <i class="fas fa-shopping-cart"></i> Add to Cart
+                        </a>
+                        <a v-else href="javascript:void(0);" @click="removeCart(product.cart_id,product.title)" class="cart-btn">
+                            <i class="fas fa-shopping-cart"></i> Added
+                        </a>
+						<!-- wishlist -->
+						<a v-if="product.wishlist_id==null" @click="addWishlist(product.id,product.title)" href="javascript:void(0);" class="mt-2 mr-3" style="float: right;">
+                            <i class="fa fa-heart-o" style="color: orange;font-size: 26px;"></i>
+                        </a>
+                        <a v-else href="javascript:void(0);" @click="removeWishlist(product.wishlist_id,product.title)" class="mt-2 mr-3" style="float: right;">
+                            <i class="fas fa-heart" style="color: orange;font-size: 26px;"></i>
+                        </a>
 					</div>
 				</div>
 			</div>
@@ -114,22 +127,55 @@
 	</div>
 	<!-- end product section -->
 
+	<!-- logo carousel -->
+	<div class="logo-carousel-section">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="logo-carousel-inner">
+						<div class="single-logo-item">
+                            <img :src="`/images/company-logos/1.png`">
+						</div>
+						<div class="single-logo-item">
+							<img :src="`/images/company-logos/2.png`">
+						</div>
+						<div class="single-logo-item">
+							<img :src="`/images/company-logos/3.png`">
+						</div>
+						<div class="single-logo-item">
+							<img :src="`/images/company-logos/4.png`">
+						</div>
+						<div class="single-logo-item">
+							<img :src="`/images/company-logos/5.png`">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end logo carousel -->
+	
 </template>
 
 <script setup>
 import { reactive,onMounted } from "vue";
 import Swal from 'sweetalert2';
+import { useAuthStore } from '@/stores/useAuthStore.js';
+import { addProduct_Wishlist, removeProduct_Wishlist } from '../files_script/wishlistFunctions.js';
+import { addProduct_Cart, removeProduct_Cart } from '../files_script/cartFunctions.js';
 
-const data = reactive({
-      data_products: [],
-      loading:true,
-});
+const store = useAuthStore();
 
-const fetch_data = async () => {
+	const data = reactive({
+		data_products: [],
+		loading:true,
+	});
+
+	const fetch_data = async () => {
       data.data_products=[];
       data.loading = true;
       try {
-        const response = await axios.get('/api/product/popular');
+        const response = await axios.get('/api/product/popular/'+store.getID);
         if(response.data.exist){
           data.data_products=response.data.products;
         } 
@@ -152,7 +198,21 @@ const fetch_data = async () => {
       }
       
     };
-    
+
+	const addWishlist = async (product_id,title) =>{
+        addProduct_Wishlist(product_id,title,store);
+    }
+    const removeWishlist = async (wishlist_id,title) =>{
+        removeProduct_Wishlist(wishlist_id,title,store);
+    }
+
+	const addCart = async (product_id,title) =>{
+        addProduct_Cart(product_id,title,store);
+    }
+    const removeCart = async (cart_id,title) =>{
+        removeProduct_Cart(cart_id,title,store);
+    }
+
     onMounted(fetch_data);
 </script>
 

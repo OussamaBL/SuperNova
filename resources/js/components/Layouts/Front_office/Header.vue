@@ -1,17 +1,5 @@
-
-<style>
-		.btn_header{
-			color:white !important;
-			background-color:#F28123 !important;
-			padding: 10px 23px !important;
-    		border-radius: 11px;
-			font-size: 11px !important;
-			margin-right: 10px !important;
-		}
-	</style>
 <template>
-	
-    <!-- header -->
+	<!-- header -->
 	<div class="top-header-area" id="sticker">
 		<div class="container">
 			<div class="row">
@@ -67,8 +55,17 @@
 										<router-link class="btn btn-primary btn_header" to="register">Sign up</router-link>
 									</div>
 									<div v-else class="header-icons">
-										<a class="shopping-cart" href="cart.html"><i class="fas fa-shopping-cart"></i></a>
-										<router-link class="mobile-hide search-bar-icon" to="/Profile"><i class="fas fa-user"></i></router-link>
+										<router-link class="mobile-hide" to="/Wishlist" style="position: relative;">
+											<i class="fas fa-heart"></i>
+											<span class="count_wishlist_cart">{{ count_wishlist ? count_wishlist : 0 }}</span>
+										</router-link>
+
+										<router-link class="shopping-cart" to="/Cart" style="position: relative;">
+											<i class="fas fa-shopping-cart"></i>
+											<span class="count_wishlist_cart">{{ count_cart? count_cart: 0 }}</span>
+										</router-link>
+
+										<router-link class="mobile-hide" to="/Profile"><i class="fas fa-user"></i></router-link>
 										<button @click="userLogout" class="btn btn-primary btn_header">Log out</button>
 									</div>
 								</li>
@@ -109,7 +106,7 @@
 
 
 <script setup>
-	import { reactive,onMounted } from "vue";
+	import { reactive,onMounted,computed, onUpdated } from "vue";
     import { useAuthStore } from '@/stores/useAuthStore.js';
     import Swal from 'sweetalert2';
     import router from '@/router';
@@ -182,10 +179,91 @@
             });
         }
     }
-	onMounted(fetch_data);
+
+	const getWishlist_count = async () => {
+		try {
+			const response = await axios.get('/api/wishlist/count/'+store.getID);
+			if(response.data.success){
+				store.store_count_wishlist(response.data.count);
+			} 
+			else {
+			Swal.fire({
+				icon: 'error',
+				title: 'Wishlist...',
+				text: 'error in count wishlist',
+				});
+			}
+      	} catch (error) {
+          Swal.fire({
+                icon: 'error',
+                title: 'Wishlist...',
+                text: error,
+              });
+      	}
+	}
+
+	const getCart_count = async () => {
+		try {
+			const response = await axios.get('/api/cart/count/'+store.getID);
+			if(response.data.success){
+				store.store_count_cart(response.data.count);
+			} 
+			else {
+			Swal.fire({
+				icon: 'error',
+				title: 'Cart...',
+				text: 'error in count cart',
+				});
+			}
+      	} catch (error) {
+          Swal.fire({
+                icon: 'error',
+                title: 'Cart...',
+                text: error,
+              });
+      	}
+	}
+	
+	const count_wishlist = computed(() => {
+        if (store.getUser) {
+            return store.getCount_wishlist;
+        } 
+    });
+	const count_cart = computed(() => {
+        if (store.getUser) {
+            return store.getCount_cart;
+        } 
+    });
+	
+	onMounted( async () => {
+		await fetch_data();
+		if(store.getUser){
+			await getWishlist_count();
+			await getCart_count();
+		} 
+	});
+	
 </script>
 
 <style scoped>
+.count_wishlist_cart{
+	background-color: orange;
+    color: white;
+    font-weight: 400;
+    border-radius: 100%;
+    padding: 0px 7px;
+    position: absolute;
+    top: 1px;
+    right: 24px;
+}
+.btn_header{
+			color:white !important;
+			background-color:#F28123 !important;
+			padding: 10px 23px !important;
+    		border-radius: 11px;
+			font-size: 11px !important;
+			margin-right: 10px !important;
+}
 .dropdown {
     position: relative;
 }

@@ -69,9 +69,9 @@ class ProductController extends Controller
         }
     }
 
-    public function show($id)
+    public function show($id,$userid)
     {
-        $product = $this->ProductRepositorieInterface->getInfoProduct($id);
+        $product = $this->ProductRepositorieInterface->getInfoProduct($id,$userid);
         if ($product) {
             return response()->json([
                 'exist' => true,
@@ -84,8 +84,8 @@ class ProductController extends Controller
             ]);
         }
     }
-    public function getRelated_Products($subCategory,$product){
-        $products = $this->ProductRepositorieInterface->getRelated_Products($subCategory,$product);
+    public function getRelated_Products($subCategory,$product,$userid){
+        $products = $this->ProductRepositorieInterface->getRelated_Products($subCategory,$product,$userid);
         if (count($products)>0) {
             return response()->json([
                 'exist' => true,
@@ -170,8 +170,8 @@ class ProductController extends Controller
             ]);
         }
     }
-    public function popular(){
-        $products = $this->ProductRepositorieInterface->popular();
+    public function popular($userId){
+        $products = $this->ProductRepositorieInterface->popular($userId);
         if (count($products)>0) {
             return response()->json([
                 'exist' => true,
@@ -184,8 +184,8 @@ class ProductController extends Controller
             ]);
         }
     }
-    public function getProducts_SubCategory($subCategory){
-        $products = $this->ProductRepositorieInterface->getProducts_SubCategory($subCategory);
+    public function getProducts_SubCategory($subCategory,$userId){
+        $products = $this->ProductRepositorieInterface->getProducts_SubCategory($subCategory,$userId);
         if (count($products)>0) {
             return response()->json([
                 'exist' => true,

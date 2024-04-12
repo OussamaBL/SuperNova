@@ -31,7 +31,13 @@
 						<p class="single-product-pricing"><span>{{ data.product.sub_category.name}}</span> ${{ data.product.price}}</p>
 						<p>{{ data.product.description}}</p>
 						<div class="single-product-form">
-							<a href="cart.html" class="cart-btn mr-3"><i class="fas fa-heart"></i> Add to Wishlist</a> 
+                            <a v-if="data.product.wishlist_id==null" @click="addWishlist(data.product.id,data.product.title)" href="javascript:void(0);" class="mt-2 mr-3" style="float: right;">
+                                <i class="fa fa-heart-o" style="color: orange;font-size: 26px;"></i>
+                            </a>
+                            <a v-else href="javascript:void(0);" @click="removeWishlist(data.product.wishlist_id,data.product.title)" class="mt-2 mr-3" style="float: right;">
+                                <i class="fas fa-heart" style="color: orange;font-size: 26px;"></i>
+                            </a> 
+
 							<a href="cart.html" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
 							<p><strong>Category: </strong>{{ data.product.sub_category.category.name }}</p>
 						</div>
@@ -70,8 +76,22 @@
 						</div>
 						<h3>{{ product.title }}</h3>
 						<p class="product-price"><span>{{ product.sub_category.name}}</span> {{ product.price }}$ </p>
-						<a href="cart.html" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
-					</div>
+						
+                        <!-- cart -->
+						<a v-if="product.cart_id==null" @click="addCart(product.id,product.title)" href="javascript:void(0);" class="cart-btn">
+                            <i class="fas fa-shopping-cart"></i> Add to Cart
+                        </a>
+                        <a v-else href="javascript:void(0);" @click="removeCart(product.cart_id,product.title)" class="cart-btn">
+                            <i class="fas fa-shopping-cart"></i> Added
+                        </a>
+						<!-- wishlist -->
+                        <a v-if="product.wishlist_id==null" @click="addWishlist(product.id,product.title)" href="javascript:void(0);" class="mt-2 mr-3" style="float: right;">
+                            <i class="fa fa-heart-o" style="color: orange;font-size: 26px;"></i>
+                        </a>
+                        <a v-else href="javascript:void(0);" @click="removeWishlist(product.wishlist_id,product.title)" class="mt-2 mr-3" style="float: right;">
+                            <i class="fas fa-heart" style="color: orange;font-size: 26px;"></i>
+                        </a>
+                    </div>
 				</div>
 				
 			</div>
@@ -81,14 +101,15 @@
 </template>
 
 <script setup>
-   import { reactive,onMounted } from "vue";
+    import { reactive,onMounted } from "vue";
     import Swal from 'sweetalert2';
     import { useRoute } from 'vue-router';
-    // import router from '@/router';
-    // import { useAuthStore } from '@/stores/useAuthStore.js';
+    import { useAuthStore } from '@/stores/useAuthStore.js';
+    import { addProduct_Wishlist, removeProduct_Wishlist } from '../files_script/wishlistFunctions.js';
+    import { addProduct_Cart, removeProduct_Cart } from '../files_script/cartFunctions.js';
 
     const route = useRoute(); 
-    // const store = useAuthStore();
+    const store = useAuthStore();
 
     const data = reactive({
       product: {
@@ -101,6 +122,7 @@
         image: '',
         qte: 0,
         qte_order: 0,
+        wishlist_id:null,
         sub_category: {
             id:'',
             name:'',
@@ -117,10 +139,9 @@
 
     const fetch_product = async () =>{
         try {
-            const response = await axios.get('/api/product/show/'+data.product.id);
+            const response = await axios.get('/api/product/show/'+data.product.id+'/'+store.getID);
             if(response.data.exist){
                 data.product=response.data.product;
-                console.log(data.product);
             }
                 
             else {
@@ -142,10 +163,9 @@
     const fetch_related_products = async () =>{
         data.data_products=[];
         try {
-            const response = await axios.get('/api/products/related/'+data.product.sub_category.id+'/'+data.product.id);
+            const response = await axios.get('/api/products/related/'+data.product.sub_category.id+'/'+data.product.id+'/'+store.getID);
             if(response.data.exist){
                 data.data_products=response.data.products;
-                console.log(data.data_products);
             }
             else {
                 Swal.fire({
@@ -163,6 +183,19 @@
         }
     }
 
+    const addWishlist = async (product_id,title) =>{
+        addProduct_Wishlist(product_id,title,store);
+    }
+    const removeWishlist = async (wishlist_id,title) =>{
+        removeProduct_Wishlist(wishlist_id,title,store);
+    }
+
+    const addCart = async (product_id,title) =>{
+        addProduct_Cart(product_id,title,store);
+    }
+    const removeCart = async (cart_id,title) =>{
+        removeProduct_Cart(cart_id,title,store);
+    }
 
 onMounted(() => {
     data.product.id=route.query.product_id;

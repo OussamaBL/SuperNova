@@ -50,4 +50,10 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    public function products_wishlist(){
+        return $this->BelongsToMany(Wishlist::class,'wishlists'); 
+    }
+    public function produits_cart(){
+        return $this->BelongsToMany(Product::class,'carts'); 
+    }
 }

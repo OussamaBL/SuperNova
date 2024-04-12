@@ -6,12 +6,12 @@ namespace App\Http\Repositories;
 interface ProductRepositorieInterface
 {
     public function getById($id);
-    public function getInfoProduct($id);
+    public function getInfoProduct($id,$userId);
 
     public function getAll();
-    public function popular();
-    public function getProducts_SubCategory($subCategory);
-    public function getRelated_Products($subCategory,$product);
+    public function popular($userId);
+    public function getProducts_SubCategory($subCategory,$userId);
+    public function getRelated_Products($subCategory,$product,$userid);
     public function getProducts_filter($subCategory,$option);
 
     public function create(array $data);

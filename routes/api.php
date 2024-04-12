@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\Api\CartController;
 use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\WishlistController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserController;
@@ -31,7 +33,7 @@ Route::middleware('auth:sanctum')->group(function() {
 });
 
 // popular product
-    Route::get('product/popular', [ProductController::class, 'popular']);
+    Route::get('product/popular/{user}', [ProductController::class, 'popular']);
 
 // Update profile
     Route::put('profile/update/{user}', [UserController::class, 'update']);
@@ -52,7 +54,7 @@ Route::middleware('auth:sanctum')->group(function() {
 // product
     Route::post('product/store', [ProductController::class, 'store']);
     Route::get('product/index', [ProductController::class, 'index']);
-    Route::get('product/show/{product}', [ProductController::class, 'show']);
+    Route::get('product/show/{product}/{userid}', [ProductController::class, 'show']);
     Route::delete('product/destroy/{product}', [ProductController::class, 'destroy']);
     Route::post('product/update/{product}', [ProductController::class, 'update']);
 
@@ -60,7 +62,7 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::get('category/sub_categories/{category}', [SubCategoryController::class, 'getSubCategories']);
 
 // get product of sub-cateogory
-Route::get('products/subCategory/{subCategory}', [ProductController::class, 'getProducts_SubCategory']);
+Route::get('products/subCategory/{subCategory}/{userid}', [ProductController::class, 'getProducts_SubCategory']);
 
 // get the categories with sub-categories
 Route::get('category/subcategories', [CategoryController::class, 'getCategory_Subcategories']);
@@ -69,9 +71,21 @@ Route::get('category/subcategories', [CategoryController::class, 'getCategory_Su
 Route::get('products/filter/{subCategory}/{option}', [ProductController::class, 'getProducts_filter']);
 
 // get related Products
-Route::get('products/related/{subCategory}/{product}', [ProductController::class, 'getRelated_Products']);
+Route::get('products/related/{subCategory}/{product}/{userid}', [ProductController::class, 'getRelated_Products']);
 
-    
+// Wishlist
+Route::get('wishlist/count/{user}', [WishlistController::class, 'count']);
+Route::get('products/wishlist/{user}', [WishlistController::class, 'index']);
+Route::delete('products/wishlist/destroy/{wishlist}', [WishlistController::class, 'destroy']);
+Route::post('products/wishlist/store', [WishlistController::class, 'store']);
+
+// Cart
+Route::post('products/cart/store', [CartController::class, 'store']);
+Route::delete('products/cart/destroy/{cart}', [CartController::class, 'destroy']);
+Route::get('cart/count/{user}', [CartController::class, 'count']);
+Route::get('products/cart/{user}', [CartController::class, 'index']); 
+
+
 Route::post('login', [UserController::class, 'auth'])->name('login');
 Route::post('register', [UserController::class, 'register'])->name('register');
 Route::post('forget_password', [UserController::class, 'forget_password'])->name('forget_password');

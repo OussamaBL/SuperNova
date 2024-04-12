@@ -151,6 +151,7 @@
     }
 
     onMounted(fetch_data); 
+
 </script>
 <style>
 div:where(.swal2-container) {
