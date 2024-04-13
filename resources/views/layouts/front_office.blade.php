@@ -31,7 +31,8 @@
 	<!-- responsive -->
 	<link rel="stylesheet" href="{{ asset('assets/css/responsive.css') }}">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-  </head>
+	<meta name="csrf-token" content="{{ csrf_token() }}">  
+</head>
 
 
   <body>

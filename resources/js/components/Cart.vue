@@ -60,6 +60,14 @@
 					</div>
 				</div>
 
+				<form id="form_checkout" action="/checkout" method="POST" style="display: none;">
+					<input type="hidden" name="_token" :value="csrfToken">
+					<input type="hidden" name="products" v-model="productDetails">
+					<input type="hidden" name="user_id" v-model="store.getID">
+					<input type="hidden" name="subtotal" v-model="subtotal">
+					<!-- <button type="submit" id="checkoutButton">Checkout</button> -->
+				</form>
+
 				<div class="col-lg-12 mt-3">
 					<div class="row">
 						<div class="col-lg-2"></div>
@@ -103,7 +111,7 @@
 									</tbody>
 								</table>
 								<div class="cart-buttons">
-									<a href="checkout.html" class="boxed-btn black">Check Out</a>
+									<a href="#" @click="handleCheckout" class="boxed-btn black">Check Out</a>
 								</div>
 							</div>
 						</div>
@@ -144,10 +152,11 @@
 </template>
 
 <script setup>
- 	import { reactive,onMounted,computed } from "vue";
+ 	import { reactive,onMounted,computed,ref } from "vue";
     import Swal from 'sweetalert2';
     import { useAuthStore } from '@/stores/useAuthStore.js';
 	import { addProduct_Cart, removeProduct_Cart } from '../files_script/cartFunctions.js';
+	import { loadStripe } from '@stripe/stripe-js';
 
 	const store = useAuthStore();
 
@@ -204,7 +213,29 @@
 		fetch_products();
     }
 
-	onMounted(fetch_products);
+	const productDetails = computed(() => JSON.stringify(data.data_carts.map(cart => ({ id: cart.product.id, quantity: cart.quantity }))));
+
+	onMounted(()=>{
+		fetch_products();
+	});
+
+	const csrfToken = ref(document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
+	
+	const handleCheckout = async () => {
+
+		try {
+			
+			document.getElementById('form_checkout').submit();
+			
+		} catch (error) {
+			Swal.fire({
+                    icon: 'error',
+                    title: 'Cart...',
+                    text: error,
+                });
+		}
+	};
+	
 
 </script>
 

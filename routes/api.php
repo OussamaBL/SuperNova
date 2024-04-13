@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\CartController;
 use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\PaymentController;
 use App\Http\Controllers\Api\WishlistController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -84,6 +85,10 @@ Route::post('products/cart/store', [CartController::class, 'store']);
 Route::delete('products/cart/destroy/{cart}', [CartController::class, 'destroy']);
 Route::get('cart/count/{user}', [CartController::class, 'count']);
 Route::get('products/cart/{user}', [CartController::class, 'index']); 
+
+// payment
+// Route::post('api/checkout', [PaymentController::class, 'createSession'])->name('checkout');
+
 
 
 Route::post('login', [UserController::class, 'auth'])->name('login');
