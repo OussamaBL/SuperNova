@@ -18,7 +18,7 @@ return new class extends Migration
             $table->bigInteger('product_id')->unsigned();
             $table->bigInteger('user_id')->unsigned();
             $table->integer('qte');
-            $table->string('num_order')->unique();
+            $table->string('num_order');
             $table->foreign('product_id')->references('id')->on('products');
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();

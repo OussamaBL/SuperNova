@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Cart;
 use App\Models\Order;
 use App\Models\Payment;
 use Exception;
@@ -20,9 +21,12 @@ class PaymentController extends Controller
     {
         DB::beginTransaction();
         try{
+            // dd($request->subtotal);
             $order_total=$request->subtotal;
             $order_total_number = number_format($order_total, 2);
             $decimal_num_dec = str_replace(',', '', $order_total_number);
+            // dd($decimal_num_dec);
+            $unit_amount_cents = (int) ($decimal_num_dec * 100);
 
             Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
             $lineItems[] = [
@@ -31,7 +35,7 @@ class PaymentController extends Controller
                     'product_data' => [
                         'name' => "Test Payment",
                     ],
-                    'unit_amount' => $decimal_num_dec,
+                    'unit_amount' => $unit_amount_cents,
                 ],
                 'quantity' => 1,
             ];
@@ -64,57 +68,57 @@ class PaymentController extends Controller
     {
         // echo 'ok';
         $products = session()->get('products');
+        $products_quantites=json_decode($products); 
         $user_id = session()->get('user_id');
         $subtotal = session()->get('subtotal');
         
         $sessionId = $request->get('session_id');
 
         Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
-        dd($user_id);
-        dd($products);
-
-        // try {
-        //     $session = Session::retrieve($sessionId);
-
-
-        //     if (!$session) {
-        //         throw new NotFoundHttpException();
-        //     }
+         
+    
+        try {
+            $session = Session::retrieve($sessionId);
 
 
-        //     DB::beginTransaction();
+            if (!$session) {
+                throw new NotFoundHttpException();
+            }
 
-        //     try {
 
-        //         $order = Order::create([
-        //             'product_id' => $session->id,
-        //             'user_id' => $session->amount_total,
-        //             'qte' => $session->currency,
-        //             'num_order' => $session->status,
-        //         ]);
+            DB::beginTransaction();
 
-        //         $payment = Payment::create([
-        //             'num_order' => $session->id,
-        //             'amount' => $session->amount_total,
-        //             'currency' => $session->currency,
-        //             'payment_status' => $session->status,
-        //             'payment_method' => $session->payment_method_types[0],
-        //             'user_id' => $user_id,
-        //         ]);
-
+            try {
+                foreach ($products_quantites as $pro_qte) {
+                    Order::create([
+                        "product_id" => $pro_qte->id,
+                        "user_id" => $user_id,
+                        "qte" => $pro_qte->quantity,
+                        "num_order" => $sessionId,
+                    ]);
+                }
+                $payment = Payment::create([
+                    'num_order' => $session->id,
+                    'amount' => $subtotal,
+                    'currency' => $session->currency,
+                    'payment_status' => $session->status,
+                    'payment_method' => $session->payment_method_types[0],
+                    'user_id' => $user_id,
+                ]);
+                Cart::where('user_id',$user_id)->delete();
                 
-        //         DB::commit();
-        //         return redirect()->route('home')->with("success", 'Payment & Reservation Successfully');
+                DB::commit();
+                return redirect()->route('home')->with("success", 'Payment & Reservation Successfully');
                 
-        //     } catch (\Throwable $th) {
-        //         DB::rollback();
-        //         $errorMessage = $th->getMessage();
-        //         dd($errorMessage);
-        //     }
+            } catch (\Throwable $th) {
+                DB::rollback();
+                $errorMessage = $th->getMessage();
+                dd($errorMessage);
+            }
 
-        // } catch (Exception $e) {
-        //     throw new NotFoundHttpException();
-        // }
+        } catch (Exception $e) {
+            throw new NotFoundHttpException();
+        }
 
         // send ticket here 
     }
