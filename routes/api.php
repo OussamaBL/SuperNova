@@ -87,7 +87,8 @@ Route::get('cart/count/{user}', [CartController::class, 'count']);
 Route::get('products/cart/{user}', [CartController::class, 'index']); 
 
 // payment
-// Route::post('api/checkout', [PaymentController::class, 'createSession'])->name('checkout');
+Route::get('/payments/{user}', [PaymentController::class, 'get_payments']);
+Route::get('order/products/{order}', [PaymentController::class, 'get_orders']);
 
 
 

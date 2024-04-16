@@ -14,6 +14,7 @@ import Profile from "@/components/Profile.vue";
 import List_products from "@/components/List_products.vue";
 import Wishlist from "@/components/Wishlist.vue";
 import Cart from "@/components/Cart.vue";
+import Order from "@/components/Order.vue";
 
 import { useAuthStore } from '@/stores/useAuthStore.js';
 
@@ -126,6 +127,13 @@ const router = createRouter({
             path: "/Cart",
             name: "Cart",
             component: Cart,
+            // beforeEnter: [checkIfLogged],
+           
+        },
+        {
+            path: "/Order",
+            name: "Order",
+            component: Order,
             // beforeEnter: [checkIfLogged],
            
         },

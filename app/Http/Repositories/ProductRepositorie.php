@@ -40,7 +40,7 @@ class ProductRepositorie implements ProductRepositorieInterface
     }
     public function getAll()
     {
-        return Product::with('sub_category.category')->paginate(2);
+        return Product::with('sub_category.category')->paginate(10);
     }
     public function popular($userId){
         return Product::select('products.*')

@@ -100,6 +100,24 @@
 				</div>
 				
 			</div>
+			<div class="form-title">
+				<h2>Your Payment</h2>
+			</div>
+
+			<img v-if="data.loading" src="@/images/loading.gif" style="width: 40px;margin: 20px auto;display: block;" alt="Loading">
+
+			<div v-if="!data.loading" class="row">
+				<div v-for="payment in data.data_payments" :key="payment.id" class="card" style="width: 18rem;">
+					<!-- <img src="..." class="card-img-top" alt="..."> -->
+					
+					{{ payment.num_order }}
+					<div class="card-body">
+						<h5 class="card-title">{{ payment.amount }}</h5>
+						<p class="card-text"># {{ payment.currency }}</p>
+						<router-link :to="{ path: '/Order', query: { num_order: payment.num_order } }">View More</router-link>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 	<!-- end contact form -->
@@ -128,8 +146,38 @@ const data = reactive({
 		new_password:'',
 	  	confirmation_password:'',
 	  },
-	  
+	  data_payments:[],
+	  loading:true,
     });
+
+	const fetch_payments = async () =>{
+        data.data_payments=[];
+        data.loading = true;
+        try {
+            const response = await axios.get('/api/payments/'+store.getID);
+            if(response.data.exist){
+                data.data_payments=response.data.payments;
+				console.log(data.data_payments);
+            }
+                
+            else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Payment...',
+                    text: response.data.message,
+                    });
+            }
+        } catch (error) {
+            Swal.fire({
+                    icon: 'error',
+                    title: 'Payment...',
+                    text: error,
+                });
+        }
+        finally{
+            data.loading=false;
+        }
+    }
 
 const MiseAjour = async () =>{
 	try {
@@ -169,6 +217,7 @@ const MiseAjour = async () =>{
 
 onMounted(() => {
 	data.user=store.getUser.data;
+	fetch_payments();
 });
 
 </script>
