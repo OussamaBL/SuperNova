@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Cart;
 use App\Models\Order;
 use App\Models\Payment;
+use App\Models\Product;
 use Exception;
 use GrahamCampbell\ResultType\Success;
 use Illuminate\Http\Request;
@@ -96,6 +97,9 @@ class PaymentController extends Controller
                         "qte" => $pro_qte->quantity,
                         "num_order" => $sessionId,
                     ]);
+                    $product=Product::find($pro_qte->id);
+                    $product->qte_order+=$pro_qte->quantity;
+                    $product->save();
                 }
                 $payment = Payment::create([
                     'num_order' => $session->id,
@@ -138,11 +142,11 @@ class PaymentController extends Controller
         }
     }
     public function get_orders($num_order){
-        $payments=Payment::where('user_id',$id)->get();
-        if(count($payments)>0){
+        $orders=Order::where('num_order',$num_order)->with('product.sub_category.category')->get();
+        if(count($orders)>0){
             return response()->json([
                 'exist' => true,
-                'payments' => $payments
+                'orders' => $orders
             ]);
         }
         else{

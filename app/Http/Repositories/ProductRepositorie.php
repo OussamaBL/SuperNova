@@ -3,6 +3,8 @@
 namespace App\Http\Repositories;
 
 use App\Http\Repositories\ProductRepositorieInterface;
+use App\Models\Order;
+use App\Models\Payment;
 use App\Models\Product;
 use Illuninate\Database\Eloquent\Collection;
 
@@ -42,24 +44,8 @@ class ProductRepositorie implements ProductRepositorieInterface
     {
         return Product::with('sub_category.category')->paginate(10);
     }
-    public function popular($userId){
-        return Product::select('products.*')
-        ->selectSub(function ($query) use ($userId) {
-            $query->select('id')
-                ->from('wishlists')
-                ->whereColumn('wishlists.prod_id', 'products.id')
-                ->where('wishlists.user_id', $userId)
-                ->limit(1);
-        }, 'wishlist_id')
-        ->selectSub(function ($query) use ($userId) {
-            $query->select('id')
-                ->from('carts')
-                ->whereColumn('carts.product_id', 'products.id')
-                ->where('carts.user_id', $userId)
-                ->limit(1);
-        }, 'cart_id')
-        ->with('sub_category')
-        ->take(6)->get();
+    public function popular(){
+        return Product::with('sub_category')->orderBy('qte_order','desc')->take(6)->get();  
     }
 
     public function update($id, array $data)
@@ -119,10 +105,32 @@ class ProductRepositorie implements ProductRepositorieInterface
     }
 
     public function getProducts_filter($subCategory,$option){
-        // if($option=='filterByVente')
+        if($option=='filterByVente') return Product::where('id_sub_catg',$subCategory)->with('sub_category.category')->orderBy('qte_order','desc')->paginate(10);
         if($option=='order_name_asc') return Product::where('id_sub_catg',$subCategory)->with('sub_category.category')->orderBy('title','asc')->paginate(10);
         if($option=='order_name_desc') return Product::where('id_sub_catg',$subCategory)->with('sub_category.category')->orderBy('title','desc')->paginate(10);
         if($option=='price_asc') return Product::where('id_sub_catg',$subCategory)->with('sub_category.category')->orderBy('price','asc')->paginate(10);
         if($option=='price_desc') return Product::where('id_sub_catg',$subCategory)->with('sub_category.category')->orderBy('price','desc')->paginate(10);
     }
+
+    public function getProfitMonth(){
+        $firstDayOfMonth = date('Y-m-01 00:00:00');
+        $currentDate = date('Y-m-d H:i:s');
+        return Payment::whereBetween('created_at', [$firstDayOfMonth, $currentDate])->sum('amount');
+    }
+    public function getSales(){
+        return Payment::count();
+    }
+    public function getCostumers(){
+        return ;
+    }
+    public function getProducts(){
+        return ;
+    }
+    public function getRevenue(){
+        return ;
+    }
+    public function transactions(){
+        return ;
+    }
+    
 }

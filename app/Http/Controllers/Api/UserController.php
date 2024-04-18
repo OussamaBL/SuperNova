@@ -20,12 +20,10 @@ class UserController extends Controller
 
     protected $UserRepositorieInterface;
 
-
     public function __construct(UserRepositorieInterface $UserRepositorieInterface){
         $this->UserRepositorieInterface = $UserRepositorieInterface;
     }
     
-
     public function auth(LoginRequest $request){
         try{
             // form validation

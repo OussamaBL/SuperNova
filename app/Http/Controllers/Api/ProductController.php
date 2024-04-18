@@ -170,8 +170,8 @@ class ProductController extends Controller
             ]);
         }
     }
-    public function popular($userId){
-        $products = $this->ProductRepositorieInterface->popular($userId);
+    public function popular(){
+        $products = $this->ProductRepositorieInterface->popular();
         if (count($products)>0) {
             return response()->json([
                 'exist' => true,
@@ -209,6 +209,35 @@ class ProductController extends Controller
             return response()->json([
                 'exist' => false,
                 'message' => 'Products not found',
+            ]);
+        }
+    }
+
+    public function get_statistics(){
+        try {
+            $profit_month= $this->ProductRepositorieInterface->getProfitMonth();
+            $sales= $this->ProductRepositorieInterface->getSales();
+            $costumers= $this->ProductRepositorieInterface->getCostumers();
+            $products= $this->ProductRepositorieInterface->getProducts();
+            $revenue= $this->ProductRepositorieInterface->getRevenue();
+            $propulars = $this->ProductRepositorieInterface->popular();
+            $transactions = $this->ProductRepositorieInterface->transactions();
+            return response()->json([
+                'success'=>true,
+                'statistics'=>[
+                    'profit_month'=>$profit_month,
+                    'sales'=>$sales,
+                    'costumers'=>$costumers,
+                    'count_products'=>$products,
+                    'revenue'=>$revenue,
+                ],
+                'propulars'=>$propulars,
+                'transactions'=>$transactions,
+            ]);
+        } catch (Exception $e) {
+            return response()->json([
+                'success'=>false,
+                'message'=>$e->getMessage(),
             ]);
         }
     }

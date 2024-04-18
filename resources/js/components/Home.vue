@@ -1,16 +1,15 @@
 <template>
-
-   <!-- hero area -->
+	<!-- hero area -->
 	<div class="hero-area hero-bg">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-9 offset-lg-2 text-center">
 					<div class="hero-text">
 						<div class="hero-text-tablecell">
-							<p class="subtitle">Fresh & Organic</p>
-							<h1>Delicious Seasonal Fruits</h1>
+							<p class="subtitle">SuperNova</p>
+							<h1>E-commerce Gaming</h1>
 							<div class="hero-btns">
-								<a href="shop.html" class="boxed-btn">Fruit Collection</a>
+								<a href="shop.html" class="boxed-btn">Collection</a>
 								<a href="contact.html" class="bordered-btn">Contact Us</a>
 							</div>
 						</div>
@@ -175,7 +174,7 @@ const store = useAuthStore();
       data.data_products=[];
       data.loading = true;
       try {
-        const response = await axios.get('/api/product/popular/'+store.getID);
+        const response = await axios.get('/api/product/popular');
         if(response.data.exist){
           data.data_products=response.data.products;
         } 

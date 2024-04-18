@@ -239,7 +239,6 @@
         }
     });
 
-    // Watch for route parameter changes and call fetchData function
     watch(() => route.query.subCategory, async (newValue, oldValue) => {
         if (newValue !== oldValue) {
             data.sub_category.id = newValue;

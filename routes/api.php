@@ -34,7 +34,7 @@ Route::middleware('auth:sanctum')->group(function() {
 });
 
 // popular product
-    Route::get('product/popular/{user}', [ProductController::class, 'popular']);
+    Route::get('product/popular', [ProductController::class, 'popular']);
 
 // Update profile
     Route::put('profile/update/{user}', [UserController::class, 'update']);
@@ -90,6 +90,8 @@ Route::get('products/cart/{user}', [CartController::class, 'index']);
 Route::get('/payments/{user}', [PaymentController::class, 'get_payments']);
 Route::get('order/products/{order}', [PaymentController::class, 'get_orders']);
 
+// statistics
+Route::get('/statistics', [ProductController::class, 'get_statistics']);
 
 
 Route::post('login', [UserController::class, 'auth'])->name('login');
