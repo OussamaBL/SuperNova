@@ -32,7 +32,7 @@
                     <div class="card-header">
                       <div class="d-flex justify-content-between mb-3">
                         <h5 class="card-title mb-0">Statistics</h5>
-                        <small class="text-muted">Updated 1 month ago</small>
+                        <!-- <small class="text-muted">Updated 1 month ago</small> -->
                       </div>
                     </div>
                     <div class="card-body">
@@ -65,7 +65,7 @@
                               <i class="ti ti-shopping-cart ti-sm"></i>
                             </div>
                             <div class="card-info">
-                              <h5 class="mb-0">1.423k</h5>
+                              <h5 class="mb-0">{{ data.statistics.count_products }}</h5>
                               <small>Products</small>
                             </div>
                           </div>
@@ -89,7 +89,7 @@
 
 
                 <!-- Popular Product -->
-                <div class="col-md-6 col-xl-4 mb-4">
+                <div class="col-md-6 col-xl-6 mb-4">
                   <div class="card h-100">
                     <div class="card-header d-flex justify-content-between">
                       <div class="card-title m-0 me-2">
@@ -119,130 +119,32 @@
                 <!--/ Popular Product -->
 
                 <!-- Transactions -->
-                <div class="col-md-6 col-xl-4 mb-4">
+                <div class="col-md-6 col-xl-6 mb-4">
                   <div class="card h-100">
                     <div class="card-header d-flex justify-content-between">
                       <div class="card-title m-0 me-2">
                         <h5 class="m-0 me-2">Transactions</h5>
-                        <small class="text-muted">Total 58 Transactions done in this Month</small>
+                        <!-- <small class="text-muted">Total 58 Transactions done in this Month</small> -->
                       </div>
-                      <div class="dropdown">
-                        <button
-                          class="btn p-0"
-                          type="button"
-                          id="transactionID"
-                          data-bs-toggle="dropdown"
-                          aria-haspopup="true"
-                          aria-expanded="false">
-                          <i class="ti ti-dots-vertical ti-sm text-muted"></i>
-                        </button>
-                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="transactionID">
-                          <a class="dropdown-item" href="javascript:void(0);">Last 28 Days</a>
-                          <a class="dropdown-item" href="javascript:void(0);">Last Month</a>
-                          <a class="dropdown-item" href="javascript:void(0);">Last Year</a>
-                        </div>
-                      </div>
+                      
                     </div>
                     <div class="card-body">
                       <ul class="p-0 m-0">
-                        <li class="d-flex mb-3 pb-1 align-items-center">
-                          <div class="badge bg-label-primary me-3 rounded p-2">
-                            <i class="ti ti-wallet ti-sm"></i>
-                          </div>
-                          <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                            <div class="me-2">
-                              <h6 class="mb-0">Wallet</h6>
-                              <small class="text-muted d-block">Starbucks</small>
-                            </div>
-                            <div class="user-progress d-flex align-items-center gap-1">
-                              <h6 class="mb-0 text-danger">-$75</h6>
-                            </div>
-                          </div>
-                        </li>
-                        <li class="d-flex mb-3 pb-1 align-items-center">
+                        <li v-for="transaction in data.transactions" :key="transaction.id" class="d-flex mb-3 pb-1 align-items-center">
                           <div class="badge bg-label-success rounded me-3 p-2">
                             <i class="ti ti-browser-check ti-sm"></i>
                           </div>
                           <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
                             <div class="me-2">
-                              <h6 class="mb-0">Bank Transfer</h6>
-                              <small class="text-muted d-block">Add Money</small>
+                              <h6 class="mb-0">{{ transaction.payment_method }}</h6>
+                              <small class="text-muted d-block">{{ transaction.currency }}</small>
                             </div>
                             <div class="user-progress d-flex align-items-center gap-1">
-                              <h6 class="mb-0 text-success">+$480</h6>
+                              <h6 class="mb-0 text-success">+${{ transaction.amount }}</h6>
                             </div>
                           </div>
                         </li>
-                        <li class="d-flex mb-3 pb-1 align-items-center">
-                          <div class="badge bg-label-danger rounded me-3 p-2">
-                            <i class="ti ti-brand-paypal ti-sm"></i>
-                          </div>
-                          <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                            <div class="me-2">
-                              <h6 class="mb-0">Paypal</h6>
-                              <small class="text-muted d-block mb-1">Client Payment</small>
-                            </div>
-                            <div class="user-progress d-flex align-items-center gap-1">
-                              <h6 class="mb-0 text-success">+$268</h6>
-                            </div>
-                          </div>
-                        </li>
-                        <li class="d-flex mb-3 pb-1 align-items-center">
-                          <div class="badge bg-label-secondary me-3 rounded p-2">
-                            <i class="ti ti-credit-card ti-sm"></i>
-                          </div>
-                          <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                            <div class="me-2">
-                              <h6 class="mb-0">Master Card</h6>
-                              <small class="text-muted d-block mb-1">Ordered iPhone 13</small>
-                            </div>
-                            <div class="user-progress d-flex align-items-center gap-1">
-                              <h6 class="mb-0 text-danger">-$699</h6>
-                            </div>
-                          </div>
-                        </li>
-                        <li class="d-flex mb-3 pb-1 align-items-center">
-                          <div class="badge bg-label-info me-3 rounded p-2">
-                            <i class="ti ti-currency-dollar ti-sm"></i>
-                          </div>
-                          <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                            <div class="me-2">
-                              <h6 class="mb-0">Bank Transactions</h6>
-                              <small class="text-muted d-block mb-1">Refund</small>
-                            </div>
-                            <div class="user-progress d-flex align-items-center gap-1">
-                              <h6 class="mb-0 text-success">+$98</h6>
-                            </div>
-                          </div>
-                        </li>
-                        <li class="d-flex mb-3 pb-1 align-items-center">
-                          <div class="badge bg-label-danger me-3 rounded p-2">
-                            <i class="ti ti-brand-paypal ti-sm"></i>
-                          </div>
-                          <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                            <div class="me-2">
-                              <h6 class="mb-0">Paypal</h6>
-                              <small class="text-muted d-block mb-1">Client Payment</small>
-                            </div>
-                            <div class="user-progress d-flex align-items-center gap-1">
-                              <h6 class="mb-0 text-success">+$126</h6>
-                            </div>
-                          </div>
-                        </li>
-                        <li class="d-flex align-items-center">
-                          <div class="badge bg-label-success me-3 rounded p-2">
-                            <i class="ti ti-browser-check ti-sm"></i>
-                          </div>
-                          <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                            <div class="me-2">
-                              <h6 class="mb-0">Bank Transfer</h6>
-                              <small class="text-muted d-block mb-1">Pay Office Rent</small>
-                            </div>
-                            <div class="user-progress d-flex align-items-center gap-1">
-                              <h6 class="mb-0 text-danger">-$1290</h6>
-                            </div>
-                          </div>
-                        </li>
+                        
                       </ul>
                     </div>
                   </div>
@@ -285,7 +187,7 @@ const store = useAuthStore();
         Swal.fire({
                 icon: 'error',
                 title: 'Statistics...',
-                text: error,
+                text: response.data.message,
               });
       }
     } catch (error) {

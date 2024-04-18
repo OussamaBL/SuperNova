@@ -6,6 +6,7 @@ use App\Http\Repositories\ProductRepositorieInterface;
 use App\Models\Order;
 use App\Models\Payment;
 use App\Models\Product;
+use App\Models\User;
 use Illuninate\Database\Eloquent\Collection;
 
 class ProductRepositorie implements ProductRepositorieInterface
@@ -121,16 +122,18 @@ class ProductRepositorie implements ProductRepositorieInterface
         return Payment::count();
     }
     public function getCostumers(){
-        return ;
+        return User::whereHas('role',function($query) {
+            $query->where('name','client');
+        })->count();
     }
     public function getProducts(){
-        return ;
+        return Product::count();
     }
     public function getRevenue(){
-        return ;
+        return Payment::sum('amount');
     }
     public function transactions(){
-        return ;
+        return Payment::orderBy('created_at','desc')->take(8)->get();
     }
     
 }

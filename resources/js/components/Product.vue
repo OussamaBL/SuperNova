@@ -28,7 +28,14 @@
 				<div class="col-md-7">
 					<div class="single-product-content">
 						<h3>{{ data.product.title }}</h3>
-						<p class="single-product-pricing"><span>{{ data.product.sub_category.name}}</span> ${{ data.product.price}}</p>
+                        <span>{{ data.product.sub_category.name}}</span> 
+						<p v-if="data.product.discounted_price==0" class="single-product-pricing">
+                            ${{ data.product.price}}
+                        </p>
+                        <p v-else class="single-product-pricing">
+                                ${{ data.product.discounted_price}}
+                                <span style="text-decoration: line-through;color: orange;">${{ data.product.price}}</span>
+                        </p>
 						<p>{{ data.product.description}}</p>
 						<div class="single-product-form">
                             <a v-if="data.product.wishlist_id==null" @click="addWishlist(data.product.id,data.product.title)" href="javascript:void(0);" class="mt-2 mr-3" style="float: right;">
@@ -38,7 +45,14 @@
                                 <i class="fas fa-heart" style="color: orange;font-size: 26px;"></i>
                             </a> 
 
-							<a href="cart.html" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
+							<!-- cart -->
+                            <a v-if="data.product.cart_id==null" @click="addCart(data.product.id,data.product.title)" href="javascript:void(0);" class="cart-btn">
+                                <i class="fas fa-shopping-cart"></i> Add to Cart
+                            </a>
+                            <a v-else href="javascript:void(0);" @click="removeCart(data.product.cart_id,data.product.title)" class="cart-btn">
+                                <i class="fas fa-shopping-cart"></i> Added
+                            </a>
+
 							<p><strong>Category: </strong>{{ data.product.sub_category.category.name }}</p>
 						</div>
 						<h4>Share:</h4>
