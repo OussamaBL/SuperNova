@@ -7,10 +7,13 @@ use App\Models\Cart;
 use App\Models\Order;
 use App\Models\Payment;
 use App\Models\Product;
+use App\Models\User;
 use Exception;
 use GrahamCampbell\ResultType\Success;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
 use Stripe\Stripe;
 use Stripe\Checkout\Session;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -65,6 +68,21 @@ class PaymentController extends Controller
         
     }
 
+    public function mailer(){
+        $mail = new PHPMailer(true);
+        $mail->SMTPDebug = SMTP::DEBUG_SERVER;
+        $mail->isSMTP();
+        $mail->SMTPAuth = true;
+        $mail->Host = env('MAIL_HOST');
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Port = env('MAIL_PORT');
+        $mail->Username = env('MAIL_USERNAME');
+        $mail->Password = env('MAIL_PASSWORD');
+        $mail->isHTML(true);  
+        $mail->setFrom(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
+        return $mail;
+    }
+    
     public function success(Request $request)
     {
         // echo 'ok';
@@ -111,6 +129,19 @@ class PaymentController extends Controller
                 ]);
                 Cart::where('user_id',$user_id)->delete();
                 
+                $mail=$this->mailer();
+                $user=User::find($user_id);
+                $mail->addAddress($user->email,$user->name);
+                $mail->Subject = "Invoice Receipt Confirmation for Your Recent Payment (SuperNova)";
+                $mail->Body = '<html> <head></head>
+                    <body>
+                    <p>We are pleased to inform you that the Payment has successfully received. This email serves as a confirmation for the same. We appreciate your timely action and thank you for choosing our services. Please retain this email as a reference for future purposes.</p>
+                    <p>Best wishes</p>
+                    </body>
+                    </html>';
+
+                $mail->send();
+                    
                 DB::commit();
                 return redirect()->route('home')->with("success", 'Payment & Reservation Successfully');
                 

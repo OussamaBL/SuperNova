@@ -47,7 +47,10 @@
 									<td class="product-name">{{ wishlist.product.title }}</td>
 									<td class="product-name">{{ wishlist.product.sub_category.name }}</td>
 									<td class="product-name">{{ wishlist.product.sub_category.category.name }}</td>
-									<td class="product-price">${{ wishlist.product.price }}</td>
+									<td class="product-price">
+										<span v-if="wishlist.product.discounted_price==0">${{ wishlist.product.price }}</span> 
+										<span v-else>${{ wishlist.product.discounted_price }}</span> 
+									</td>
 									<td class="product-name">
 										<!-- cart -->
 										<a v-if="wishlist.cart_id==null" @click="addCart(wishlist.product.id,wishlist.product.title)" href="javascript:void(0);" class="cart-btn">

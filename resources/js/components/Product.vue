@@ -89,7 +89,14 @@
                             </router-link>
 						</div>
 						<h3>{{ product.title }}</h3>
-						<p class="product-price"><span>{{ product.sub_category.name}}</span> {{ product.price }}$ </p>
+                        <span>{{ product.sub_category.name}}</span>
+						<p v-if="product.discounted_price==0" class="product-price">
+                            ${{ product.price}}
+                        </p>
+                        <p v-else class="product-price">
+                                ${{ product.discounted_price}}
+                                <span style="text-decoration: line-through;color: orange;font-size: 20px;">${{ product.price}}</span>
+                        </p>
 						
                         <!-- cart -->
 						<a v-if="product.cart_id==null" @click="addCart(product.id,product.title)" href="javascript:void(0);" class="cart-btn">
@@ -115,7 +122,7 @@
 </template>
 
 <script setup>
-    import { reactive,onMounted } from "vue";
+    import { reactive,onMounted,watch } from "vue";
     import Swal from 'sweetalert2';
     import { useRoute } from 'vue-router';
     import { useAuthStore } from '@/stores/useAuthStore.js';
@@ -211,13 +218,19 @@
         removeProduct_Cart(cart_id,title,store);
     }
 
-onMounted(() => {
-    data.product.id=route.query.product_id;
-});
+    watch(() => route.query.product_id, async (newValue, oldValue) => {
+        if (newValue !== oldValue) {
+            data.product.id = newValue;
+            await fetch_product();
+            fetch_related_products();
+        }
+    });
+
 onMounted( async()=>{
+    data.product.id=route.query.product_id;
    await fetch_product();
    fetch_related_products();
 });
-// onMounted();
 </script>
+
 <style scoped></style>

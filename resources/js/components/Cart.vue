@@ -49,7 +49,10 @@
 									<td class="product-name">{{ cart.product.title }}</td>
 									<td class="product-name">{{ cart.product.sub_category.name }}</td>
 									<td class="product-name">{{ cart.product.sub_category.category.name }}</td>
-									<td class="product-price">${{ cart.product.price }}</td>
+									<td class="product-price">
+										<span v-if="cart.product.discounted_price==0">${{ cart.product.price }}</span> 
+										<span v-else>${{ cart.product.discounted_price }}</span> 
+									</td>
 									<td class="product-quantity">
 										<input type="number" min="1" :max="cart.product.qte-cart.product.qte_order" v-model="cart.quantity" @input="calculateTotal(cart)" style="text-align: center;">
 									</td>
@@ -172,13 +175,12 @@
         try {
             const response = await axios.get('/api/products/cart/'+store.getID);
             if(response.data.exist){
-				// data.data_carts=response.data.carts;
 				data.data_carts=response.data.carts.map(cart => ({
                     ...cart,
-                    quantity: 1, // Default quantity
-                    total: cart.product.price, // Initial total
+                    quantity: 1,
+                    total: cart.product.discounted_price !== 0 ? cart.product.discounted_price : cart.product.price,
                 }));
-				console.log(data.data_carts);
+				// console.log(data.data_carts);
 			}
             else {
                 Swal.fire({
@@ -200,7 +202,10 @@
     }
 
 	const calculateTotal = (cart) => {
-        cart.total = cart.quantity * cart.product.price;
+		var price=0;
+		if(cart.product.discounted_price!=0) price= cart.product.discounted_price;
+		else price= cart.product.price;
+        cart.total = cart.quantity * price;
     };
 
 
