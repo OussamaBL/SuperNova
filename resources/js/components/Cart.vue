@@ -78,9 +78,9 @@
 							<div class="coupon-section">
 								<h3>Apply Coupon</h3>
 								<div class="coupon-form-wrap">
-									<form action="index.html">
-										<p><input type="text" placeholder="Coupon"></p>
-										<p><input type="submit" value="Apply"></p>
+									<form onsubmit="return false">
+										<p><input type="text" placeholder="Coupon code" v-model="data.coupon"></p>
+										<p><input type="submit" value="Apply" @click="verifyCoupon"></p>
 									</form>
 								</div>
 							</div>
@@ -105,11 +105,11 @@
 										</tr>
 										<tr class="total-data">
 											<td><strong>Coupon: </strong></td>
-											<td style="font-weight: bold;font-size: larger;">0$</td>
+											<td style="font-weight: bold;font-size: larger;">{{data.percentage_coupon}}</td>
 										</tr>
 										<tr class="total-data">
 											<td><strong>Total: </strong></td>
-											<td style="font-weight: bold;font-size: larger;">$545</td>
+											<td style="font-weight: bold;font-size: larger;">${{total}}</td>
 										</tr>
 									</tbody>
 								</table>
@@ -165,8 +165,10 @@
 
     const data = reactive({
 		data_carts:[],
+		coupon:'',
 		loading:true,
 		total:0,
+		percentage_coupon:0,
 	});
 
 	const fetch_products = async () =>{
@@ -208,11 +210,13 @@
         cart.total = cart.quantity * price;
     };
 
-
 	const subtotal = computed(() => {
 		return data.data_carts.reduce((total, cart) => total + cart.total, 0);
 	});
 
+	const total = computed(()=>{
+		return (subtotal*data.percentage_coupon)/100;
+	});
 	const removeCart = async (cart_id,title) =>{
         await removeProduct_Cart(cart_id,title,store);
 		fetch_products();
@@ -227,11 +231,8 @@
 	const csrfToken = ref(document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
 	
 	const handleCheckout = async () => {
-
 		try {
-			
 			document.getElementById('form_checkout').submit();
-			
 		} catch (error) {
 			Swal.fire({
                     icon: 'error',
@@ -241,6 +242,28 @@
 		}
 	};
 	
+	const verifyCoupon = async () =>{
+		try {
+			const response= await axios.post('api/coupon/verify',data.coupon);
+			if(response.data.success){
+				alert(response.data.percentage);
+				data.percentage_coupon=response.data.percentage;
+			}
+			else{
+				Swal.fire({
+                    icon: 'error',
+                    title: 'Coupon...',
+                    text: response.data.message,
+                });
+			}
+		} catch (error) {
+			Swal.fire({
+                    icon: 'error',
+                    title: 'Coupon...',
+                    text: error,
+                });
+		}
+	}
 
 </script>
 

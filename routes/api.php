@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\SocialiteController;
 use App\Http\Controllers\Api\SubCategoryController;
 use App\Http\Controllers\Api\ProductController;
+use App\Http\Controllers\Api\CouponController;
 use Laravel\Socialite\Facades\Socialite;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -93,6 +94,12 @@ Route::get('order/products/{order}', [PaymentController::class, 'get_orders']);
 // statistics
 Route::get('/statistics', [ProductController::class, 'get_statistics']);
 
+// coupons
+Route::get('coupon/index', [CouponController::class, 'index']);
+Route::post('coupon/store', [CouponController::class, 'store']);
+Route::delete('coupon/destroy/{coupon}', [CouponController::class, 'destroy']);
+Route::put('coupon/update/{coupon}', [CouponController::class, 'update']);
+Route::post('coupon/verify', [CouponController::class, 'verify']);
 
 Route::post('login', [UserController::class, 'auth'])->name('login');
 Route::post('register', [UserController::class, 'register'])->name('register');

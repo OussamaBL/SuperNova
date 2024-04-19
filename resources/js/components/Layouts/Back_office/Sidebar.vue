@@ -66,6 +66,12 @@
                 <div data-i18n="Products">Products</div>
               </router-link>
             </li>
+            <li class="menu-item">
+              <router-link to="/Coupons" class="menu-link">
+                <i class="menu-icon tf-icons ti ti-smart-home"></i>
+                <div data-i18n="Coupons">Coupons</div>
+              </router-link>
+            </li>
            
             <!-- e-commerce-app menu start -->
             <!-- <li class="menu-item active open">
