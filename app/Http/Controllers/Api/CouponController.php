@@ -97,7 +97,7 @@ class CouponController extends Controller
     
     public function verify(Request $request){
         try {
-            $coupon=Coupon::where('code',$request->coupon)->firstOrFail();
+            $coupon=Coupon::where('code',$request->code)->firstOrFail();
             if($coupon){
                 if($coupon->count_use>0){
                     if ($coupon->expire < now()) {
@@ -107,9 +107,12 @@ class CouponController extends Controller
                         ]);
                     }
                     else{
+                        $coupon->count_use--;
+                        $coupon->save();
                         return response()->json([
                             'success' => true,
                             'percentage' => $coupon->percentage,
+                            'message' => 'Coupon validate',
                         ]);
                     }
                 }

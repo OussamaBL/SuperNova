@@ -67,7 +67,7 @@
 					<input type="hidden" name="_token" :value="csrfToken">
 					<input type="hidden" name="products" v-model="productDetails">
 					<input type="hidden" name="user_id" v-model="store.getID">
-					<input type="hidden" name="subtotal" v-model="subtotal">
+					<input type="hidden" name="subtotal" v-model="total">
 					<!-- <button type="submit" id="checkoutButton">Checkout</button> -->
 				</form>
 
@@ -105,7 +105,7 @@
 										</tr>
 										<tr class="total-data">
 											<td><strong>Coupon: </strong></td>
-											<td style="font-weight: bold;font-size: larger;">{{data.percentage_coupon}}</td>
+											<td style="font-weight: bold;font-size: larger;">{{data.percentage_coupon}}%</td>
 										</tr>
 										<tr class="total-data">
 											<td><strong>Total: </strong></td>
@@ -214,9 +214,10 @@
 		return data.data_carts.reduce((total, cart) => total + cart.total, 0);
 	});
 
-	const total = computed(()=>{
-		return (subtotal*data.percentage_coupon)/100;
+	const total = computed(() => {
+		return subtotal.value - ((subtotal.value * data.percentage_coupon) / 100);
 	});
+	
 	const removeCart = async (cart_id,title) =>{
         await removeProduct_Cart(cart_id,title,store);
 		fetch_products();
@@ -244,10 +245,14 @@
 	
 	const verifyCoupon = async () =>{
 		try {
-			const response= await axios.post('api/coupon/verify',data.coupon);
+			const response= await axios.post('/api/coupon/verify',{ code : data.coupon});
 			if(response.data.success){
-				alert(response.data.percentage);
 				data.percentage_coupon=response.data.percentage;
+				Swal.fire({
+					icon: 'success',
+					title: 'Coupon',
+					text: response.data.message,
+				});
 			}
 			else{
 				Swal.fire({

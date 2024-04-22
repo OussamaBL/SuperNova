@@ -68,7 +68,7 @@
                       <tr v-for="coupon in data.data_coupons" :key="coupon.id">
                         <td>{{ coupon.id }}</td>
                         <td>{{ coupon.code }}</td>
-                        <td>{{ coupon.percentage }}</td>
+                        <td>{{ coupon.percentage }}%</td>
                         <td>{{ coupon.expire }}</td>
                         <td>{{ coupon.count_use }}</td>
                         <td>

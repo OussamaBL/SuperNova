@@ -135,7 +135,7 @@ class PaymentController extends Controller
                 $mail->Subject = "Invoice Receipt Confirmation for Your Recent Payment (SuperNova)";
                 $mail->Body = '<html> <head></head>
                     <body>
-                    <p>We are pleased to inform you that the Payment has successfully received. This email serves as a confirmation for the same. We appreciate your timely action and thank you for choosing our services. Please retain this email as a reference for future purposes.</p>
+                    <p>We are pleased to inform you that the Payment ('.$subtotal.') has successfully received. This email serves as a confirmation for the same. We appreciate your timely action and thank you for choosing our services. Please retain this email as a reference for future purposes.</p>
                     <p>Best wishes</p>
                     </body>
                     </html>';
@@ -178,6 +178,21 @@ class PaymentController extends Controller
             return response()->json([
                 'exist' => true,
                 'orders' => $orders
+            ]);
+        }
+        else{
+            return response()->json([
+                'exist' => false,
+                'message' => 'Payments not found',
+            ]);
+        }
+    }
+    public function getAll_payments(){
+        $payments=Payment::with('user')->orderBy('id','desc')->paginate(10);
+        if(count($payments)>0){
+            return response()->json([
+                'exist' => true,
+                'payments' => $payments
             ]);
         }
         else{

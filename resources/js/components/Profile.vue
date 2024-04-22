@@ -110,7 +110,7 @@
 				<div class="ag-format-container">
 					<div class="ag-courses_box">
 						<div v-for="payment in data.data_payments" :key="payment.id" class="ag-courses_item">
-							<router-link :to="{ path: '/Order', query: { num_order: payment.num_order } }" class="ag-courses-item_link">
+							<router-link :to="{ path: '/Order', query: { num_order: payment.num_order,amount:payment.amount } }" class="ag-courses-item_link">
 								<div class="ag-courses-item_bg"></div>
 								<div class="ag-courses-item_title">
 									<p style="font-size: 17px;width: 286px;overflow: hidden;">{{ payment.num_order }}</p>

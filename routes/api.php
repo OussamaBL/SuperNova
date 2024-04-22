@@ -89,6 +89,7 @@ Route::get('products/cart/{user}', [CartController::class, 'index']);
 
 // payment
 Route::get('/payments/{user}', [PaymentController::class, 'get_payments']);
+Route::get('payments', [PaymentController::class, 'getAll_payments']);
 Route::get('order/products/{order}', [PaymentController::class, 'get_orders']);
 
 // statistics

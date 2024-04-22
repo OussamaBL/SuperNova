@@ -54,8 +54,8 @@
 								<table class="total-table">
 									<thead class="total-table-head">
 										<tr class="table-total-row" style="background-color: rgb(5, 25, 34);color: white;">
-											<th>Sub total</th>
-											<th>total</th>
+											<th>Total</th>
+											<th>${{ data.amount }}</th>
 										</tr>
 									</thead>
 								</table>
@@ -108,6 +108,7 @@
 		data_orders:[],
 		loading:true,
 		num_order:'',
+		amount:'',
 	});
 
 	const fetch_products = async () =>{
@@ -140,6 +141,7 @@
 
 	onMounted(()=>{
         data.num_order=route.query.num_order;
+        data.amount=route.query.amount;
         fetch_products();
     });
        

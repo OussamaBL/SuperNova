@@ -10,6 +10,9 @@ import Sub_categories from "@/components/Dashboard/List_sub_categories.vue";
 import Products from "@/components/Dashboard/List_Products.vue";
 import Add_Edit_product from "@/components/Dashboard/Add_Edit_product.vue";
 import Coupons from "@/components/Dashboard/Coupons.vue";
+import Back_Payments from "@/components/Dashboard/Back_Payments.vue";
+import Back_orders from "@/components/Dashboard/Back_orders.vue";
+
 import Product from "@/components/Product.vue";
 import Profile from "@/components/Profile.vue";
 import List_products from "@/components/List_products.vue";
@@ -145,6 +148,21 @@ const router = createRouter({
             // beforeEnter: [checkIfLogged],
            
         },
+        {
+            path: "/Back/payments",
+            name: "Back_Payments",
+            component: Back_Payments,
+            // beforeEnter: [checkIfLogged],
+           
+        },
+        {
+            path: "/Back/orders",
+            name: "Back_orders",
+            component: Back_orders,
+            // beforeEnter: [checkIfLogged],
+           
+        },
+        
         
         
     ],
