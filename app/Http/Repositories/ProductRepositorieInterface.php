@@ -9,7 +9,7 @@ interface ProductRepositorieInterface
     public function getInfoProduct($id,$userId);
 
     public function getAll();
-    public function popular();
+    public function popular($userid);
     public function getProfitMonth();
     public function getSales();
     public function getCostumers();
@@ -19,7 +19,7 @@ interface ProductRepositorieInterface
     
     public function getProducts_SubCategory($subCategory,$userId);
     public function getRelated_Products($subCategory,$product,$userid);
-    public function getProducts_filter($subCategory,$option);
+    public function getProducts_filter($subCategory,$option,$userid);
 
     public function create(array $data);
 

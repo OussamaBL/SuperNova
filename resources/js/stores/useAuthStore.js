@@ -12,6 +12,7 @@ export const useAuthStore = defineStore('auth', {
         getUser: (state) => state.user,
         getName: (state) => state.user.data.name,
         getID: (state) => state.user.data.id,
+        getRole: (state) => state.user.role,
         getCount_wishlist: (state) => state.count_wishlist,
         getCount_cart: (state) => state.count_cart,
         getErrors: (state) => state.errors,

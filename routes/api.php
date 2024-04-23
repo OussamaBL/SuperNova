@@ -30,15 +30,30 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::get('logout', [UserController::class, 'logout']);
 
 
-    
-   
 });
 
 // popular product
-    Route::get('product/popular', [ProductController::class, 'popular']);
+    Route::get('product/popular/{userid}', [ProductController::class, 'popular']);
+
+
+
+// sub categories of category
+    Route::get('category/sub_categories/{category}', [SubCategoryController::class, 'getSubCategories']);
+
+// get product of sub-cateogory
+Route::get('products/subCategory/{subCategory}/{userid}', [ProductController::class, 'getProducts_SubCategory']);
+
+// get the categories with sub-categories
+Route::get('category/subcategories', [CategoryController::class, 'getCategory_Subcategories']);
+
+// get products filter by selected option
+Route::get('products/filter/{subCategory}/{option}/{userid}', [ProductController::class, 'getProducts_filter']);
+
+// get related Products
+Route::get('products/related/{subCategory}/{product}/{userid}', [ProductController::class, 'getRelated_Products']);
 
 // Update profile
-    Route::put('profile/update/{user}', [UserController::class, 'update']);
+Route::put('profile/update/{user}', [UserController::class, 'update']);
 
 // categories
     Route::get('category/index', [CategoryController::class, 'index']);
@@ -59,48 +74,35 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::get('product/show/{product}/{userid}', [ProductController::class, 'show']);
     Route::delete('product/destroy/{product}', [ProductController::class, 'destroy']);
     Route::post('product/update/{product}', [ProductController::class, 'update']);
-
-// sub categories of category
-    Route::get('category/sub_categories/{category}', [SubCategoryController::class, 'getSubCategories']);
-
-// get product of sub-cateogory
-Route::get('products/subCategory/{subCategory}/{userid}', [ProductController::class, 'getProducts_SubCategory']);
-
-// get the categories with sub-categories
-Route::get('category/subcategories', [CategoryController::class, 'getCategory_Subcategories']);
-
-// get products filter by selected option
-Route::get('products/filter/{subCategory}/{option}', [ProductController::class, 'getProducts_filter']);
-
-// get related Products
-Route::get('products/related/{subCategory}/{product}/{userid}', [ProductController::class, 'getRelated_Products']);
-
+    
 // Wishlist
-Route::get('wishlist/count/{user}', [WishlistController::class, 'count']);
-Route::get('products/wishlist/{user}', [WishlistController::class, 'index']);
-Route::delete('products/wishlist/destroy/{wishlist}', [WishlistController::class, 'destroy']);
-Route::post('products/wishlist/store', [WishlistController::class, 'store']);
+    Route::get('wishlist/count/{user}', [WishlistController::class, 'count']);
+    Route::get('products/wishlist/{user}', [WishlistController::class, 'index']);
+    Route::delete('products/wishlist/destroy/{wishlist}', [WishlistController::class, 'destroy']);
+    Route::post('products/wishlist/store', [WishlistController::class, 'store']);
 
-// Cart
-Route::post('products/cart/store', [CartController::class, 'store']);
-Route::delete('products/cart/destroy/{cart}', [CartController::class, 'destroy']);
-Route::get('cart/count/{user}', [CartController::class, 'count']);
-Route::get('products/cart/{user}', [CartController::class, 'index']); 
+    // Cart
+    Route::post('products/cart/store', [CartController::class, 'store']);
+    Route::delete('products/cart/destroy/{cart}', [CartController::class, 'destroy']);
+    Route::get('cart/count/{user}', [CartController::class, 'count']);
+    Route::get('products/cart/{user}', [CartController::class, 'index']); 
 
-// payment
-Route::get('/payments/{user}', [PaymentController::class, 'get_payments']);
-Route::get('payments', [PaymentController::class, 'getAll_payments']);
-Route::get('order/products/{order}', [PaymentController::class, 'get_orders']);
+    // payment
+    Route::get('/payments/{user}', [PaymentController::class, 'get_payments']);
+    Route::get('payments', [PaymentController::class, 'getAll_payments']);
+    Route::get('order/products/{order}', [PaymentController::class, 'get_orders']);
 
-// statistics
-Route::get('/statistics', [ProductController::class, 'get_statistics']);
+    // statistics
+    Route::get('/statistics', [ProductController::class, 'get_statistics']);
 
-// coupons
-Route::get('coupon/index', [CouponController::class, 'index']);
-Route::post('coupon/store', [CouponController::class, 'store']);
-Route::delete('coupon/destroy/{coupon}', [CouponController::class, 'destroy']);
-Route::put('coupon/update/{coupon}', [CouponController::class, 'update']);
-Route::post('coupon/verify', [CouponController::class, 'verify']);
+    // coupons
+    Route::get('coupon/index', [CouponController::class, 'index']);
+    Route::post('coupon/store', [CouponController::class, 'store']);
+    Route::delete('coupon/destroy/{coupon}', [CouponController::class, 'destroy']);
+    Route::put('coupon/update/{coupon}', [CouponController::class, 'update']);
+    Route::post('coupon/verify', [CouponController::class, 'verify']);
+
+
 
 Route::post('login', [UserController::class, 'auth'])->name('login');
 Route::post('register', [UserController::class, 'register'])->name('register');

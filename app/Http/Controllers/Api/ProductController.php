@@ -170,8 +170,8 @@ class ProductController extends Controller
             ]);
         }
     }
-    public function popular(){
-        $products = $this->ProductRepositorieInterface->popular();
+    public function popular($userid){
+        $products = $this->ProductRepositorieInterface->popular($userid);
         if (count($products)>0) {
             return response()->json([
                 'exist' => true,
@@ -198,8 +198,8 @@ class ProductController extends Controller
             ]);
         }
     }
-    public function getProducts_filter($subCategory,$option){
-        $products = $this->ProductRepositorieInterface->getProducts_filter($subCategory,$option);
+    public function getProducts_filter($subCategory,$option,$userid){
+        $products = $this->ProductRepositorieInterface->getProducts_filter($subCategory,$option,$userid);
         if (count($products)>0) {
             return response()->json([
                 'exist' => true,

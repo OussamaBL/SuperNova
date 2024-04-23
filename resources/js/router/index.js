@@ -25,14 +25,19 @@ import { useAuthStore } from '@/stores/useAuthStore.js';
 
     function checkIfLogged() {
         const store = useAuthStore();
-        if (!store.getUser) return '/login';
-        if(store.getUser.role=="admin") return true;
-        if(store.getUser.role=="client") return false;
+        if (!store.getUser) return false;
+        else return true;
+        // if(store.getUser.role=="admin") return true;
+        // if(store.getUser.role=="client") return false;
     }
 
-    function checkIfNotLogged() {
+    function checkIfAdminLogged() {
         const store = useAuthStore();
-        if (store.getUser) return '/';
+        if (store.getUser){
+            if(store.getRole=='admin') return true;
+            else false; 
+        }
+        else return false;
     }
 
 
@@ -68,35 +73,35 @@ const router = createRouter({
             path: "/dashboard",
             name: "dashboard",
             component: Dashboard,
-            // beforeEnter: [checkIfLogged],
+            beforeEnter: [checkIfAdminLogged],
            
         },
         {
             path: "/categories",
             name: "categories",
             component: Categories,
-            // beforeEnter: [checkIfLogged],
+            beforeEnter: [checkIfAdminLogged],
            
         },
         {
             path: "/sub_categories",
             name: "sub_categories",
             component: Sub_categories,
-            // beforeEnter: [checkIfLogged],
+            beforeEnter: [checkIfAdminLogged],
            
         },
         {
             path: "/products",
             name: "products",
             component: Products,
-            // beforeEnter: [checkIfLogged],
+            beforeEnter: [checkIfAdminLogged],
            
         },
         {
             path: "/cu_product",
             name: "cu_product",
             component: Add_Edit_product,
-            // beforeEnter: [checkIfLogged],
+            beforeEnter: [checkIfAdminLogged],
            
         },
         {
@@ -110,7 +115,7 @@ const router = createRouter({
             path: "/Profile",
             name: "Profile",
             component: Profile,
-            // beforeEnter: [checkIfLogged],
+            beforeEnter: [checkIfLogged],
            
         },
         {
@@ -124,42 +129,42 @@ const router = createRouter({
             path: "/Wishlist",
             name: "Wishlist",
             component: Wishlist,
-            // beforeEnter: [checkIfLogged],
+            beforeEnter: [checkIfLogged],
            
         },
         {
             path: "/Cart",
             name: "Cart",
             component: Cart,
-            // beforeEnter: [checkIfLogged],
+            beforeEnter: [checkIfLogged],
            
         },
         {
             path: "/Order",
             name: "Order",
             component: Order,
-            // beforeEnter: [checkIfLogged],
+            beforeEnter: [checkIfLogged],
            
         },
         {
             path: "/Coupons",
             name: "Coupons",
             component: Coupons,
-            // beforeEnter: [checkIfLogged],
+            beforeEnter: [checkIfAdminLogged],
            
         },
         {
             path: "/Back/payments",
             name: "Back_Payments",
             component: Back_Payments,
-            // beforeEnter: [checkIfLogged],
+            beforeEnter: [checkIfAdminLogged],
            
         },
         {
             path: "/Back/orders",
             name: "Back_orders",
             component: Back_orders,
-            // beforeEnter: [checkIfLogged],
+            beforeEnter: [checkIfAdminLogged],
            
         },
         

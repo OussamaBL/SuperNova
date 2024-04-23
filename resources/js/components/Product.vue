@@ -125,6 +125,7 @@
     import { reactive,onMounted,watch } from "vue";
     import Swal from 'sweetalert2';
     import { useRoute } from 'vue-router';
+    import router from '@/router';
     import { useAuthStore } from '@/stores/useAuthStore.js';
     import { addProduct_Wishlist, removeProduct_Wishlist } from '../files_script/wishlistFunctions.js';
     import { addProduct_Cart, removeProduct_Cart } from '../files_script/cartFunctions.js';
@@ -160,7 +161,12 @@
 
     const fetch_product = async () =>{
         try {
-            const response = await axios.get('/api/product/show/'+data.product.id+'/'+store.getID);
+            if(!store.getUser){
+                var response = await axios.get('/api/product/show/'+data.product.id+'/'+null);
+            }
+            else{
+                var response = await axios.get('/api/product/show/'+data.product.id+'/'+store.getID);
+            } 
             if(response.data.exist){
                 data.product=response.data.product;
             }
@@ -184,7 +190,12 @@
     const fetch_related_products = async () =>{
         data.data_products=[];
         try {
-            const response = await axios.get('/api/products/related/'+data.product.sub_category.id+'/'+data.product.id+'/'+store.getID);
+            if(!store.getUser){
+                var response = await axios.get('/api/products/related/'+data.product.sub_category.id+'/'+data.product.id+'/'+null);
+            }
+            else{
+                var response = await axios.get('/api/products/related/'+data.product.sub_category.id+'/'+data.product.id+'/'+store.getID);
+            } 
             if(response.data.exist){
                 data.data_products=response.data.products;
             }
@@ -205,16 +216,52 @@
     }
 
     const addWishlist = async (product_id,title) =>{
+        if(!store.getUser) {
+			router.push('/login');
+			Swal.fire({
+                icon: 'error',
+                title: 'User...',
+                text: 'You need to authenticate !',
+              });
+		}
+		else
         addProduct_Wishlist(product_id,title,store);
     }
     const removeWishlist = async (wishlist_id,title) =>{
+        if(!store.getUser) {
+			router.push('/login');
+			Swal.fire({
+                icon: 'error',
+                title: 'User...',
+                text: 'You need to authenticate !',
+              });
+		}
+		else
         removeProduct_Wishlist(wishlist_id,title,store);
     }
 
     const addCart = async (product_id,title) =>{
+        if(!store.getUser) {
+			router.push('/login');
+			Swal.fire({
+                icon: 'error',
+                title: 'User...',
+                text: 'You need to authenticate !',
+              });
+		}
+		else
         addProduct_Cart(product_id,title,store);
     }
     const removeCart = async (cart_id,title) =>{
+        if(!store.getUser) {
+			router.push('/login');
+			Swal.fire({
+                icon: 'error',
+                title: 'User...',
+                text: 'You need to authenticate !',
+              });
+		}
+		else
         removeProduct_Cart(cart_id,title,store);
     }
 

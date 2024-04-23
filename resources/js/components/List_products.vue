@@ -120,6 +120,7 @@
 <script setup>
     import { reactive,onMounted,watch } from "vue";
     import Swal from 'sweetalert2';
+    import router from '@/router';
     import { useRoute } from 'vue-router';
     import { Bootstrap5Pagination } from 'laravel-vue-pagination';
     import { useAuthStore } from '@/stores/useAuthStore.js';
@@ -171,9 +172,15 @@
         data.data_products=[];
         data.loading = true;
         try {
-            const response = await axios.get('/api/products/subCategory/'+data.sub_category.id+'/'+store.getID+' ?page='+page);
+            if(!store.getUser){
+                var response = await axios.get('/api/products/subCategory/'+data.sub_category.id+'/'+null+' ?page='+page);
+            }
+            else{
+                var response = await axios.get('/api/products/subCategory/'+data.sub_category.id+'/'+store.getID+' ?page='+page);
+            } 
             if(response.data.exist){
                 data.data_products=response.data.products;
+                // alert(response.data.message);
             }
                 
             else {
@@ -200,7 +207,13 @@
         data.data_products=[];
         data.loading = true;
         try {
-            const response = await axios.get('/api/products/filter/'+data.sub_category.id+'/'+selectedValue+'?page='+page);
+            if(!store.getUser){
+                var response = await axios.get('/api/products/filter/'+data.sub_category.id+'/'+selectedValue+'/'+null+'page='+page);
+            }
+            else{
+                var response = await axios.get('/api/products/filter/'+data.sub_category.id+'/'+selectedValue+'/'+store.getID+' ?page='+page);
+            } 
+            
             if(response.data.exist)
                 data.data_products=response.data.products;
             else {
@@ -224,16 +237,51 @@
     };
 
     const addWishlist = async (product_id,title) =>{
-        addProduct_Wishlist(product_id,title,store);
+        if(!store.getUser) {
+			router.push('/login');
+			Swal.fire({
+                icon: 'error',
+                title: 'User...',
+                text: 'You need to authenticate !',
+              });
+		}
+		else addProduct_Wishlist(product_id,title,store);
     }
     const removeWishlist = async (wishlist_id,title) =>{
+        if(!store.getUser) {
+			router.push('/login');
+			Swal.fire({
+                icon: 'error',
+                title: 'User...',
+                text: 'You need to authenticate !',
+              });
+		}
+		else
         removeProduct_Wishlist(wishlist_id,title,store);
     }
     
     const addCart = async (product_id,title) =>{
+        if(!store.getUser) {
+			router.push('/login');
+			Swal.fire({
+                icon: 'error',
+                title: 'User...',
+                text: 'You need to authenticate !',
+              });
+		}
+		else
         addProduct_Cart(product_id,title,store);
     }
     const removeCart = async (cart_id,title) =>{
+        if(!store.getUser) {
+			router.push('/login');
+			Swal.fire({
+                icon: 'error',
+                title: 'User...',
+                text: 'You need to authenticate !',
+              });
+		}
+		else
         removeProduct_Cart(cart_id,title,store);
     }
 

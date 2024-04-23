@@ -18,7 +18,7 @@ Route::get('/', function () {
     return view('front_office');
 })->name('home');
 
-Route::get('/dashboard',function(){
+Route::get('/dashboard',function() {
     return view('back_office');
 });
 

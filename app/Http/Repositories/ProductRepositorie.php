@@ -45,8 +45,23 @@ class ProductRepositorie implements ProductRepositorieInterface
     {
         return Product::with('sub_category.category')->paginate(10);
     }
-    public function popular(){
-        return Product::with('sub_category')->orderBy('qte_order','desc')->take(6)->get();  
+    public function popular($userId){
+        return Product::select('products.*')
+        ->selectSub(function ($query) use ($userId) {
+            $query->select('id')
+            ->from('wishlists')
+            ->whereColumn('wishlists.prod_id', 'products.id')
+            ->where('wishlists.user_id', $userId)
+            ->limit(1);
+        }, 'wishlist_id')
+        ->selectSub(function ($query) use ($userId) {
+            $query->select('id')
+            ->from('carts')
+            ->whereColumn('carts.product_id', 'products.id')
+            ->where('carts.user_id', $userId)
+            ->limit(1);
+        }, 'cart_id')
+        ->with('sub_category')->orderBy('qte_order','desc')->take(6)->get();  
     }
 
     public function update($id, array $data)
@@ -62,27 +77,7 @@ class ProductRepositorie implements ProductRepositorieInterface
         $product->delete();
     }
     
-    public function getProducts_SubCategory($subCategory,$userId){
-        return Product::select('products.*')
-        ->selectSub(function ($query) use ($userId) {
-            $query->select('id')
-                ->from('wishlists')
-                ->whereColumn('wishlists.prod_id', 'products.id')
-                ->where('wishlists.user_id', $userId)
-                ->limit(1);
-        }, 'wishlist_id')
-        ->selectSub(function ($query) use ($userId) {
-            $query->select('id')
-                ->from('carts')
-                ->whereColumn('carts.product_id', 'products.id')
-                ->where('carts.user_id', $userId)
-                ->limit(1);
-        }, 'cart_id')
-        ->where('id_sub_catg', $subCategory)
-        ->with('sub_category.category')
-        ->paginate(10);
-    }
-
+    
     public function getRelated_Products($subCategory,$product,$userId){
         return Product::select('products.*')
         ->selectSub(function ($query) use ($userId) {
@@ -105,12 +100,68 @@ class ProductRepositorie implements ProductRepositorieInterface
         ->take(6)->get();
     }
 
-    public function getProducts_filter($subCategory,$option){
-        if($option=='filterByVente') return Product::where('id_sub_catg',$subCategory)->with('sub_category.category')->orderBy('qte_order','desc')->paginate(10);
-        if($option=='order_name_asc') return Product::where('id_sub_catg',$subCategory)->with('sub_category.category')->orderBy('title','asc')->paginate(10);
-        if($option=='order_name_desc') return Product::where('id_sub_catg',$subCategory)->with('sub_category.category')->orderBy('title','desc')->paginate(10);
-        if($option=='price_asc') return Product::where('id_sub_catg',$subCategory)->with('sub_category.category')->orderBy('price','asc')->paginate(10);
-        if($option=='price_desc') return Product::where('id_sub_catg',$subCategory)->with('sub_category.category')->orderBy('price','desc')->paginate(10);
+    public function getProducts_SubCategory($subCategory,$userId){
+        return Product::select('products.*')
+        ->selectSub(function ($query) use ($userId) {
+            $query->select('id')
+                ->from('wishlists')
+                ->whereColumn('wishlists.prod_id', 'products.id')
+                ->where('wishlists.user_id', $userId)
+                ->limit(1);
+        }, 'wishlist_id')
+        ->selectSub(function ($query) use ($userId) {
+            $query->select('id')
+                ->from('carts')
+                ->whereColumn('carts.product_id', 'products.id')
+                ->where('carts.user_id', $userId)
+                ->limit(1);
+        }, 'cart_id')
+        ->where('id_sub_catg', $subCategory)
+        ->with('sub_category.category')
+        ->paginate(10);
+    }
+
+    public function getProducts_filter($subCategory,$option,$userid){
+        if($option=='filterByVente'){
+            $column='qte_order';
+            $order='desc';
+        }
+        if($option=='order_name_asc'){
+            $column='title';
+            $order='asc';
+        }
+        if($option=='order_name_desc'){
+            $column='title';
+            $order='desc';
+        }
+        if($option=='price_asc'){
+            $column='price';
+            $order='asc';
+        }
+        if($option=='price_desc'){
+            $column='price';
+            $order='desc';
+        }
+        return 
+        Product::select('products.*')
+            ->selectSub(function ($query) use ($userid) {
+                $query->select('id')
+                ->from('wishlists')
+                ->whereColumn('wishlists.prod_id', 'products.id')
+                ->where('wishlists.user_id', $userid)
+                ->limit(1);
+            }, 'wishlist_id')
+            ->selectSub(function ($query) use ($userid) {
+                $query->select('id')
+                ->from('carts')
+                ->whereColumn('carts.product_id', 'products.id')
+                ->where('carts.user_id', $userid)
+                ->limit(1);
+            }, 'cart_id')
+        ->where('id_sub_catg', $subCategory)
+        ->with('sub_category.category')
+        ->orderBy($column,$order)
+        ->paginate(10);
     }
 
     public function getProfitMonth(){

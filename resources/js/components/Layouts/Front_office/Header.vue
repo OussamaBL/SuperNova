@@ -184,6 +184,7 @@
 		try {
 			const response = await axios.get('/api/wishlist/count/'+store.getID);
 			if(response.data.success){
+				
 				store.store_count_wishlist(response.data.count);
 			} 
 			else {
