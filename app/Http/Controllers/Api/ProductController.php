@@ -220,7 +220,7 @@ class ProductController extends Controller
             $costumers= $this->ProductRepositorieInterface->getCostumers();
             $products= $this->ProductRepositorieInterface->getProducts();
             $revenue= $this->ProductRepositorieInterface->getRevenue();
-            $propulars = $this->ProductRepositorieInterface->popular();
+            $propulars = $this->ProductRepositorieInterface->popular(null);
             $transactions = $this->ProductRepositorieInterface->transactions();
             return response()->json([
                 'success'=>true,

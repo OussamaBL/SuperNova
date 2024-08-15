@@ -501,16 +501,16 @@
 
     const handleFileChange = (event) => {
       data.image_action="upload";
-  const file = event.target.files[0];
-  if (file) {
-    data.product.image = file;
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      data.pro_image = e.target.result;
+      const file = event.target.files[0];
+      if (file) {
+        data.product.image = file;
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          data.pro_image = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
     };
-    reader.readAsDataURL(file);
-  }
-};
 
 
     const discard = async () =>{

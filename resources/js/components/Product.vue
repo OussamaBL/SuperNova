@@ -275,8 +275,8 @@
 
 onMounted( async()=>{
     data.product.id=route.query.product_id;
-   await fetch_product();
-   fetch_related_products();
+    await fetch_product();
+    fetch_related_products();
 });
 </script>
 

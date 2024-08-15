@@ -29,11 +29,6 @@
             <h4 class="text-center">
               Login
             </h4>
-            <div style="display: grid;">
-                <button @click="authSocial('linkdin')" class="button button--social-login button--linkedin mb-3"><i class="icon fa fa-linkedin"></i>Login With Linkedin</button>
-                <button @click="authSocial('google')" class="button button--social-login button--google mb-3"><i class="icon fa fa-google"></i>Login With Google</button>
-                <button @click="authSocial('github')" class="button button--social-login button--github mb-3"><i class="icon fa fa-github"></i>Login With Github</button>
-            </div>
           </div>
           <div class="card-body">
             <div class="form-group mb-3">
@@ -86,7 +81,7 @@
       emailPattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
       passwordPattern: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/,
     });
-
+    
     const authSocial = async (social) => {
       const response = await axios.get('/api/auth/redirect/'+social);
       if(response.data.success){

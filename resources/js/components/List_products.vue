@@ -272,6 +272,7 @@
 		else
         addProduct_Cart(product_id,title,store);
     }
+    
     const removeCart = async (cart_id,title) =>{
         if(!store.getUser) {
 			router.push('/login');

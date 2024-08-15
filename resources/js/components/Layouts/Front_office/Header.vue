@@ -19,8 +19,6 @@
 								<li class="current-list-item">
 									<router-link to="/">Home</router-link>
 								</li>
-								
-								<li><a href="about.html">About</a></li>
 
 								<li><a href="#">Categories</a>
 									<ul class="sub-menu">
@@ -34,21 +32,9 @@
 										</li>
 									</ul>
 								</li>
-								<li><a href="news.html">News</a>
-									<ul class="sub-menu">
-										<li><a href="news.html">News</a></li>
-										<li><a href="single-news.html">Single News</a></li>
-									</ul>
-								</li>
-								<li><a href="contact.html">Contact</a></li>
-								<li><a href="shop.html">Shop</a>
-									<ul class="sub-menu">
-										<li><a href="shop.html">Shop</a></li>
-										<li><a href="checkout.html">Check Out</a></li>
-										<li><a href="single-product.html">Single Product</a></li>
-										<li><a href="cart.html">Cart</a></li>
-									</ul>
-								</li>
+								
+								
+								
 								<li>
 									<div v-if="!store.getUser" class="header-icons" > 
 										<router-link class="btn btn-primary btn_header" to="login">Sign in</router-link>
